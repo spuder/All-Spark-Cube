@@ -9,7 +9,7 @@ Rules of Coding:
 
 - Comment every single line. If in doubt, comment it twice!!
 
-- Program the same way God made the earth  Think - Design - Test - Create 
+- Program the same way God made the earth, See Genesis, Things created spiritually before physically
 
 
 
