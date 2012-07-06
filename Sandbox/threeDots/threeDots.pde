@@ -83,26 +83,27 @@ void mousePressed()
   
   if (led1Over == true && led1On == true)
   {
-     anArduino.analogWrite(9, 0);
+    
+     anArduino.digitalWrite(13,0);
      led1On = false;
      
   }
   else if (led1Over == true && led1On == false)
   {
-    anArduino.analogWrite(9, 128);
+    anArduino.digitalWrite(13,255);
     led1On = true;
   }
   
   
    if (led2Over == true && led2On == true)
   {
-     anArduino.analogWrite(10, 0);
+     anArduino.analogWrite(13, 0);
      led2On = false;
      
   }
   else if (led2Over == true && led2On == false)
   {
-    anArduino.analogWrite(10, 128);
+    anArduino.analogWrite(13, 128);
     led2On = true;
   }
   
@@ -112,13 +113,13 @@ void mousePressed()
   
     if (led3Over == true && led3On == true)
   {
-     anArduino.analogWrite(11, 0);
+     anArduino.analogWrite(13, 0);
      led3On = false;
      
   }
   else if (led3Over == true && led3On == false)
   {
-    anArduino.analogWrite(11, 128);
+    anArduino.analogWrite(13, 128);
     led3On = true;
   }
   
