@@ -13,8 +13,8 @@ int h,i,j;  // LED x y z position variables
 int cubeSize = 16;  // Number of LEDs on one axis
 //int ledSelected = -1;  // We don't know exactly what this does
 
-// angle of rotation 
-float rotBuffX = 0;  
+
+float rotBuffX = 0;  // angle of rotation 
 float rotBuffY = 0; 
 final float rotVit = 0.01; // step of rotation 
 float threshhold = 6;
