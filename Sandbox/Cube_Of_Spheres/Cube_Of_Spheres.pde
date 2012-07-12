@@ -17,10 +17,12 @@ int cubeSize = 16;  // Number of LEDs on one axis
 float rotBuffX = 0;  
 float rotBuffY = 0; 
 final float rotVit = 0.01; // step of rotation 
+float threshhold = 6;
 
 boolean ledHasBeenClicked;  // Vvlue for if the LED is on or off
 boolean locked;  // for Button class
 boolean rotateMode = false; // mouse rotation 
+boolean picked = false;
 
 // coordinates from matrix 
 float x[] = new float[cubeSize*cubeSize*cubeSize]; 
@@ -87,7 +89,7 @@ lights();
       x[cnt] = screenX(0, 0, 0); 
       y[cnt] = screenY(0, 0, 0); 
       z[cnt] = screenZ(0, 0, 0); 
-      boolean picked = checkDist(x[cnt],y[cnt],z[cnt],6,h,i,j);  // threshold is fourth value, default is 15.
+      picked = checkDist(x[cnt],y[cnt],z[cnt],threshhold,h,i,j);  // threshold is fourth value, default is 15.
           
       if (picked) { // LED is being hovered over
             if (ledHasBeenClicked == true){  // LED has been hovered and clicked
@@ -150,11 +152,11 @@ void keyReleased()   {
  } 
 } 
 
-void mousePressed() {
- ledHasBeenClicked = true; 
+void mouseReleased() {
+      ledHasBeenClicked = true; 
 }
 
-boolean checkDist(float x1,float y1,float z1, float threshold, int h, int i, int j ) {
+boolean checkDist(float x1,float y1,float z1,float threshold, int h, int i, int j ) {
 // check distance between mouse & object
  float theDist = dist(mouseX,mouseY,0,x1,y1,z1);
    if (theDist< threshold) {
