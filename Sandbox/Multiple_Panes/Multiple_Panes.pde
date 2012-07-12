@@ -10,10 +10,10 @@ void setup() {
 void draw() {
   background(255,0,0);
    fill(255);
-   rect(10,10,frameCount0,10);
+   //rect(10,10,frameCount0,10);// default line, wont compile
    s.background(0, 0, 255);
    s.fill(100);
-   s.rect(10,20,frameCount0,10);
+   //s.rect(10,20,frameCount0,10);// default line, wont compile
    s.redraw();
 }
 
