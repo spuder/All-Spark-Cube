@@ -1,22 +1,9 @@
 import processing.opengl.*;
+
 /*
-Remember Think-Design-Test-Create
- Never write a single line of code until you have 
- designed it in the UML and written your unit tests
- 
- This is the thinking stage, creating a sandbox
- 
- //Create LED objects
- 
- https://groups.google.com/forum/?fromgroups#!topic/comp.lang.java.help/BzQoE_Vve4k
- http://stackoverflow.com/questions/2395814/difference-between-hashmap-and-array-list-in-java
- 
- Led aLed1 = new Led();
- Led aLed2 = new Led();
- Led aLed3 = new Led();
- Led aLed = new Led();
- Led anewLed = new Led();
- int ledCount;
+This code is the same as Change_led_colors except it attempts to use an itterator through  hash map instead of creating a separate arrayList
+
+http://stackoverflow.com/questions/1066589/java-iterate-through-hashmap
  */
 
 Led anLedObject;
@@ -24,7 +11,7 @@ Led aTemporaryDrawLed;
 
 Map<String, Led> hashMapOfLeds = new HashMap<String, Led>(); 
 //String[] listOfHashMapKeys = {"led000", "led001", "led010"};
-ArrayList listOfHashMapKeys = new ArrayList(); // expiramenting with loop to do this
+// ArrayList listOfHashMapKeys = new ArrayList(); // expiramenting with loop to do this // no longer needed
 
 // Create a hashmap where String is the type of key, and Led is what will be stored
 
@@ -113,7 +100,7 @@ void parseFile(String[] loadedFile)
       println("Created hashmap key pieces[i]- :" + keyString);
       hashMapOfLeds.put(keyString, anLedObject);  
 
-      listOfHashMapKeys.add(pieces[0]); // add the name of the led to index of all leds    
+      //listOfHashMapKeys.add(pieces[0]); // add the name of the led to index of all leds    
 
 
 
@@ -158,10 +145,30 @@ void mousePressed()
   drawOnce(); 
     //aTemporaryDrawLed.display(); 
     
-    for (int i = 0; i < listOfHashMapKeys.size(); i++)
+
+    //for (Map.Entry entry: map.entrySet())    
+    //doSomething(entry.getValue());
+  //http://javaantipatterns.wordpress.com/2007/11/22/accessing-the-map-values-using-keyset-iterator/
+
+/* // This is best practice because it is faster, but only works in 1.5 of java
+    for (Map.Entry anEntry: hashMapOfLeds.entrySet())
+    {
+      print(anEntry.getValue());
+    }
+
+*/
+    for (String key : hashMapOfLeds.keySet()) 
+    {
+      System.out.println("Key = " + key + "");
+    }
+
+/*
+    for (int i = 0; i < hashMapOfLeds.size(); i++)
         {
               //String[] listOfHashMapKeys = {"led000","led001","led010"}; // Located earlier in code
         
+        //Instead of listOfHashMap, actually use iterator
+
               aTemporaryDrawLed = hashMapOfLeds.get(listOfHashMapKeys.get(i));
               println(listOfHashMapKeys.get(i) + " "+ aTemporaryDrawLed.getLedLocaitonY() +" ");  
               aTemporaryDrawLed.setLedLocationX(int(random(0, 300)));
@@ -170,6 +177,8 @@ void mousePressed()
                  
         }
         
+
+        */
 }//end mousePressed()=========================================>
 
 

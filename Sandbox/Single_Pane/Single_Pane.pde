@@ -40,8 +40,8 @@ int delayedby = 50;
 
 void setup() {
  //number of rows and columns
- ROWX= 8;
- ROWY= 8;
+ ROWX= 16;
+ ROWY= 16;
 
  size((ROWX*40+10), (ROWY*44+30));
  noStroke();

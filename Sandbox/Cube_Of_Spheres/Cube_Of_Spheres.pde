@@ -15,7 +15,7 @@ float rotBuffY = 0;
 
 final float rotVit = 0.01; // step of rotation 
 
-boolean rotateMode = false; // mouse rotation 
+boolean rotateMode = true; // mouse rotation 
 
 // coords from matrix 
 float x[] = new float[125]; 
