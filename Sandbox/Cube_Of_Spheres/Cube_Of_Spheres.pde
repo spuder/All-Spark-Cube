@@ -11,12 +11,15 @@ int ledSize = 15; // size of LED
 int ledDetail = 2; // detail of LED, default 6, lower value offers better performance.
 int h,i,j;  // LED x y z position variables
 int cubeSize = 16;  // Number of LEDs on one axis
+//int ledSelected = -1;  // We don't know exactly what this does
 
 // angle of rotation 
 float rotBuffX = 0;  
 float rotBuffY = 0; 
 final float rotVit = 0.01; // step of rotation 
 
+boolean ledHasBeenClicked;  // Vvlue for if the LED is on or off
+boolean locked;  // for Button class
 boolean rotateMode = false; // mouse rotation 
 
 // coordinates from matrix 
@@ -25,14 +28,9 @@ float y[] = new float[cubeSize*cubeSize*cubeSize];
 float z[] = new float[cubeSize*cubeSize*cubeSize];
 
 Map<String, Boolean> ledList = new HashMap<String, Boolean>(cubeSize*cubeSize*cubeSize);  // hashmap for whether LED is on or off
-RectButton rect1, rect2;
+RectButton rect1, rect2;  // Button objects (may not be used).
 
 
-boolean ledHasBeenClicked;
-boolean locked;  // for Button class
-
-// We don't know exactly what this does
-int ledSelected = -1; 
 
 void setup() { 
  size(screen.width,screen.height, OPENGL); 
@@ -79,11 +77,11 @@ lights();
  // center of rotation 
  // 600 = distance between LEDs * number of LEDs
  // Offset distance from center red dot
- translate(-((grille*8)-(grille/2)),-((grille*8)-(grille/2)),-((grille*8)-(grille/2)));   
+ translate(-((grille*cubeSize/2)-(grille/2)),-((grille*cubeSize/2)-(grille/2)),-((grille*cubeSize/2)-(grille/2)));   
  int cnt = 0; // count 0-125 
- for (h=0; h<16; h++) { 
-   for (i=0; i<16; i++) { 
-    for (j=0; j<16; j++) { 
+ for (h=0; h<cubeSize; h++) { 
+   for (i=0; i<cubeSize; i++) { 
+    for (j=0; j<cubeSize; j++) { 
      pushMatrix(); 
       translate(i*grille, j*grille, h*grille); 
       x[cnt] = screenX(0, 0, 0); 
