@@ -6,28 +6,28 @@ for what we are trying to do. ```
 */
 
 final int grille = 80; // space between spheres 
-
 int zoom = -1000; // initial zoom - mouse wheel  
 int ledSize = 15; // size of LED
 int ledDetail = 2; // detail of LED, default 6, lower value offers better performance.
+int h,i,j;  // LED x y z position variables
+int cubeSize = 16;  // Number of LEDs on one axis
 
 // angle of rotation 
 float rotBuffX = 0;  
 float rotBuffY = 0; 
-
 final float rotVit = 0.01; // step of rotation 
 
 boolean rotateMode = false; // mouse rotation 
 
 // coordinates from matrix 
-float x[] = new float[4096]; 
-float y[] = new float[4096]; 
-float z[] = new float[4096];
+float x[] = new float[cubeSize*cubeSize*cubeSize]; 
+float y[] = new float[cubeSize*cubeSize*cubeSize]; 
+float z[] = new float[cubeSize*cubeSize*cubeSize];
 
-Map<String, Boolean> ledList = new HashMap<String, Boolean>(4096);  // hashmap for whether LED is on or off
+Map<String, Boolean> ledList = new HashMap<String, Boolean>(cubeSize*cubeSize*cubeSize);  // hashmap for whether LED is on or off
 RectButton rect1, rect2;
 
-int h,i,j;  // LED x y z position variables
+
 boolean ledHasBeenClicked;
 boolean locked;  // for Button class
 
