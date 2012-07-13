@@ -7,26 +7,25 @@ Rules of Coding:
 
 - Remember the order of coding Think - Design - Test - Create
 
-- Comment every single line. If in doubt, comment it twice!!
+- Comment every single line. !!
 
 - Program the same way God made the earth, See Genesis, Things created spiritually before physically
 
 
 
-90 Percent of the world coders use the methodology "Think - Create - Test - Throw away & Start Over"
+If you design in the uml before coding, you don't have to throw it all away and start over
 The correct way taught by the best teachers such as Lee Barney is 
 
-"Think - Design - Test - Create"
 
-Think means : Write down everything the program should do and also what it wont do in this release. 
+Think  : Write down everything the program should do and also what it wont do in this release. 
 
-Design means : Design everything in the UML in this order Use Case > Use Case Documents > Activity Diagrams > Class Diagrams > Sequence Diagrams
+Design  : Design everything in the UML in this order Use Case > Use Case Documents > Activity Diagrams > Class Diagrams > Sequence Diagrams
 		Once the Sequence Diagram is done, the code is effectivly written, It only takes a monkey to enter the keystrokes. 
 
-Test means : Create a happy path, what should happen, then think of everything mallicious that a user could do. pass in negative values, leave 
+Test  : Create a happy path, what should happen, then think of everything mallicious that a user could do. pass in negative values, leave 
 		things blank, Attempt buffer over runs. Create complete JUnit tests and User Tests. 
 
-Create means : Actually entering the keystrokes to translate the sequence Diagram to the program. This is the fastest step and must, MUST, MUST!!!!
+Create  : Actually entering the keystrokes to translate the sequence Diagram to the program. This is the fastest step and must, MUST, MUST!!!!
 		Be done last !!! This is how to write bullet proof code. 
 
 
