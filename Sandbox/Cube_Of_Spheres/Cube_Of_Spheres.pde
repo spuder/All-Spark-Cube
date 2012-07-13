@@ -5,24 +5,24 @@ and demonstrates how to use a mouse in 3d space. it is perfect
 for what we are trying to do. ```
 */
 
-final int grille = 80; // space between spheres 
-int zoom = -1000; // initial zoom - mouse wheel  
-int ledSize = 15; // size of LED
-int ledDetail = 4; // detail of LED, default 6, lower value offers better performance.
-int h,i,j;  // LED x y z position variables
-int cubeSize = 16;  // Number of LEDs on one axis
-int framesPerSecond = 30;  // Specifies the number of frames/second
+final int grille = 80; 		// space between spheres 
+int zoom = -1000; 			// initial zoom - mouse wheel  
+int ledSize = 15; 			// size of LED
+int ledDetail = 1; 			// detail of LED, default 6, lower value offers better performance.
+int h,i,j;  				// LED x y z position variables
+int cubeSize = 16;  		// Number of LEDs on one axis
+int framesPerSecond = 30;  	// Specifies the number of frames/second
 
-float rotBuffX = 0;  // angle of rotation X
-float rotBuffY = 0;  // angle of rotation Y
-final float rotVit = 0.01; // step of rotation 
-float threshhold = 8;  // Hover tolerance - lower number means you must be more precise in your clicking of the LEDs
+float rotBuffX = 0;  		// angle of rotation X
+float rotBuffY = 0;  		// angle of rotation Y
+final float rotVit = 0.01; 	// step of rotation 
+float threshhold = 8;  		// Hover tolerance - lower number means you must be more precise in your clicking of the LEDs
 
 boolean rotateMode = false; // mouse rotation 
 boolean ledHasBeenClicked;  // Vvlue for if the LED is on or off
-boolean locked;  // for Button class
-boolean picked = false;  // hover variable
-boolean debug = false;  // turn debugging on and off
+boolean locked;  			// for Button class
+boolean picked = false;  	// hover variable
+boolean debug = false;  	// turn debugging on and off
 
 // coordinates from matrix 
 float x[] = new float[cubeSize*cubeSize*cubeSize]; 
@@ -30,31 +30,28 @@ float y[] = new float[cubeSize*cubeSize*cubeSize];
 float z[] = new float[cubeSize*cubeSize*cubeSize];
 
 Map<String, Boolean> ledList = new HashMap<String, Boolean>(cubeSize*cubeSize*cubeSize);  // hashmap for whether LED is on or off
-RectButton rect1, rect2;  // Button objects (may not be used).
+RectButton rect1, rect2;  	// Button objects (may not be used).
 
 
 
 void setup() { 
- size(screen.width,screen.height, OPENGL); 
- frameRate(framesPerSecond);
- sphereDetail(ledDetail);
- noStroke(); 
- // mouse Wheel 
- addMouseWheelListener(new java.awt.event.MouseWheelListener() {  
-   public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) { 
-     if (evt.getWheelRotation()<0) { 
-       zoom+=evt.getScrollAmount()+grille;  // number of grid elements to move per mouse wheel rotation 
-     }  else { 
-       zoom-=evt.getScrollAmount()+grille; 
-     } 
-     redraw(); 
-   } 
- } 
- ); 
+	size(screen.width,screen.height, OPENGL); 
+	frameRate(framesPerSecond);
+	sphereDetail(ledDetail);
+	noStroke(); 
+	// mouse Wheel 
+	addMouseWheelListener(new java.awt.event.MouseWheelListener() {  
+		public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) { 
+			if (evt.getWheelRotation()<0){ zoom+=evt.getScrollAmount()+grille;}  // number of grid elements to move per mouse wheel rotation 
+			else{ zoom-=evt.getScrollAmount()+grille; } 
+		 redraw(); 
+		} 
+	}
+	); 
  
- color buttoncolor = color(153);
- color highlight = color(103);
-  rect1 = new RectButton(200, 200, 50, buttoncolor, highlight);
+	color buttoncolor = color(153);
+	color highlight = color(103);
+	rect1 = new RectButton(200, 200, 50, buttoncolor, highlight);
 } 
 
 
@@ -141,29 +138,46 @@ lights();
  //rect1.display();
 } 
 
-void keyPressed() { 
- if (keyCode == CONTROL) { // activate rotation mode 
-   rotateMode = true; 
-   loop(); 
- } 
+void keyPressed() {
+	if (keyCode == SHIFT){ // activate rotation mode 
+		rotateMode = true; 
+		loop(); 
+	}
  
- if (keyCode == ALT) {
-  for (Map.Entry entry : ledList.entrySet()) {
-    println(entry.getKey() + ", " + entry.getValue());
-  }
- }
+	if (keyCode == ALT){  // Print hashMap
+		for (Map.Entry entry : ledList.entrySet()) {
+			println(entry.getKey() + ", " + entry.getValue());
+		}
+	}
+	
+	if (keyCode == CONTROL){ // export tsv
+		// Loop through hashmap & export
+		Iterator loopdaloop = ledList.entrySet().iterator();
+		String[] outputStringArray = new String[cubeSize*cubeSize*cubeSize+1];
+		int arrayLoop = 0;
+		while (loopdaloop.hasNext()){
+			Map.Entry entry = (Map.Entry) loopdaloop.next();
+			String key = (String)entry.getKey();
+			Boolean value = (Boolean)entry.getValue();
+			outputStringArray[arrayLoop]=key;
+			//println("Key = "+key);
+			//println("Value = "+value);
+			arrayLoop++;
+		}
+		saveStrings("output.txt",outputStringArray);
+	}
 } 
 
 void keyReleased()   { 
- if (keyCode == CONTROL) { // deactivate rotation mode 
-   rotateMode = false; 
-   loop(); 
- } 
+	if (keyCode == SHIFT){ // deactivate rotation mode 
+		rotateMode = false; 
+		loop(); 
+	} 
 } 
 
 void mouseReleased() {
-  if (debug){ println("mouse has been clicked, fyi led is currently" +h+" "+i+" "+j );}
-      ledHasBeenClicked = true; 
+	if (debug){ println("mouse has been clicked, fyi led is currently" +h+" "+i+" "+j );}
+	ledHasBeenClicked = true; 
 }
 
 boolean checkDist(float x1,float y1,float z1) {
