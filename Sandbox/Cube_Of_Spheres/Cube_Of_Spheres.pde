@@ -105,16 +105,12 @@ lights();
                   else {  // LED has been hovered, clicked and is currently on
                       ledList.put(h+" "+i+" "+j,false);  // assigns false value to ledList hashmap.
                   }
-                  
-                  ledHasBeenClicked = false;  // Reset LED clicked status
             }
-            else {
-                ledHasBeenClicked = false; // user didn't click anything // This code doesn't work
-            }
+            ledHasBeenClicked = false; // user didn't click anything
       }
     
     
-    if (ledList.containsKey(h+" "+i+" "+j)==false){  // turns LED off from ledList value
+    if (ledList.containsKey(h+" "+i+" "+j)==false){  // turns LED off if hashmap value is NULL
        fill(0,64,255);  // LED is blue (off)    
     }
     else if(ledList.get(h+" "+i+" "+j)==true){  // turns LED on from ledList value
@@ -139,7 +135,7 @@ lights();
 } 
 
 void keyPressed() {
-	if (keyCode == SHIFT){ // activate rotation mode 
+	if (keyCode == SHIFT){ // activate rotation mode when Shift key is pressed
 		rotateMode = true; 
 		loop(); 
 	}
@@ -163,7 +159,7 @@ void keyPressed() {
 			arrayLoop++;
 		}
 		saveStrings("output.txt",outputStringArray);
-    if (debug){ println("File has been saved output.txt");}
+    		if (debug){ println("File has been saved to output.txt");}
 	}
 } 
 
