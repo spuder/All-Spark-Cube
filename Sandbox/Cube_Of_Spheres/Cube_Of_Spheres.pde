@@ -150,7 +150,6 @@ void keyPressed() {
  if (keyCode == ALT) {
   for (Map.Entry entry : ledList.entrySet()) {
     println(entry.getKey() + ", " + entry.getValue());
-    println("");
   }
  }
 } 
