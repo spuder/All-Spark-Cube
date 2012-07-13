@@ -17,10 +17,9 @@ float rotBuffY = 0;
 final float rotVit = 0.01; // step of rotation 
 float threshhold = 6;
 
-boolean rotateMode = true; // mouse rotation 
+boolean rotateMode = false; // mouse rotation 
 boolean ledHasBeenClicked;  // Vvlue for if the LED is on or off
 boolean locked;  // for Button class
-boolean rotateMode = false; // mouse rotation 
 boolean picked = false;
 
 // coordinates from matrix 
@@ -60,6 +59,7 @@ void setup() {
 void draw() { 
  background(0); 
 lights(); 
+frameRate(60);
  // rotate mode 
  if (rotateMode) { 
    rotBuffX= mouseY*rotVit; 
@@ -85,7 +85,7 @@ lights();
     for (j=0; j<cubeSize; j++) { 
      pushMatrix(); 
       translate(i*grille, j*grille, h*grille); 
-      x[cnt] = screenX(0, 0, 0); 
+      x[cnt] = screenX(0, 0, 0); // This code lights up surrounding leds
       y[cnt] = screenY(0, 0, 0); 
       z[cnt] = screenZ(0, 0, 0); 
       picked = checkDist(x[cnt],y[cnt],z[cnt]);  // threshold is fourth value, default is 15.
@@ -110,6 +110,9 @@ lights();
                   
                   ledHasBeenClicked = false;  // Reset LED clicked status
             }
+            else {
+                ledHasBeenClicked = false; // user didn't click anything // This code doesn't work
+            }
       }
     
     
@@ -119,17 +122,21 @@ lights();
     else if(ledList.get(h+" "+i+" "+j)==true){  // turns LED on from ledList value
        fill(255,255,255);  // LED is white (on)
     }
+    else if(ledList.get(h+" "+i+" "+j)==false){  // led is off and should stay off
+       fill(0,64,255);  // LED is blue (off)
+    }
 
     
       
      sphere(5); 
      popMatrix(); 
      cnt++; 
-    } 
-   } 
- } 
 
- println("The for loop is over :( " +h+" "+i+" "+j);
+    }   // end for (j=0; j<cubeSize; j++) 
+   }  // end for (i=0; i<cubeSize; i++)  
+ }// end for (h=0; h<cubeSize; h++)  
+
+// println("The for loop is over :( " +h+" "+i+" "+j);
  popMatrix(); 
  //rect1.display();
 } 
@@ -156,7 +163,7 @@ void keyReleased()   {
 } 
 
 void mouseReleased() {
-  println("mouse has been clicked, fyi led is currently" +h+" "+i+" "+j );
+ // println("mouse has been clicked, fyi led is currently" +h+" "+i+" "+j );
       ledHasBeenClicked = true; 
 }
 
