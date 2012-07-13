@@ -8,19 +8,21 @@ for what we are trying to do. ```
 final int grille = 80; // space between spheres 
 int zoom = -1000; // initial zoom - mouse wheel  
 int ledSize = 15; // size of LED
-int ledDetail = 2; // detail of LED, default 6, lower value offers better performance.
+int ledDetail = 4; // detail of LED, default 6, lower value offers better performance.
 int h,i,j;  // LED x y z position variables
 int cubeSize = 16;  // Number of LEDs on one axis
+int framesPerSecond = 30;  // Specifies the number of frames/second
 
-float rotBuffX = 0;  // angle of rotation 
-float rotBuffY = 0; 
+float rotBuffX = 0;  // angle of rotation X
+float rotBuffY = 0;  // angle of rotation Y
 final float rotVit = 0.01; // step of rotation 
-float threshhold = 6;
+float threshhold = 8;  // Hover tolerance - lower number means you must be more precise in your clicking of the LEDs
 
 boolean rotateMode = false; // mouse rotation 
 boolean ledHasBeenClicked;  // Vvlue for if the LED is on or off
 boolean locked;  // for Button class
-boolean picked = false;
+boolean picked = false;  // hover variable
+boolean debug = false;  // turn debugging on and off
 
 // coordinates from matrix 
 float x[] = new float[cubeSize*cubeSize*cubeSize]; 
@@ -34,7 +36,7 @@ RectButton rect1, rect2;  // Button objects (may not be used).
 
 void setup() { 
  size(screen.width,screen.height, OPENGL); 
-
+ frameRate(framesPerSecond);
  sphereDetail(ledDetail);
  noStroke(); 
  // mouse Wheel 
@@ -59,7 +61,6 @@ void setup() {
 void draw() { 
  background(0); 
 lights(); 
-frameRate(60);
  // rotate mode 
  if (rotateMode) { 
    rotBuffX= mouseY*rotVit; 
@@ -91,12 +92,12 @@ frameRate(60);
       picked = checkDist(x[cnt],y[cnt],z[cnt]);  // threshold is fourth value, default is 15.
           
       if (picked) { // LED is being hovered over
-            println("Picked = true, led " + +h+" "+i+" "+j +" is hovered over");
+            if (debug){ println("Picked = true, led " + +h+" "+i+" "+j +" is hovered over");}
             
             if (ledHasBeenClicked == true){  // LED has been hovered and clicked
-                  println("ledHasBeenClicked = true, led " + +h+" "+i+" "+j +" is marked as clicked");
+                  if (debug){ println("ledHasBeenClicked = true, led " + +h+" "+i+" "+j +" is marked as clicked");}
                   // to do: export h i j to tsv file for parsing
-                  println("Clicked LED "+h+" "+i+" "+j);
+                  if (debug){ println("Clicked LED "+h+" "+i+" "+j);}
                   
                   if (ledList.containsKey(h+" "+i+" "+j)==false){ // LED has been hovered, clicked, and never set before
                       ledList.put(h+" "+i+" "+j,true); // assigns true value to ledList hashmap to turn the LED on.
@@ -136,7 +137,6 @@ frameRate(60);
    }  // end for (i=0; i<cubeSize; i++)  
  }// end for (h=0; h<cubeSize; h++)  
 
-// println("The for loop is over :( " +h+" "+i+" "+j);
  popMatrix(); 
  //rect1.display();
 } 
@@ -162,7 +162,7 @@ void keyReleased()   {
 } 
 
 void mouseReleased() {
- // println("mouse has been clicked, fyi led is currently" +h+" "+i+" "+j );
+  if (debug){ println("mouse has been clicked, fyi led is currently" +h+" "+i+" "+j );}
       ledHasBeenClicked = true; 
 }
 
