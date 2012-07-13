@@ -11,22 +11,17 @@ int ledSize = 15; // size of LED
 int ledDetail = 2; // detail of LED, default 6, lower value offers better performance.
 int h,i,j;  // LED x y z position variables
 int cubeSize = 16;  // Number of LEDs on one axis
-//int ledSelected = -1;  // We don't know exactly what this does
-
 
 float rotBuffX = 0;  // angle of rotation 
 float rotBuffY = 0; 
 final float rotVit = 0.01; // step of rotation 
 float threshhold = 6;
 
-<<<<<<< HEAD
 boolean rotateMode = true; // mouse rotation 
-=======
 boolean ledHasBeenClicked;  // Vvlue for if the LED is on or off
 boolean locked;  // for Button class
 boolean rotateMode = false; // mouse rotation 
 boolean picked = false;
->>>>>>> 63b6b38f824e7966ed6034bf76b2ea66ea0cf424
 
 // coordinates from matrix 
 float x[] = new float[cubeSize*cubeSize*cubeSize]; 
