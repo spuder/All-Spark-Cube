@@ -89,11 +89,13 @@ lights();
       x[cnt] = screenX(0, 0, 0); 
       y[cnt] = screenY(0, 0, 0); 
       z[cnt] = screenZ(0, 0, 0); 
-      picked = checkDist(x[cnt],y[cnt],z[cnt],threshhold,h,i,j);  // threshold is fourth value, default is 15.
+      picked = checkDist(x[cnt],y[cnt],z[cnt]);  // threshold is fourth value, default is 15.
           
       if (picked) { // LED is being hovered over
-            if (ledHasBeenClicked == true){  // LED has been hovered and clicked
+            println("Picked = true, led " + +h+" "+i+" "+j +" is hovered over");
             
+            if (ledHasBeenClicked == true){  // LED has been hovered and clicked
+                  println("ledHasBeenClicked = true, led " + +h+" "+i+" "+j +" is marked as clicked");
                   // to do: export h i j to tsv file for parsing
                   println("Clicked LED "+h+" "+i+" "+j);
                   
@@ -127,6 +129,8 @@ lights();
     } 
    } 
  } 
+
+ println("The for loop is over :( " +h+" "+i+" "+j);
  popMatrix(); 
  //rect1.display();
 } 
@@ -153,13 +157,14 @@ void keyReleased()   {
 } 
 
 void mouseReleased() {
+  println("mouse has been clicked, fyi led is currently" +h+" "+i+" "+j );
       ledHasBeenClicked = true; 
 }
 
-boolean checkDist(float x1,float y1,float z1,float threshold, int h, int i, int j ) {
+boolean checkDist(float x1,float y1,float z1) {
 // check distance between mouse & object
  float theDist = dist(mouseX,mouseY,0,x1,y1,z1);
-   if (theDist< threshold) {
+   if (theDist< threshhold) {
      return true;
    } else {
        return false;
