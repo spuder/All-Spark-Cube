@@ -2,14 +2,14 @@ import processing.opengl.*;
 /*
 This code was copied from http://processing.org/discourse/beta/num_1194442962.html
 and demonstrates how to use a mouse in 3d space. it is perfect
-for what we are trying to do. ```
+for what we are trying to do. 
 */
 
 final int grille = 80; 		// space between spheres 
 int zoom = -1000; 			// initial zoom - mouse wheel  
 int ledSize = 15; 			// size of LED
 int ledDetail = 1; 			// detail of LED, default 6, lower value offers better performance.
-int h,i,j;  				// LED x y z position variables
+int h,i,j;  				    // LED x y z position variables
 int cubeSize = 16;  		// Number of LEDs on one axis
 int framesPerSecond = 30;  	// Specifies the number of frames/second
 
@@ -21,8 +21,8 @@ float threshhold = 8;  		// Hover tolerance - lower number means you must be mor
 boolean rotateMode = false; // mouse rotation 
 boolean ledHasBeenClicked;  // Vvlue for if the LED is on or off
 boolean locked;  			// for Button class
-boolean picked = false;  	// hover variable
-boolean debug = false;  	// turn debugging on and off
+boolean ledIsHoveredOver = false;  	// hover variable
+boolean debug = true;  	// turn debugging on and off
 
 // coordinates from matrix 
 float x[] = new float[cubeSize*cubeSize*cubeSize]; 
@@ -69,8 +69,8 @@ lights();
  rotateY(rotBuffY); 
  pushMatrix(); 
  /// show center of rotation 
- fill(255,0,0); 
- sphere(ledSize);  
+ fill(255,0,0); // make Led in center red
+ sphere(ledSize);  // draw red led in center of cube
  
  
  // center of rotation 
@@ -86,10 +86,10 @@ lights();
       x[cnt] = screenX(0, 0, 0); // This code lights up surrounding leds
       y[cnt] = screenY(0, 0, 0); 
       z[cnt] = screenZ(0, 0, 0); 
-      picked = checkDist(x[cnt],y[cnt],z[cnt]);  // threshold is fourth value, default is 15.
+      ledIsHoveredOver = checkDist(x[cnt],y[cnt],z[cnt]);  // threshold is fourth value, default is 15.
           
-      if (picked) { // LED is being hovered over
-            if (debug){ println("Picked = true, led " + +h+" "+i+" "+j +" is hovered over");}
+      if (ledIsHoveredOver) { // LED is being hovered over
+            if (debug){ println("ledIsHoveredOver = true, led " + +h+" "+i+" "+j +" is hovered over");}
             
             if (ledHasBeenClicked == true){  // LED has been hovered and clicked
                   if (debug){ println("ledHasBeenClicked = true, led " + +h+" "+i+" "+j +" is marked as clicked");}
@@ -135,7 +135,7 @@ lights();
  }// end for (h=0; h<cubeSize; h++)  
 
  popMatrix(); 
- //rect1.display();
+ //rect1.display(); // show button object
 } 
 
 void keyPressed() {
@@ -146,11 +146,11 @@ void keyPressed() {
  
 	if (keyCode == ALT){  // Print hashMap
 		for (Map.Entry entry : ledList.entrySet()) {
-			println(entry.getKey() + ", " + entry.getValue());
+			if(debug){println(entry.getKey() + ", " + entry.getValue());}
 		}
 	}
 	
-	if (keyCode == CONTROL){ // export tsv
+	if (keyCode == CONTROL){ // user pushed CTL key on keyboard
 		// Loop through hashmap & export
 		Iterator loopdaloop = ledList.entrySet().iterator();
 		String[] outputStringArray = new String[cubeSize*cubeSize*cubeSize+1];
@@ -160,11 +160,10 @@ void keyPressed() {
 			String key = (String)entry.getKey();
 			Boolean value = (Boolean)entry.getValue();
 			outputStringArray[arrayLoop]=key;
-			//println("Key = "+key);
-			//println("Value = "+value);
 			arrayLoop++;
 		}
 		saveStrings("output.txt",outputStringArray);
+    if (debug){ println("File has been saved output.txt");}
 	}
 } 
 
@@ -180,8 +179,7 @@ void mouseReleased() {
 	ledHasBeenClicked = true; 
 }
 
-boolean checkDist(float x1,float y1,float z1) {
-// check distance between mouse & object
+boolean checkDist(float x1,float y1,float z1) { // check distance between mouse & object
  float theDist = dist(mouseX,mouseY,0,x1,y1,z1);
    if (theDist< threshhold) {
      return true;
