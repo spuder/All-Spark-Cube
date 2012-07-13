@@ -6,33 +6,37 @@ for what we are trying to do. ```
 */
 
 final int grille = 80; // space between spheres 
-
 int zoom = -1000; // initial zoom - mouse wheel  
 int ledSize = 15; // size of LED
 int ledDetail = 2; // detail of LED, default 6, lower value offers better performance.
+int h,i,j;  // LED x y z position variables
+int cubeSize = 16;  // Number of LEDs on one axis
+//int ledSelected = -1;  // We don't know exactly what this does
 
-// angle of rotation 
-float rotBuffX = 0;  
+
+float rotBuffX = 0;  // angle of rotation 
 float rotBuffY = 0; 
-
 final float rotVit = 0.01; // step of rotation 
+float threshhold = 6;
 
+<<<<<<< HEAD
 boolean rotateMode = true; // mouse rotation 
+=======
+boolean ledHasBeenClicked;  // Vvlue for if the LED is on or off
+boolean locked;  // for Button class
+boolean rotateMode = false; // mouse rotation 
+boolean picked = false;
+>>>>>>> 63b6b38f824e7966ed6034bf76b2ea66ea0cf424
 
 // coordinates from matrix 
-float x[] = new float[4096]; 
-float y[] = new float[4096]; 
-float z[] = new float[4096];
+float x[] = new float[cubeSize*cubeSize*cubeSize]; 
+float y[] = new float[cubeSize*cubeSize*cubeSize]; 
+float z[] = new float[cubeSize*cubeSize*cubeSize];
 
-Map<String, Boolean> ledList = new HashMap<String, Boolean>(4096);  // hashmap for whether LED is on or off
-RectButton rect1, rect2;
+Map<String, Boolean> ledList = new HashMap<String, Boolean>(cubeSize*cubeSize*cubeSize);  // hashmap for whether LED is on or off
+RectButton rect1, rect2;  // Button objects (may not be used).
 
-int h,i,j;  // LED x y z position variables
-boolean ledHasBeenClicked;
-boolean locked;  // for Button class
 
-// We don't know exactly what this does
-int ledSelected = -1; 
 
 void setup() { 
  size(screen.width,screen.height, OPENGL); 
@@ -79,21 +83,23 @@ lights();
  // center of rotation 
  // 600 = distance between LEDs * number of LEDs
  // Offset distance from center red dot
- translate(-((grille*8)-(grille/2)),-((grille*8)-(grille/2)),-((grille*8)-(grille/2)));   
+ translate(-((grille*cubeSize/2)-(grille/2)),-((grille*cubeSize/2)-(grille/2)),-((grille*cubeSize/2)-(grille/2)));   
  int cnt = 0; // count 0-125 
- for (h=0; h<16; h++) { 
-   for (i=0; i<16; i++) { 
-    for (j=0; j<16; j++) { 
+ for (h=0; h<cubeSize; h++) { 
+   for (i=0; i<cubeSize; i++) { 
+    for (j=0; j<cubeSize; j++) { 
      pushMatrix(); 
       translate(i*grille, j*grille, h*grille); 
       x[cnt] = screenX(0, 0, 0); 
       y[cnt] = screenY(0, 0, 0); 
       z[cnt] = screenZ(0, 0, 0); 
-      boolean picked = checkDist(x[cnt],y[cnt],z[cnt],6,h,i,j);  // threshold is fourth value, default is 15.
+      picked = checkDist(x[cnt],y[cnt],z[cnt]);  // threshold is fourth value, default is 15.
           
       if (picked) { // LED is being hovered over
-            if (ledHasBeenClicked == true){  // LED has been hovered and clicked
+            println("Picked = true, led " + +h+" "+i+" "+j +" is hovered over");
             
+            if (ledHasBeenClicked == true){  // LED has been hovered and clicked
+                  println("ledHasBeenClicked = true, led " + +h+" "+i+" "+j +" is marked as clicked");
                   // to do: export h i j to tsv file for parsing
                   println("Clicked LED "+h+" "+i+" "+j);
                   
@@ -127,6 +133,8 @@ lights();
     } 
    } 
  } 
+
+ println("The for loop is over :( " +h+" "+i+" "+j);
  popMatrix(); 
  //rect1.display();
 } 
@@ -152,14 +160,15 @@ void keyReleased()   {
  } 
 } 
 
-void mousePressed() {
- ledHasBeenClicked = true; 
+void mouseReleased() {
+  println("mouse has been clicked, fyi led is currently" +h+" "+i+" "+j );
+      ledHasBeenClicked = true; 
 }
 
-boolean checkDist(float x1,float y1,float z1, float threshold, int h, int i, int j ) {
+boolean checkDist(float x1,float y1,float z1) {
 // check distance between mouse & object
  float theDist = dist(mouseX,mouseY,0,x1,y1,z1);
-   if (theDist< threshold) {
+   if (theDist< threshhold) {
      return true;
    } else {
        return false;
