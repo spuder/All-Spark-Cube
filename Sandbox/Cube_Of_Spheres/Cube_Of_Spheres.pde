@@ -61,7 +61,7 @@ lights();
  // rotate mode 
  if (rotateMode) { 
    rotBuffX= mouseY*rotVit; 
-   rotBuffY= mouseX*rotVit;
+   rotBuffY= -1*mouseX*rotVit;
  } 
 
  translate(screen.width/2,screen.height/2,zoom); // center cube on the screen 
