@@ -17,6 +17,7 @@ float rotBuffX = 0;  		// angle of rotation X
 float rotBuffY = 0;  		// angle of rotation Y
 final float rotVit = 0.01; 	// step of rotation 
 float threshhold = 8;  		// Hover tolerance - lower number means you must be more precise in your clicking of the LEDs
+float goldenRatio = 0.6180339887;
 
 boolean rotateMode = false; // mouse rotation 
 boolean ledHasBeenClicked;  // Vvlue for if the LED is on or off
@@ -35,7 +36,8 @@ RectButton rect1, rect2;  	// Button objects (may not be used).
 
 
 void setup() { 
-	size(screen.width,screen.height, OPENGL); 
+  //TODO: test that size does work with variables after export to applet, docs say it doesnt
+	size(int(screen.width*goldenRatio),int(screen.height*goldenRatio), OPENGL); //Do not use variables as the parameters to size() command, because it will cause problems when exporting your sketch.
 	frameRate(framesPerSecond);
 	sphereDetail(ledDetail);
 	noStroke(); 
@@ -64,7 +66,7 @@ lights();
    rotBuffY= -1*mouseX*rotVit;
  } 
 
- translate(screen.width/2,screen.height/2,zoom); // center cube on the screen 
+ translate(width/2,height/2,zoom); // center cube on the screen, dont use screen.width. but rather just width
  rotateX(rotBuffX); 
  rotateY(rotBuffY); 
  pushMatrix(); 
@@ -147,20 +149,9 @@ void keyPressed() {
 	}
 	
 	if (keyCode == CONTROL){ // user pushed CTL key on keyboard
-		// Loop through hashmap & export
-		Iterator loopdaloop = ledList.entrySet().iterator();
-		String[] outputStringArray = new String[cubeSize*cubeSize*cubeSize+1];
-		int arrayLoop = 0;
-		while (loopdaloop.hasNext()){
-			Map.Entry entry = (Map.Entry) loopdaloop.next();
-			String key = (String)entry.getKey();
-			Boolean value = (Boolean)entry.getValue();
-			outputStringArray[arrayLoop]=key;
-			arrayLoop++;
-		}
-		saveStrings("output.txt",outputStringArray);
-    		if (debug){ println("File has been saved to output.txt");}
-	}
+		saveToText(); // call the saveToText method
+
+    }
 } 
 
 void keyReleased()   { 
@@ -183,3 +174,21 @@ boolean checkDist(float x1,float y1,float z1) { // check distance between mouse 
        return false;
    }
 }
+
+void saveToText() {
+  // Loop through hashmap & export
+    Iterator loopdaloop = ledList.entrySet().iterator();
+    String[] outputStringArray = new String[cubeSize*cubeSize*cubeSize+1];
+    int arrayLoop = 0;
+    while (loopdaloop.hasNext()){
+      Map.Entry entry = (Map.Entry) loopdaloop.next();
+      String key = (String)entry.getKey();
+      Boolean value = (Boolean)entry.getValue();
+      outputStringArray[arrayLoop]=key;
+      arrayLoop++;
+    }
+    saveStrings("output.txt",outputStringArray);
+        if (debug){ println("File has been saved to output.txt");}
+  
+
+}// end saveToText  
