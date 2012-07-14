@@ -188,7 +188,7 @@ void draw()
              
 
              //******************************
-             // Expirament, is this where I write to the hashmap?
+             // Experiment, is this where I write to the hashmap?
              println("k is :"+k+" j is :"+j+" i is :"+i);
              
              //addToHashmap()
