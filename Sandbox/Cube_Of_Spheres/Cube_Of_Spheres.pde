@@ -84,7 +84,7 @@ lights();
     for (j=0; j<cubeSize; j++) { 
       pushMatrix(); 
       translate(i*grille, j*grille, h*grille); 
-      x[cnt] = screenX(0, 0, 0); // This code lights up surrounding leds
+      x[cnt] = screenX(0, 0, 0); // This code lights up surrounding leds (doesnt actually work right now)
       y[cnt] = screenY(0, 0, 0); 
       z[cnt] = screenZ(0, 0, 0); 
       ledIsHoveredOver = checkDist(x[cnt],y[cnt],z[cnt]);  // threshold is fourth value, default is 15.
@@ -111,7 +111,7 @@ lights();
 	if(ledList.get(h+" "+i+" "+j)==true){  // turns LED on from ledList value
        fill(255,255,255);  // LED is white (on)
     }
-    else if(ledList.get(h+" "+i+" "+j)==false){  // led is off and should stay off
+    else {  // led is off and should stay off
        fill(0,64,255);  // LED is blue (off)
     }
 
@@ -143,6 +143,11 @@ void keyPressed() {
 	
 	if (keyCode == DELETE){  // clear hashMap
 		clearHashMap();
+	}
+	
+	if (key == 'd'){  // turn debug mode on and off
+		if (debug == true){ debug = false; }
+		else { debug = true; }
 	}
 	
 	if (keyCode == CONTROL){ // user pushed CTL key on keyboard
