@@ -61,7 +61,11 @@ lights();
  // rotate mode 
  if (rotateMode) { 
    rotBuffX= mouseY*rotVit; 
+<<<<<<< HEAD
    rotBuffY= -1*mouseX*rotVit;
+=======
+   rotBuffY= -1*mouseX*rotVit; //The speed that the mouse rotates the screen
+>>>>>>> d1a6737bddb4bb9105ab184e6e2b4d470cca4ca1
  } 
 
  translate(screen.width/2,screen.height/2,zoom); // center cube on the screen 
