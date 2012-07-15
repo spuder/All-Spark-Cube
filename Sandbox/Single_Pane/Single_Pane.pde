@@ -25,6 +25,7 @@ int rectSizeY = 20;     // Height of rect
 int circleSize = 15;   // Diameter of circle
 int distanceBetweenCirclesX = 20;
 int distanceBetweenCirclesY = 20;
+int selectTolerance = 10; //how precise you need to be to select a led, 3 = within 3 pixels of the led 
 color rectColor, circleColorOff, circleColorOn, baseColor;
 color rectHighlight, circleHighlight;
 color circleCurrentColor;
@@ -45,7 +46,8 @@ boolean [][] circleOver;
 int delayedby = 50;
 
 //Hashmap to save the setting of each led 
-Map<String, Boolean> ledList = new HashMap<String, Boolean>(ledsPerRow*ledsPerColumn*numberOfPanels);  // hashmap for whether LED is on or off
+//Map<String, Boolean> ledList = new HashMap<String, Boolean>(ledsPerRow*ledsPerColumn*numberOfPanels);  // hashmap for whether LED is on or off
+Map ledList = new TreeMap();  // hashmap for whether LED is on or off // Tree map sorts when inputed, where hashmap is the order of insertion, hashmap is faster
 
 
 
@@ -89,12 +91,17 @@ void setup() {
   }
 
   // Y Positions
-  int yDistanceFromEdge = 40;
-  for (int i=0; i<(ledsPerRow* ledsPerColumn-(ledsPerRow-1)); i+=ledsPerRow) {
-    for (int ii=0; ii<ledsPerRow; ii++) {
-      circlePos[1][i+ii] = yDistanceFromEdge; //how far from the top we start drawign circles
+  int yDistanceFromEdge = circleSize * distanceBetweenCirclesY + ledsPerColumn + circleSize; //was 40, then 400
+  for (int i=0; i < (ledsPerRow * ledsPerColumn-(ledsPerRow-1)); i += ledsPerRow) { //Draws leds from bottom left to top left, but shifts unexpectedly
+  //  for (int i= (ledsPerRow* ledsPerColumn-(ledsPerRow-1)) ; i<=0; i-=ledsPerRow) { //Draws leds from top left to bottom left
+    for (int ii = ledsPerRow; ii >= 0; ii--) {
+    //for (int ii=0; ii<ledsPerRow; ii++) {
+     // circlePos[1][i+ii] = yDistanceFromEdge; //how far from the top we start drawing circles
+       circlePos[1][i+ii] = yDistanceFromEdge;
     }
-    yDistanceFromEdge += distanceBetweenCirclesY;
+    //yDistanceFromEdge += distanceBetweenCirclesY;
+    yDistanceFromEdge -= distanceBetweenCirclesY ;
+
   }
 
 
@@ -207,8 +214,8 @@ void update(int x, int y)
 
 boolean overRect(int x, int y, int width, int height)
 {
-  if (mouseX >= x && mouseX <= x+width &&
-    mouseY >= y && mouseY <= y+height) {
+  if (mouseX >= x && mouseX <= x+width+selectTolerance &&
+    mouseY >= y && mouseY <= y+height+selectTolerance) {
     return true;
   } 
   else {
@@ -238,24 +245,24 @@ void colorCircle(int indexX, int indexY, int posIndex) {  // Loop to draw all th
         /*
  Finally found where to put the save output method. 
          */
-        ledList.put(indexX +"-"+indexY +"-"+ 0, false); // save new status of led to hashmap
+        ledList.remove(indexX +"-"+indexY +"-"+ 0); // save new status of led to hashmap
         if (debugMode) { 
           println(indexX +"-"+ indexY + " false: Should be equal to " + ledList.get(indexX +"-"+indexY +"-"+ 0) );
         }
 
-        delay(delayedby); // no idea why he is delaying
+        //delay(delayedby); // no idea why he is delaying
       } 
       else {
 
         circleOn[indexX][indexY] = true;
         circleCurrentColor = circleColorOn;
 
-        ledList.put(indexX +"-"+ indexY +"-"+ 0, true); //save new status of led to hashmap
+        ledList.put(indexX +"-"+ indexY +"-"+ 0, 255); //save new status of led to hashmap
         if (debugMode) { 
           println(indexX +"-"+ indexY + " true: Should be equal to " + ledList.get(indexX +"-"+indexY +"-"+ 0) );
         }
 
-        delay(delayedby); // no idea why he is delaying
+       // delay(delayedby); // no idea why he is delaying
       }//end else
     }
     fill(circleHighlight);
@@ -319,10 +326,10 @@ void saveToText() {
   while (loopdaloop.hasNext ()) {
     Map.Entry anEntry = (Map.Entry) loopdaloop.next();
     //add items to string array
-    String aKey = (String)anEntry.getKey(); // not sure what this does, but it was in my other code
-    Boolean aValue = (Boolean)anEntry.getValue(); // not sure what this does, but it was in my other code
+    String aKey = (String)anEntry.getKey(); 
+    String aValue = anEntry.getValue().toString(); 
 
-      outputStringArray [arrayLoop] = aKey; // saves just 0-0-0 to the array, (dont use word 'key' because that is a reserved word)
+      outputStringArray [arrayLoop] = aKey + "\t" + aValue + ""; // saves just 0-0-0 to the array, (dont use word 'key' because that is a reserved word)
 
     arrayLoop++;
   }
