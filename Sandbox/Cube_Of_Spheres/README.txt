@@ -8,6 +8,7 @@ CTRL	= Export hashMap to txt file in the same directory as "Cube_Of_Spheres.pde"
 DELETE	= Clear hashMap and cube (turn off all LEDs)
 ALT		= Prints hashMap to console
 d		= Turn debug mode on or off
+t		= Print out current timestamp
 
 BUGS:
 1.  Clicking in the black then mousing over a LED will turn it on/off

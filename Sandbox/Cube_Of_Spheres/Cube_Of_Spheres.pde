@@ -90,36 +90,33 @@ lights();
       ledIsHoveredOver = checkDist(x[cnt],y[cnt],z[cnt]);  // threshold is fourth value, default is 15.
           
       if (ledIsHoveredOver) { // LED is being hovered over
-            if (debug){ println("ledIsHoveredOver = true, led " + +h+" "+i+" "+j +" is hovered over");}
+            if (debug){ println("ledIsHoveredOver = true, led " + +h+"-"+i+"-"+j +" is hovered over");}
             
             if (ledHasBeenClicked == true){  // LED has been hovered and clicked
-                  if (debug){ println("ledHasBeenClicked = true, led " + +h+" "+i+" "+j +" is marked as clicked");}
-                  // to do: export h i j to tsv file for parsing
-                  if (debug){ println("Clicked LED "+h+" "+i+" "+j);}
+				if (debug){ println("ledHasBeenClicked = true, led " + +h+"-"+i+"-"+j +" is marked as clicked");}
+				if (debug){ println("Clicked LED "+h+"-"+i+"-"+j);}
                   
-					if(ledList.get(h+" "+i+" "+j)==false) { // LED has been hovered, clicked, and is turned off
-						ledList.put(h+" "+i+" "+j,true); // assigns true value to ledList hashmap to turn the LED on.
-					}
-					else {  // LED has been hovered, clicked and is currently on
-						ledList.put(h+" "+i+" "+j,false);  // assigns false value to ledList hashmap.
-					}
+				if(ledList.get(h+"-"+i+"-"+j)==false) { // LED has been hovered, clicked, and is turned off
+					ledList.put(h+"-"+i+"-"+j,true); // assigns true value to ledList hashmap to turn the LED on.
+				}
+				else {  // LED has been hovered, clicked and is currently on
+					ledList.put(h+"-"+i+"-"+j,false);  // assigns false value to ledList hashmap.
+				}
             }
             ledHasBeenClicked = false; // user didn't click anything
       }
     
     
-	if(ledList.get(h+" "+i+" "+j)==true){  // turns LED on from ledList value
+	if(ledList.get(h+"-"+i+"-"+j)==true){  // turns LED on from ledList value
        fill(255,255,255);  // LED is white (on)
     }
     else {  // led is off and should stay off
        fill(0,64,255);  // LED is blue (off)
     }
-
-    
       
-     sphere(5); 
-     popMatrix(); 
-     cnt++; 
+    sphere(5); 
+    popMatrix(); 
+    cnt++; 
 
     }   // end for (j=0; j<cubeSize; j++) 
    }  // end for (i=0; i<cubeSize; i++)  
@@ -137,7 +134,7 @@ void keyPressed() {
  
 	if (keyCode == ALT){  // Print hashMap
 		for (Map.Entry entry : ledList.entrySet()) {
-			if(debug){println(entry.getKey() + ", " + entry.getValue());}
+			println(entry.getKey() + ", " + entry.getValue());
 		}
 	}
 	
@@ -148,6 +145,12 @@ void keyPressed() {
 	if (key == 'd'){  // turn debug mode on and off
 		if (debug == true){ debug = false; }
 		else { debug = true; }
+	}
+	
+	if (key == 't'){  // timestamp
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+		Date date = new Date();
+		println(dateFormat.format(date));
 	}
 	
 	if (keyCode == CONTROL){ // user pushed CTL key on keyboard
@@ -162,8 +165,10 @@ void keyPressed() {
 			outputStringArray[arrayLoop]=key;
 			arrayLoop++;
 		}
-		saveStrings("output.txt",outputStringArray);
-    		if (debug){ println("File has been saved to output.txt");}
+		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy_HH-mm-ss");
+		Date date = new Date();
+		saveStrings(dateFormat.format(date)+".txt",outputStringArray);
+    		println("File has been saved to "+dateFormat.format(date)+".txt");
 	}
 } 
 
@@ -175,7 +180,7 @@ void keyReleased()   {
 } 
 
 void mouseReleased() {
-	if (debug){ println("mouse has been clicked, fyi led is currently" +h+" "+i+" "+j );}
+	if (debug){ println("mouse has been clicked, fyi led is currently" +h+"-"+i+"-"+j );}
 	ledHasBeenClicked = true; 
 }
 
@@ -188,11 +193,11 @@ boolean checkDist(float x1,float y1,float z1) { // check distance between mouse 
    }
 }
 
-void clearHashMap () {
+void clearHashMap () {  // Function to set all hashmap values to false
 	for (h=0; h<cubeSize; h++) { 
 		for (i=0; i<cubeSize; i++) { 
 			for (j=0; j<cubeSize; j++) { 
-				ledList.put(h+" "+i+" "+j,false);  // Sets all hashmap values to false
+				ledList.put(h+"-"+i+"-"+j,false);  // Sets all hashmap values to false
 			}
 		}
 	}
