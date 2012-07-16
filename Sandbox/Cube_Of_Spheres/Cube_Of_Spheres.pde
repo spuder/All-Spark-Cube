@@ -193,28 +193,20 @@ void clearHashMap () {  // Function to set all hashmap values to false
 }
 
 void importHashMap () {  // Function to import hashmap from file
-	// We need to have it prompt you for a file to imput.
-	String importStringArray[] = loadStrings("output.txt");
+	String importStringArray[] = loadStrings(selectInput());  // Load text file into String array
 	for (int s=0; s<importStringArray.length; s++)
 	{
-		String[] tempList = split(importStringArray[s]," ");
-		//String value = "true";
-		Boolean onoff;
-		if (tempList[1] == "true")
+		String[] tempList = split(importStringArray[s]," ");  // Split strings using " " as a delimeter
+		if (Boolean.valueOf(tempList[1]).booleanValue()==true)  // checks if array value is true and sets value in ledList
 		{
-			onoff = true;
+			ledList.put(tempList[0],true);  // Turns LED on
 		}
 		else
 		{
-			onoff = false;
+			ledList.put(tempList[0],false);  // Turns LED off
 		}
-		//println(tempList.length);
-		//println(tempList[0]+" and "+onoff);
-		ledList.put(tempList[0],onoff);
-		// We need to split() the array into it's key:value pair and put it into the hashMap
-		//println(importStringArray[s]);
 	}
-	
+	println("Finished import");
 }
 
 void exportHashMap() {  // Function to export hashmap into file
