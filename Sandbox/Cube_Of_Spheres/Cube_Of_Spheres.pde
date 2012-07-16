@@ -9,7 +9,7 @@ final int grille = 80; 		// space between spheres
 int zoom = -1000; 			// initial zoom - mouse wheel  
 int ledSize = 15; 			// size of LED
 int ledDetail = 1; 			// detail of LED, default 6, lower value offers better performance.
-int h,i,j;  				    // LED x y z position variables
+int h,i,j;  				// LED x y z position variables
 int cubeSize = 16;  		// Number of LEDs on one axis
 int framesPerSecond = 30;  	// Specifies the number of frames/second
 
@@ -19,10 +19,10 @@ final float rotVit = 0.01; 	// step of rotation
 float threshhold = 8;  		// Hover tolerance - lower number means you must be more precise in your clicking of the LEDs
 
 boolean rotateMode = false; // mouse rotation 
-boolean ledHasBeenClicked;  // Vvlue for if the LED is on or off
+boolean ledHasBeenClicked;  // Value for if the LED is on or off
 boolean locked;  			// for Button class
 boolean ledIsHoveredOver = false;  	// hover variable
-boolean debug = true;  	// turn debugging on and off
+boolean debug = false;  	// turn debugging on and off
 
 // coordinates from matrix 
 float x[] = new float[cubeSize*cubeSize*cubeSize]; 
@@ -52,6 +52,7 @@ void setup() {
 	color buttoncolor = color(153);
 	color highlight = color(103);
 	rect1 = new RectButton(200, 200, 50, buttoncolor, highlight);
+	clearHashMap();  // Sets all the values in the hashMap to false
 } 
 
 
@@ -61,11 +62,7 @@ lights();
  // rotate mode 
  if (rotateMode) { 
    rotBuffX= mouseY*rotVit; 
-<<<<<<< HEAD
-   rotBuffY= -1*mouseX*rotVit;
-=======
    rotBuffY= -1*mouseX*rotVit; //The speed that the mouse rotates the screen
->>>>>>> d1a6737bddb4bb9105ab184e6e2b4d470cca4ca1
  } 
 
  translate(screen.width/2,screen.height/2,zoom); // center cube on the screen 
@@ -85,9 +82,9 @@ lights();
  for (h=0; h<cubeSize; h++) { 
    for (i=0; i<cubeSize; i++) { 
     for (j=0; j<cubeSize; j++) { 
-     pushMatrix(); 
+      pushMatrix(); 
       translate(i*grille, j*grille, h*grille); 
-      x[cnt] = screenX(0, 0, 0); // This code lights up surrounding leds
+      x[cnt] = screenX(0, 0, 0); // This code lights up surrounding leds (doesnt actually work right now)
       y[cnt] = screenY(0, 0, 0); 
       z[cnt] = screenZ(0, 0, 0); 
       ledIsHoveredOver = checkDist(x[cnt],y[cnt],z[cnt]);  // threshold is fourth value, default is 15.
@@ -100,27 +97,21 @@ lights();
                   // to do: export h i j to tsv file for parsing
                   if (debug){ println("Clicked LED "+h+" "+i+" "+j);}
                   
-                  if (ledList.containsKey(h+" "+i+" "+j)==false){ // LED has been hovered, clicked, and never set before
-                      ledList.put(h+" "+i+" "+j,true); // assigns true value to ledList hashmap to turn the LED on.
-                  }
-                  else if(ledList.get(h+" "+i+" "+j)==false) { // LED has been hovered, clicked, and is turned off
-                      ledList.put(h+" "+i+" "+j,true); // assigns true value to ledList hashmap to turn the LED on.
-                  }
-                  else {  // LED has been hovered, clicked and is currently on
-                      ledList.put(h+" "+i+" "+j,false);  // assigns false value to ledList hashmap.
-                  }
+					if(ledList.get(h+" "+i+" "+j)==false) { // LED has been hovered, clicked, and is turned off
+						ledList.put(h+" "+i+" "+j,true); // assigns true value to ledList hashmap to turn the LED on.
+					}
+					else {  // LED has been hovered, clicked and is currently on
+						ledList.put(h+" "+i+" "+j,false);  // assigns false value to ledList hashmap.
+					}
             }
             ledHasBeenClicked = false; // user didn't click anything
       }
     
     
-    if (ledList.containsKey(h+" "+i+" "+j)==false){  // turns LED off if hashmap value is NULL
-       fill(0,64,255);  // LED is blue (off)    
-    }
-    else if(ledList.get(h+" "+i+" "+j)==true){  // turns LED on from ledList value
+	if(ledList.get(h+" "+i+" "+j)==true){  // turns LED on from ledList value
        fill(255,255,255);  // LED is white (on)
     }
-    else if(ledList.get(h+" "+i+" "+j)==false){  // led is off and should stay off
+    else {  // led is off and should stay off
        fill(0,64,255);  // LED is blue (off)
     }
 
@@ -148,6 +139,15 @@ void keyPressed() {
 		for (Map.Entry entry : ledList.entrySet()) {
 			if(debug){println(entry.getKey() + ", " + entry.getValue());}
 		}
+	}
+	
+	if (keyCode == DELETE){  // clear hashMap
+		clearHashMap();
+	}
+	
+	if (key == 'd'){  // turn debug mode on and off
+		if (debug == true){ debug = false; }
+		else { debug = true; }
 	}
 	
 	if (keyCode == CONTROL){ // user pushed CTL key on keyboard
@@ -186,4 +186,14 @@ boolean checkDist(float x1,float y1,float z1) { // check distance between mouse 
    } else {
        return false;
    }
+}
+
+void clearHashMap () {
+	for (h=0; h<cubeSize; h++) { 
+		for (i=0; i<cubeSize; i++) { 
+			for (j=0; j<cubeSize; j++) { 
+				ledList.put(h+" "+i+" "+j,false);  // Sets all hashmap values to false
+			}
+		}
+	}
 }
