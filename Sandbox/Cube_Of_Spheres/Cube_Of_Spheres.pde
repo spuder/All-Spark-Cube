@@ -223,6 +223,6 @@ void exportHashMap() {  // Function to export hashmap into file
 	}
 	DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy_HH-mm-ss");  // Sets timestamp to human readable
 	Date date = new Date();  // Creates new timestamp for filename
-	saveStrings(dateFormat.format(date)+".txt",outputStringArray);  // Exports file as txt names as current time
+	saveStrings("output/"+dateFormat.format(date)+".txt",outputStringArray);  // Exports file as txt names as current time
 	println("File has been saved to "+dateFormat.format(date)+".txt");
 }
