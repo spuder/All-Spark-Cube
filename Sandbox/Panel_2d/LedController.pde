@@ -18,11 +18,11 @@ public class LedController
 
 
   //Create the number of leds specifed by the parent
-  LedController(int numberOfLedsToCreate)
+  LedController(int xNumberOfLeds, int yNumberOfRows )
   {
 
 
-      for ( int numberOfLedsToCreateItterator = 0; numberOfLedsToCreateItterator <= numberOfLedsToCreate; numberOfLedsToCreateItterator++)
+      for ( int numberOfLedsToCreateItterator = 0; numberOfLedsToCreateItterator <= xNumberOfLeds * yNumberOfRows * zNumberOfPanels ; numberOfLedsToCreateItterator++)
       {
   
         //int ledCordinates, color ledColor, float ledBrightness, int ledSize
@@ -31,9 +31,9 @@ public class LedController
         aLedObject.setLedColor(LedRed);
   
   
-        println("The object coordinate will be the key in map " + aLedObject.getLedCoordinates() );
+        debug("The object coordinate will be the key in map " + aLedObject.getLedCoordinates() ); //Send this to the debug method
         String treeMapKey = aLedObject.getLedCoordinates() + ""; // the cordinate will be the key in the treemap 000
-        println("got the coordinate " + treeMapKey);
+        debug("got the coordinate " + treeMapKey);//send this text to the debug method
         treeMapOfLeds.put(treeMapKey, aLedObject);
       }
   }// end LedController
@@ -41,7 +41,7 @@ public class LedController
   void displayAllLeds()
   {
 
-       println( treeMapOfLeds.size() + "");
+       debug( treeMapOfLeds.size() + "");
 
       for (int displayAllLedsIterator = 0; displayAllLedsIterator < treeMapOfLeds.size() -1 ; displayAllLedsIterator++ )
       {

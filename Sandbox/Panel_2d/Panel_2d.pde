@@ -4,22 +4,28 @@ LedController aLedController;
 
 color LedRed =  color(255, 0, 0);
 
+public final int xNumberOfLeds = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRows * zNumberOfPanels
+public final int yNumberOfRows = 16;
+public final int zNumberOfPanels = 16;
+
+boolean debugMode = true;
+
 //LedObject aLed;
 
 void setup()
 {
-  size(600,600);
+  size(screen.width, 600);
   //int ledCordinates, color ledColor, float ledBrightness, int ledSize
   //  aLed = new LedObject(000, LedRed, 255, 10);
 
-  aLedController = new LedController(16);
+  aLedController = new LedController(xNumberOfLeds, yNumberOfRows); 
 }
 
 
 void draw()
 {
 
-  //  aLed.displayOneLed();
+  
 }
 
 void mousePressed()
@@ -28,3 +34,11 @@ void mousePressed()
   aLedController.displayAllLeds();
 }
 
+
+void debug(String aDebugMessage) 
+{
+   if (debugMode = true) {
+     println(aDebugMessage);
+   }
+}
+  

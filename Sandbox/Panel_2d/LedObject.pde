@@ -26,7 +26,7 @@ class LedObject extends LedController
       this.ledColor = ledColor;
       this.ledBrightness = 255; // for testing set a perminate value and dont worry about it
       this.ledSize = 10; // for testing set to 10 and dont worry about it
-   }
+   } //end constuctor
    
      //for whatever reason I cant have multiple constructors
 //   LedObject(int ledColor)
