@@ -6,7 +6,11 @@ class LedObject extends LedController
  It has mulitple constuctors so that no all information needs to be entere
  for a led. 
  */
- //TODO: should this be a string 0-0-0 ? 
+ /*TODO: should this be a string 0-0-0 ? Answer: maybe, it depends how you want the Parent (Row controller 
+ to be able to address each led. It may be simpler to use an array. instead of led 000 through led 151515 you have 
+ led 0 through 4095. It makes it much simpler to iterate through each one. Because the developer doesn't need
+ to interact with each led in a 3d space there is no reason not to simply use integer 4095. Leds will be 
+ abstracted out to row[led0,1,2,3,4....15]. A led is uniquely identifiable as (panel 0 [row0 [led0] ] )
 //int   ledCoordinates; //example 000, 001 
 //color ledColor;       //example red, green, blue, (255,0,0)
 //float ledBrightness;  //example 0 - 4096 it will be divisable so it is a float
@@ -42,6 +46,7 @@ class LedObject extends LedController
 //   
    
    
+   //This really isn't necessary because nowhere in the gui do we have a led by itself. 
    public void displayOneLed()
    {
       fill(this.ledColor);

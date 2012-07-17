@@ -5,9 +5,11 @@ public class RowController
 
   //These are inherited by the child class
   //=====================================
-  int   rowCoordinates; //example 00, 01  This is different then a LedCoordinate variable because it is less specific.  
+  int[] rowCoordinates; //example 00, 01   
 
   TreeMap treeMapOfRows = new TreeMap();
+
+//TODO: I am tired ,do I really need to add the row objects to the treemap or are they already uniquily identifiable?
 
 
   //default constructor
@@ -18,19 +20,29 @@ public class RowController
   //Create the number of rows specifed by the parent a cube has 16 panels, a panel has 16 rows, a row has 16 leds
   RowController(int yNumberOfRows ) // in all my tests this will be 16
   {
-  
+     //Create a bunch of row objects (256 objects) that have the id [0,0] through [15,15]
+     
+     //for loop to create 256 row objects
+     for (int yRowIterator = 0; yRowIterator < yNumberOfRows; yRowIterator ++ )
+       {
+           for (int zRowIterator = 0; zRowIterator < zNumberOfPanels; zRowIterator ++)
+           {
+             rowCoordinates = new int[2] ;
+             rowCoordinates[0] = yRowIterator;
+             rowCoordinates[1] = zRowIterator;
+             
+             RowObject aRowObject = new RowObject(rowCoordinates);
+             
+             //Add row object to treemap 
+             
+           }
+           
+         
+       }
+       
+  }// end RowController Constructor
     
-    /*
-    * Itterate though all the leds (use the treemap created in the controller
-    *   Set the object row = the current row
-    *      If we arrive at a multiple of 16 then:
-    *          - Create  Row object for the treemap
-    *          - Set the row cordinate to the number 0-16  Treemap< row000,_____>
-    *          - Add the previous 16 items to the new treemap Treemap< row000, (ledObject 000, ledObject 001) >
-    *          - Set row to next iteration row001
-    *          - Continue to get led objects without starting over (led 016, led 017
-    */
-      
+
 
 //      for ( int numberOfRowsToCreateItterator = 0; numberOfRowsToCreateItterator <= yNumberOfRows ; numberOfRowsToCreateItterator++) 
 //      {
