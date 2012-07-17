@@ -18,7 +18,8 @@ void setup()
   //int ledCordinates, color ledColor, float ledBrightness, int ledSize
   //  aLed = new LedObject(000, LedRed, 255, 10);
 
-  aLedController = new LedController(xNumberOfLeds, yNumberOfRows); 
+  aLedController = new LedController(xNumberOfLeds, yNumberOfRows, zNumberOfPanels ); 
+  //aRowController = newRowController(yNumberOfRows, zNumberOfPanels);
 }
 
 

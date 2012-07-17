@@ -18,7 +18,7 @@ public class LedController
 
 
   //Create the number of leds specifed by the parent
-  LedController(int xNumberOfLeds, int yNumberOfRows )
+  LedController(int xNumberOfLeds, int yNumberOfRows, int zNumberOfPanels )//TODO: verify that these names are ok, because they are duplicates of globa;
   {
 
 
@@ -37,6 +37,9 @@ public class LedController
         treeMapOfLeds.put(treeMapKey, aLedObject);
       }
   }// end LedController
+
+
+  
 
   void displayAllLeds()
   {

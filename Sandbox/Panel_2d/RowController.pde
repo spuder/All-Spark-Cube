@@ -20,7 +20,7 @@ public class RowController
   //Create the number of rows specifed by the parent a cube has 16 panels, a panel has 16 rows, a row has 16 leds
   RowController(int yNumberOfRows ) // in all my tests this will be 16
   {
-     //Create a bunch of row objects (256 objects) that have the id [0,0] through [15,15]
+     //Create a bunch of row objects (256) that are identifed by rowCoordinates [0,0] through [15,15]
      
      //for loop to create 256 row objects
      for (int yRowIterator = 0; yRowIterator < yNumberOfRows; yRowIterator ++ )
@@ -43,44 +43,23 @@ public class RowController
   }// end RowController Constructor
     
 
-
-//      for ( int numberOfRowsToCreateItterator = 0; numberOfRowsToCreateItterator <= yNumberOfRows ; numberOfRowsToCreateItterator++) 
-//      {
-//  
-//        //int ledCordinates, color ledColor, float ledBrightness, int ledSize
-//        RowObject aRowObject = new RowObject(rowCoordinates);
-//        aRowObject.setRowCoordinates(numberOfLedsToCreateItterator); // set the led to 000 through 16
-//       
-//  
-//  
-//        debug("The object coordinate will be the key in map " + aLedObject.getLedCoordinates() ); //Send this to the debug method
-//        String treeMapKey = aLedObject.getLedCoordinates() + ""; // the cordinate will be the key in the treemap 000
-//        debug("got the coordinate " + treeMapKey);//send this text to the debug method
-//        treeMapOfLeds.put(treeMapKey, aLedObject);
-//      }
-//  }// end LedController
+  void displayOneRow()
+  {
+    /*
+    Methodology to display one row
+    Get the location relative to the parent where we want to draw it. The parent could be the processing
+    window, but more likely is the relative location inside a plane/panel
+    Since a row does not have a physical shape, but rather draws leds, then loop through the drawOneLed.
+    for each loop - number of leds inside a row
+        if you said the left side of the row should be drawn at (50 pixels in, screen.height/2)
+      drawOneLed (
+        
+      
+    */
+  }
 
 
 
-
-//  void displayAllLeds()
-//  {
-//
-//       debug( treeMapOfLeds.size() + "");
-//
-//      for (int displayAllLedsIterator = 0; displayAllLedsIterator < treeMapOfLeds.size() -1 ; displayAllLedsIterator++ )
-//      {
-//        //Recreate the object from the hashmap
-//        LedObject aTemporaryLed = (LedObject ) treeMapOfLeds.get(displayAllLedsIterator+""); //Notice that (LedObject) is required to get object from hashmap
-//  
-//  
-//        aTemporaryLed.displayOneLed( 30+ displayAllLedsIterator * 100 /4, 40  ); // new object call method displayOneLed,( x location, y location)
-//        
-//      } //end for loop to display all leds
-//      
-//  } //end displayAllLeds
-//  
-  
   
 } // end class RowController
 
