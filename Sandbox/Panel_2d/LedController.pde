@@ -10,7 +10,8 @@ public class LedController
   float ledBrightness;  //example 0 - 4096 it will be divisable so it is a float
   int   ledSize;  
 
-  TreeMap treeMapOfLeds = new TreeMap();
+  //TreeMap treeMapOfLeds = new TreeMap();
+  ArrayList<LedObject> arrayListOfLeds = new ArrayList(totalNumberOfLeds);
 
 
   LedController() {
@@ -22,20 +23,25 @@ public class LedController
   {
 
 
-      for ( int numberOfLedsToCreateItterator = 0; numberOfLedsToCreateItterator <= xNumberOfLeds * yNumberOfRows * zNumberOfPanels ; numberOfLedsToCreateItterator++)
-      {
-  
-        //int ledCordinates, color ledColor, float ledBrightness, int ledSize
-        LedObject aLedObject = new LedObject(ledCoordinates, ledColor, ledBrightness, ledSize);
-        aLedObject.setLedCoordinates(numberOfLedsToCreateItterator); // set the led to 000 through 16
-        aLedObject.setLedColor(LedRed);
-  
-  
-        debug("The object coordinate will be the key in map " + aLedObject.getLedCoordinates() ); //Send this to the debug method
-        String treeMapKey = aLedObject.getLedCoordinates() + ""; // the cordinate will be the key in the treemap 000
-        debug("got the coordinate " + treeMapKey);//send this text to the debug method
-        treeMapOfLeds.put(treeMapKey, aLedObject);
-      }
+        for ( int numberOfLedsToCreateItterator = 0; numberOfLedsToCreateItterator <= totalNumberOfLeds ; numberOfLedsToCreateItterator++)
+        {
+    
+          //int ledCordinates, color ledColor, float ledBrightness, int ledSize
+          LedObject aLedObject = new LedObject(ledCoordinates, ledColor, ledBrightness, ledSize);
+          aLedObject.setLedCoordinates(numberOfLedsToCreateItterator); // set the led to 000 through 16
+          aLedObject.setLedColor(LedRed);
+    
+    
+//          debug("The object coordinate will be the key in map " + aLedObject.getLedCoordinates() ); //Send this to the debug method
+//          String treeMapKey = aLedObject.getLedCoordinates() + ""; // the cordinate will be the key in the treemap 000
+//          debug("got the coordinate " + treeMapKey);//send this text to the debug method
+//          treeMapOfLeds.put(treeMapKey, aLedObject);
+          arrayListOfLeds.add(numberOfLedsToCreateItterator, aLedObject); // add all leds to array list 1 by 1
+          
+        }
+        
+      
+      
   }// end LedController
 
 
@@ -44,13 +50,18 @@ public class LedController
   void displayAllLeds()
   {
 
-       debug( treeMapOfLeds.size() + "");
+       //debug( treeMapOfLeds.size() + "");
+       debug( arrayListOfLeds.size() + " items in array list");
 
-      for (int displayAllLedsIterator = 0; displayAllLedsIterator < treeMapOfLeds.size() -1 ; displayAllLedsIterator++ )
-      {
+      //for (int displayAllLedsIterator = 0; displayAllLedsIterator < treeMapOfLeds.size() -1 ; displayAllLedsIterator++ )
+       for (int displayAllLedsIterator = 0; displayAllLedsIterator < arrayListOfLeds.size() -1 ; displayAllLedsIterator++ )
+
+
+        {
         //Recreate the object from the hashmap
-        LedObject aTemporaryLed = (LedObject ) treeMapOfLeds.get(displayAllLedsIterator+""); //Notice that (LedObject) is required to get object from hashmap
-  
+        //LedObject aTemporaryLed = (LedObject ) treeMapOfLeds.get(displayAllLedsIterator+""); //Notice that (LedObject) is required to get object from hashmap
+        LedObject aTemporaryLed = (LedObject ) arrayListOfLeds.get(displayAllLedsIterator); //Notice that (LedObject) is required to get object from hashmap
+
   
         aTemporaryLed.displayOneLed( 30+ displayAllLedsIterator * 100 /4, 40  ); // new object call method displayOneLed,( x location, y location)
         

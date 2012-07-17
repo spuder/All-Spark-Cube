@@ -15,13 +15,15 @@ class LedObject extends LedController
 //color ledColor;       //example red, green, blue, (255,0,0)
 //float ledBrightness;  //example 0 - 4096 it will be divisable so it is a float
 //int   ledSize;     
- /*  LedObject()  // default empty constuctor, created led with no attribuetes
+ 
+ 
+ */
+
+   LedObject()  // default empty constuctor, created led with no attribuetes
    {
        
    }
-   //for whatever reason I cant have multiple constructors
-   */
-  // LedObject(){}
+ 
    
    LedObject(int ledCoordinates, color ledColor, float ledBrightness, int ledSize)
    {
@@ -46,13 +48,7 @@ class LedObject extends LedController
 //   
    
    
-   //This really isn't necessary because nowhere in the gui do we have a led by itself. 
-   public void displayOneLed()
-   {
-      fill(this.ledColor);
-      ellipse(this.ledSize, this.ledSize, 10, 10 );
-      
-   }
+
    public void displayOneLed(int ledXLocationOnScreen, int ledYLocationOnScreen)
    {
       fill(this.ledColor);

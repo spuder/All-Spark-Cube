@@ -28,8 +28,8 @@ public class RowController
            for (int zRowIterator = 0; zRowIterator < zNumberOfPanels; zRowIterator ++)
            {
              rowCoordinates = new int[2] ;
-             rowCoordinates[0] = yRowIterator;
-             rowCoordinates[1] = zRowIterator;
+               rowCoordinates[0] = yRowIterator;
+               rowCoordinates[1] = zRowIterator;
              
              RowObject aRowObject = new RowObject(rowCoordinates);
              
@@ -43,7 +43,7 @@ public class RowController
   }// end RowController Constructor
     
 
-  void displayOneRow()
+  void displayAllRows()
   {
     /*
     Methodology to display one row
