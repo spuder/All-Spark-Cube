@@ -1,4 +1,4 @@
-class LedObject extends LedController
+class LedObject extends LedController implements Serializable
 {
 
  
@@ -25,10 +25,10 @@ class LedObject extends LedController
    }
  
    
-   LedObject(int ledCoordinates, color ledColor, float ledBrightness, int ledSize)
+   LedObject(int ledNumberInCube, color ledColor, float ledBrightness, int ledSize)
    {
      
-      this.ledCoordinates = ledCoordinates;
+      this.ledNumberInCube = ledNumberInCube;
       this.ledColor = ledColor;
       this.ledBrightness = 255; // for testing set a perminate value and dont worry about it
       this.ledSize = 10; // for testing set to 10 and dont worry about it
@@ -53,6 +53,7 @@ class LedObject extends LedController
    {
       fill(this.ledColor);
       ellipse( ledXLocationOnScreen, ledYLocationOnScreen , this.ledSize, this.ledSize);
+      noFill();
       
    }
    
@@ -62,15 +63,15 @@ class LedObject extends LedController
 
         // Led Coordinates
         //===============================
-        public void setLedCoordinates (int ledCoordinates) 
+        public void setLedNumberInCube (int ledNumberInCube) 
         {
-            this.ledCoordinates = ledCoordinates; 
+            this.ledNumberInCube = ledNumberInCube; 
             
         }                                         //end setLedCoordinates
         
-        public int getLedCoordinates()
+        public int getLedNumberInCube()
         {
-            return this.ledCoordinates;
+            return this.ledNumberInCube;
             
         }                                         //end getLedCoordinates
         

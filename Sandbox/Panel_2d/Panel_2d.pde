@@ -1,7 +1,8 @@
 
 
-LedController aLedController;
-RowController aRowController;
+//LedController aLedController;
+RowObject aRowObject;
+RowObject aRowObject2;
 
 color LedRed =  color(255, 0, 0);
 
@@ -12,37 +13,48 @@ public final int totalNumberOfLeds = xNumberOfLeds* yNumberOfRows * zNumberOfPan
 
 boolean debugMode = true;
 
-//LedObject aLed;
+/*
+Creating a row makes led objects 
 
-void setup()
-{
-  size(screen.width, 600);
-  //int ledCordinates, color ledColor, float ledBrightness, int ledSize
-  //  aLed = new LedObject(000, LedRed, 255, 10);
+*/
 
-  aLedController = new LedController( xNumberOfLeds, yNumberOfRows, zNumberOfPanels ); 
- // aRowController = newRowController(yNumberOfRows, zNumberOfPanels);
-}
-
-
-void draw()
-{
-
+  void setup()
+  {
+    size(screen.width, 600);
+    //int ledCordinates, color ledColor, float ledBrightness, int ledSize
+    //  aLed = new LedObject(000, LedRed, 255, 10);
   
-}
-
-void mousePressed()
-{
-  println("mouse pressed");
-  aLedController.displayAllLeds();
-  //aRowController.displayAllRows();
-}
+ //   aLedController = new LedController( xNumberOfLeds, yNumberOfRows, zNumberOfPanels ); 
+  //  aRowController = new RowController( yNumberOfRows, zNumberOfPanels);
+  }
 
 
-void debug(String aDebugMessage) 
-{
-   if (debugMode = true) {
-     println(aDebugMessage);
-   }
-}
+  void draw()
+  {
+  
+    
+  }
+
+  void mousePressed()
+  {
+    println("mouse pressed");
+ //    aLedController.displayAllLeds();
+    //aLedController.displayAllLeds().displayOneLed();
+    //aRowController.displayOneRow();
+//    aRowController.displayAllRows();
+
+    int[] coordinate = {1,0};
+    int[] coordinate1 = {0,2};
+    aRowObject = new RowObject(coordinate);
+   // aRowObject2 = new RowObject(coordinate1);
+  }
+
+
+  void debug(String aDebugMessage) 
+  {
+       if (debugMode = true) 
+       {
+           println(aDebugMessage);
+       }
+  }
   

@@ -18,7 +18,7 @@ public class RowController
 
 
   //Create the number of rows specifed by the parent a cube has 16 panels, a panel has 16 rows, a row has 16 leds
-  RowController(int yNumberOfRows ) // in all my tests this will be 16
+  RowController(int yNumberOfRows, int zNumberOfPanels ) // in all my tests this will be 16
   {
      //Create a bunch of row objects (256) that are identifed by rowCoordinates [0,0] through [15,15]
      
@@ -45,6 +45,15 @@ public class RowController
 
   void displayAllRows()
   {
+    debug( "Displaying a rectangle");
+    //A rectangle is top left corner y, top left corner x, width,  height
+    
+    int rectangleTopLeftCornerX = height - yNumberOfRows - 20;
+    int rectangleTopLeftCornerY = 10;
+    int rectangleWidth = xNumberOfLeds * 10  ;
+    int rectangleHeight = 20;
+    
+    rect(rectangleTopLeftCornerY, rectangleTopLeftCornerX, rectangleWidth, rectangleHeight);
     /*
     Methodology to display one row
     Get the location relative to the parent where we want to draw it. The parent could be the processing
@@ -56,7 +65,7 @@ public class RowController
         
       
     */
-  }
+  }// end displayAllRows
 
 
 

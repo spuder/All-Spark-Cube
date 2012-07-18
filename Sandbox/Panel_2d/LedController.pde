@@ -5,7 +5,7 @@ public class LedController
 
   //These are inherited by the child class
   //=====================================
-  int   ledCoordinates; //example 000, 001 
+  int   ledNumberInCube; //example 000, 001 
   color ledColor;       //example red, green, blue, (255,0,0)
   float ledBrightness;  //example 0 - 4096 it will be divisable so it is a float
   int   ledSize;  
@@ -27,8 +27,8 @@ public class LedController
         {
     
           //int ledCordinates, color ledColor, float ledBrightness, int ledSize
-          LedObject aLedObject = new LedObject(ledCoordinates, ledColor, ledBrightness, ledSize);
-          aLedObject.setLedCoordinates(numberOfLedsToCreateCounter); // set the led to 000 through 16
+          LedObject aLedObject = new LedObject(ledNumberInCube, ledColor, ledBrightness, ledSize);
+          aLedObject.setLedNumberInCube(numberOfLedsToCreateCounter); // set the led to 000 through 16
           aLedObject.setLedColor(LedRed);
     
     
@@ -55,7 +55,6 @@ public class LedController
 
       //for (int displayAllLedsIterator = 0; displayAllLedsIterator < treeMapOfLeds.size() -1 ; displayAllLedsIterator++ )
        for (int displayAllLedsIterator = 0; displayAllLedsIterator < arrayListOfLeds.size() -1 ; displayAllLedsIterator++ )
-
 
         {
         //Recreate the object from the hashmap
