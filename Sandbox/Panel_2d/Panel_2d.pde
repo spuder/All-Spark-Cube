@@ -1,8 +1,7 @@
 
 
 //LedController aLedController;
-RowObject aRowObject;
-RowObject aRowObject2;
+RowObject row01;
 
 color LedRed =  color(255, 0, 0);
 
@@ -10,6 +9,8 @@ public final int xNumberOfLeds = 16; // this is used in the ledController class 
 public final int yNumberOfRows = 16;
 public final int zNumberOfPanels = 16;
 public final int totalNumberOfLeds = xNumberOfLeds* yNumberOfRows * zNumberOfPanels;
+
+public final int ledSize = 10;
 
 boolean debugMode = true;
 
@@ -43,9 +44,8 @@ Creating a row makes led objects
     //aRowController.displayOneRow();
 //    aRowController.displayAllRows();
 
-    int[] coordinate = {1,0};
-    int[] coordinate1 = {0,2};
-    aRowObject = new RowObject(coordinate);
+
+    row01 = new RowObject(0, 0); // y = hight from ground z = distance from front of cube
    // aRowObject2 = new RowObject(coordinate1);
   }
 

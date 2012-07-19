@@ -8,37 +8,30 @@ class RowObject
   // TODO: create methods to define how to search the row for an led
 
 
-  RowObject(int[] rowCoordinates)
+  RowObject(int rowCoordinateY, int rowCoordinateZ)
   {
+      
+     int firstLedInRow = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16 -16;  // if we are on row 3 (base 0), of panel 0 (front panel) then the firstLedInRow = 48
+     int lastLedInRow = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16; // if we are on row 3 (base 0), of panel 0 (front panel) then the lastLedInRow = 63
 
 
-
-    int rowCoordinateY = rowCoordinates[0]; // save the first coordinate as a local variable 
-    int rowCoordinateZ = rowCoordinates[1];
-    int firstLedInRow = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16 -16;  // if we are on row 3 (base 0), of panel 0 (front panel) then the firstLedInRow = 48
-    int lastLedInRow = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16; // if we are on row 3 (base 0), of panel 0 (front panel) then the lastLedInRow = 63
-
-
+     
 
     // Create the led objects, add the lds to the array list, add the array list to the object
-    for ( int ledNumberInRow = 0; ledNumberInRow <= lastLedInRow ; ledNumberInRow++)
+    for ( int ledNumberInRow = 0; ledNumberInRow < lastLedInRow ; ledNumberInRow++)
     {
 
-      //int ledCordinates, color ledColor, float ledBrightness, int ledSize
-      LedObject aLedObject = new LedObject(); // Create led object 
-      aLedObject.setLedNumberInCube(firstLedInRow + ledNumberInRow); // set the led to 0 through 4096
-      debug( "Created led " + aLedObject.getLedNumberInCube()  );
-      debug ("Led Coordinate " + aLedObject.getLedNumberInCube() + " should equal " + (firstLedInRow + ledNumberInRow));
-      aLedObject.setLedColor(LedRed);
-      //   debug ("Led Color " + aLedObject.getLedColor() + " Should equal " + LedRed);
-
-
-      // arrayListOfLeds.set(ledNumberInRow, aLedObject); // add all leds to array list 1 by 1
-
-
+   
+      LedObject aLedObject = new LedObject( (firstLedInRow + ledNumberInRow), 255, 0, ledSize); // Create led object ( (0-4095), 255=black, 0 = brightness, ledsize=10)
+        
+        //aLedObject.setLedNumberInCube(); // set the led to 0 through 4096
+          debug( "Created led " + aLedObject.getLedNumberInCube()  );
+          //debug ("Led Coordinate " + aLedObject.getLedNumberInCube() + " should equal " + (firstLedInRow + ledNumberInRow));
 
       arrayOfLeds[ aLedObject.getLedNumberInCube() ] = aLedObject; // examle, write led56 to arrary[56]
       debug("arrayOfLeds[" + aLedObject.getLedNumberInCube()  + "] " + (firstLedInRow + ledNumberInRow) );
+      debug("length of array " + arrayOfLeds.length );
+      debug(" ");
     }
 
 
@@ -96,13 +89,21 @@ class RowObject
 
 
 
-  public void displayOneRow()
-  {
+//  public void displayOneRow()
+//  {
+//
+//      for (int ledInRowCounter = firstLedInRow; ledInRowCounter < lastLedInRow; ledInRowCounter++ )
+//      {
+//         arrayOfLeds[ledInRowCounter].getLedNumberInCube();
+//      }
+//
+//    fill(255);
+//    rect(10, 10, 10, 10 );
+//    noFill();
+//    
+//    
+//  }
 
 
-    fill(255);
-    rect(10, 10, 10, 10 );
-    noFill();
-  }
 } // end class RowObject
 

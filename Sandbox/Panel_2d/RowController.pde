@@ -31,7 +31,7 @@ public class RowController
                rowCoordinates[0] = yRowIterator;
                rowCoordinates[1] = zRowIterator;
              
-             RowObject aRowObject = new RowObject(rowCoordinates);
+             RowObject aRowObject = new RowObject(yRowIterator, zRowIterator);
              
              //Add row object to treemap 
              

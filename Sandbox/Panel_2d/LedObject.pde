@@ -1,4 +1,6 @@
-class LedObject extends LedController implements Serializable
+//class LedObject extends LedController implements Serializable
+//class LedObject extends RowObject implements Serializable
+class LedObject 
 {
 
  
@@ -11,13 +13,16 @@ class LedObject extends LedController implements Serializable
  led 0 through 4095. It makes it much simpler to iterate through each one. Because the developer doesn't need
  to interact with each led in a 3d space there is no reason not to simply use integer 4095. Leds will be 
  abstracted out to row[led0,1,2,3,4....15]. A led is uniquely identifiable as (panel 0 [row0 [led0] ] )
-//int   ledCoordinates; //example 000, 001 
-//color ledColor;       //example red, green, blue, (255,0,0)
-//float ledBrightness;  //example 0 - 4096 it will be divisable so it is a float
-//int   ledSize;     
+   
  
  
  */
+ 
+  int ledNumberInCube;
+  //int   ledCoordinates; //example 000, 001 
+  color ledColor;       //example red, green, blue, (255,0,0)
+  float ledBrightness;  //example 0 - 4096 it will be divisable so it is a float
+  int   ledSize;  
 
    LedObject()  // default empty constuctor, created led with no attribuetes
    {
@@ -48,7 +53,7 @@ class LedObject extends LedController implements Serializable
 //   
    
    
-
+//TODO: Make this display relative to the parent
    public void displayOneLed(int ledXLocationOnScreen, int ledYLocationOnScreen)
    {
       fill(this.ledColor);
