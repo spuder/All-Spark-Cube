@@ -3,6 +3,9 @@
 //LedController aLedController;
 RowObject row0000;
 RowObject row1500;
+RowObject row0100;
+RowObject row0101;
+RowObject row0200;
 
 
 
@@ -53,11 +56,20 @@ Creating a row makes led objects
 
 
     
-    row0000 = new RowObject(0, 0); // y = hight from ground z = distance from front of cube
-    row0000.displayOneRow(0,0);
+//   row0000 = new RowObject(0, 0); // y = height from ground z = distance from front of cube
+//    row0000.displayOneRow(0,0);
     
-    row1500 = new RowObject(15, 0);
-    row1500.displayOneRow(15,0);
+    row0100 = new RowObject(1, 0);
+    row0100.displayOneRow(1,0);
+    
+    row0200 = new RowObject(2,0);
+    row0200.displayOneRow(2,0);
+    
+//    row0101 = new RowObject(0, 1);
+//    row0101.displayOneRow(0,1);
+    
+//    row1500 = new RowObject(3, 3);
+//    row1500.displayOneRow(3,3);
     
 
    // aRowObject2 = new RowObject(coordinate1);
