@@ -1,7 +1,10 @@
 
 
 //LedController aLedController;
-RowObject row01;
+RowObject row0000;
+RowObject row1500;
+
+
 
 color LedRed =  color(255, 0, 0);
 
@@ -27,25 +30,36 @@ Creating a row makes led objects
   
  //   aLedController = new LedController( xNumberOfLeds, yNumberOfRows, zNumberOfPanels ); 
   //  aRowController = new RowController( yNumberOfRows, zNumberOfPanels);
+  
+
+   
   }
 
 
   void draw()
   {
-  
     
+
   }
 
   void mousePressed()
   {
     println("mouse pressed");
+    
  //    aLedController.displayAllLeds();
     //aLedController.displayAllLeds().displayOneLed();
     //aRowController.displayOneRow();
 //    aRowController.displayAllRows();
 
 
-    row01 = new RowObject(0, 0); // y = hight from ground z = distance from front of cube
+    
+    row0000 = new RowObject(0, 0); // y = hight from ground z = distance from front of cube
+    row0000.displayOneRow(0,0);
+    
+    row1500 = new RowObject(15, 0);
+    row1500.displayOneRow(15,0);
+    
+
    // aRowObject2 = new RowObject(coordinate1);
   }
 
