@@ -10,7 +10,7 @@ class RowObject
   RowObject(int rowCoordinateY, int rowCoordinateZ)
   {
  
-    //TODO:This should not have 1  + in front
+    //TODO:This should not have 1  + in front, right?
     int firstLedInRow = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16 -16;  // if we are on row 3 (base 0), of panel 0 (front panel) then the firstLedInRow = 48
     int lastLedInRow  = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16; // if we are on row 3 (base 0), of panel 0 (front panel) then the lastLedInRow = 63
 
@@ -25,7 +25,7 @@ class RowObject
 
       arrayOfLeds[ aLedObject.getLedNumberInCube() ] = aLedObject; // examle, write led56 to arrary[56]
 
-    }
+    }//end for loop create objects
 
 
     //Add the row cordinates to the object
@@ -58,7 +58,7 @@ class RowObject
   public void displayOneRow(int rowCoordinateY, int rowCoordinateZ)
   {
 
-      //TODO: This code is repeated but it gives it least scope is there a better way to implement it?
+      //TODO: This code is repeated but it gives it 'least scope' is there a better way to implement it?
       int firstLedInRow = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16 -16;  // if we are on row 3 (base 0), of panel 0 (front panel) then the firstLedInRow = 48
       int lastLedInRow  = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16; // if we are on row 3 (base 0), of panel 0 (front panel) then the lastLedInRow = 63
 
@@ -111,16 +111,16 @@ Draw each led from the specified row
               */
     
     
-    /*127*/   float numberOfDivisionsPerScreen = zNumberOfPanels * xNumberOfLeds /2 -1;                 debug("divisions per screen " + numberOfDivisionsPerScreen);
-    /*13*/    float pixelsBetweenDivisions = width / numberOfDivisionsPerScreen;                        debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);
-    /*48*/    float horizontalLedStartLocation = rowCoordinateZ * xNumberOfLeds * pixelsBetweenDivisions;    debug("horizontalStartLocation " + horizontalLedStartLocation); 
-    /*5px*/   float putLedsBetweenLines = ledSize / 2;                                                  debug("ledSize " + ledSize /2);
-//              float distanceBetweenLeds = ledInRowCounter / 16 + pixelsBetweenDivisions;                debug("distancebween leds " + distanceBetweenLeds);
+    /*127*/   int numberOfDivisionsPerScreen = zNumberOfPanels * xNumberOfLeds /2 -1;                     debug("divisions per screen " + numberOfDivisionsPerScreen);
+    /*13*/    int pixelsBetweenDivisions = width / numberOfDivisionsPerScreen;                            debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);
+    /*48*/    int horizontalLedStartLocation = rowCoordinateZ * xNumberOfLeds * pixelsBetweenDivisions;   debug("horizontalStartLocation " + horizontalLedStartLocation); 
+    /*5px*/   float putLedsBetweenLines = ledSize / 2;                                                      debug("ledSize " + ledSize /2);
+              int ledLocationInRow = getLedNumberInRow(ledInRowCounter);                                    debug(ledInRowCounter + " Translates to " + ledLocationInRow);
+             
+              int distanceBetweenLines = (    width /  (xNumberOfLeds * (zNumberOfPanels/2) )  );// this code is pulled from the other method, is it identical to pixelsBetweenDivisions?
               
-             
-             int ledLocationInRow = getLedNumberInRow(ledInRowCounter);                                 debug(ledInRowCounter + " Translates to " + ledLocationInRow);
-             
-              arrayOfLeds[ledInRowCounter].displayOneLed(int(horizontalLedStartLocation + (ledLocationInRow * pixelsBetweenDivisions)), 100);
+              
+              arrayOfLeds[ledInRowCounter].displayOneLed(putLedsBetweenLines+ (horizontalLedStartLocation + (ledLocationInRow * distanceBetweenLines)), 100);
     
     
               /*

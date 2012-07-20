@@ -6,6 +6,7 @@ RowObject row1500;
 RowObject row0100;
 RowObject row0101;
 RowObject row0200;
+RowObject row0606;
 
 
 
@@ -67,6 +68,10 @@ Creating a row makes led objects
     
     row0101 = new RowObject(1, 1);
     row0101.displayOneRow(1,1);
+    
+    row0606 = new RowObject(6,6);
+    row0606.displayOneRow(6,6);
+    
     
     
 //    row1500 = new RowObject(3, 3);

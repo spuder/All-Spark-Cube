@@ -54,7 +54,7 @@ class LedObject
    
    
 //TODO: Make this display relative to the parent
-   public void displayOneLed(int ledXLocationOnScreen, int ledYLocationOnScreen)
+   public void displayOneLed(float ledXLocationOnScreen, float ledYLocationOnScreen)
    {
       fill(this.ledColor);
       ellipse( ledXLocationOnScreen, ledYLocationOnScreen , this.ledSize, this.ledSize);
