@@ -38,17 +38,17 @@ void setup()
   row0100 = new RowObject(1, 0);
   row0100.displayOneRow(1, 0);
 
-  //    row0200 = new RowObject(2,0);
-  //    row0200.displayOneRow(2,0);
+  row0200 = new RowObject(2,0);
+  row0200.displayOneRow(2,0);
 
-  //    row0303 = new RowObject(3,3);
-  //    row0303.displayOneRow(3,3);
+  row0303 = new RowObject(3,3);
+  row0303.displayOneRow(3,3);
 
   //    row0101 = new RowObject(1, 1);
   //    row0101.displayOneRow(1,1);
   //    
-  //    row0606 = new RowObject(6,6);
-  //    row0606.displayOneRow(6,6);
+  row0606 = new RowObject(6,6);
+  row0606.displayOneRow(6,6);
 }
 
 
