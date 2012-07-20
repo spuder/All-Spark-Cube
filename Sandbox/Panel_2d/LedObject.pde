@@ -87,16 +87,14 @@ class LedObject
             //Find first led in row
             //subtract firstLedInRow from ledNumberInCube
             //Subtract 1 for base 0
-            
-            
-            
+
             int ledTotalRowNumber = this.ledNumberInCube / xNumberOfLedsPerRow; // 48 would return 3rd row TODO:Consider renaming locationInY
             int ledVertialRowNumber = ledTotalRowNumber / yNumberOfRowsPerPanel; //we need to know how high from the ground, not how many rows there are total
             int ledPanelNumber = this.ledNumberInCube /xNumberOfLedsPerRow /yNumberOfRowsPerPanel ; //4095 would return panel 15, 300 returns panel 1 TODO:Consider renaming to locationINZ 
             
-            int firstLedInRow  = (ledVertialRowNumber + ledPanelNumber * 16 )* 16; debug("firstledinRow " + firstLedInRow);
+            int firstLedInRow  = (ledVertialRowNumber + ledPanelNumber * 16 )* 16; //debug("firstledinRow " + firstLedInRow);
   
-            debug("ledNumberInRow "+ (this.ledNumberInCube - firstLedInRow) );
+           // debug("ledNumberInRow "+ (this.ledNumberInCube - firstLedInRow) );
             return this.ledNumberInCube - firstLedInRow ;  
         }
         
