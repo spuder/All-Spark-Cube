@@ -1,0 +1,23 @@
+//  int ledAbsoluteToRelativeLocation(int absoluteCoordinate)
+//  {
+//    // If we recieve led 4095 where is it relativley? 15-15-15.  led 64 = 0-4-0. 
+//   return  null;
+//  }
+//  
+//  int ledRelativeToAbsoluteLocatoin(int rowCoordinateY, int rowCoordinateZ)
+//  {
+//    //If we recieve row[0,0] what led is it?  -15 = 4096, 
+//    return null;
+//  }
+
+
+
+      //aLedObject.setLedNumberInCube(); // set the led to 0 through 4096
+//      debug( "Created led " + aLedObject.getLedNumberInCube()  );
+      //debug ("Led Coordinate " + aLedObject.getLedNumberInCube() + " should equal " + (firstLedInRow + ledNumberInRow));
+
+
+//      debug("arrayOfLeds[" + aLedObject.getLedNumberInCube()  + "] " + (firstLedInRow + ledNumberInRow) );
+//      debug("length of array " + arrayOfLeds.length );
+//      debug(" ");
+

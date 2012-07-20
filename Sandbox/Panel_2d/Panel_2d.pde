@@ -27,7 +27,7 @@ Creating a row makes led objects
 
   void setup()
   {
-    size(screen.width, 600);
+    size(screen.width, screen.height/2);
     //int ledCordinates, color ledColor, float ledBrightness, int ledSize
     //  aLed = new LedObject(000, LedRed, 255, 10);
   
@@ -59,14 +59,15 @@ Creating a row makes led objects
 //   row0000 = new RowObject(0, 0); // y = height from ground z = distance from front of cube
 //    row0000.displayOneRow(0,0);
     
-    row0100 = new RowObject(1, 0);
-    row0100.displayOneRow(1,0);
+//    row0100 = new RowObject(1, 0);
+//    row0100.displayOneRow(1,0);
+//    
+    row0200 = new RowObject(2,2);
+    row0200.displayOneRow(2,2);
     
-    row0200 = new RowObject(2,0);
-    row0200.displayOneRow(2,0);
+    row0101 = new RowObject(1, 1);
+    row0101.displayOneRow(1,1);
     
-//    row0101 = new RowObject(0, 1);
-//    row0101.displayOneRow(0,1);
     
 //    row1500 = new RowObject(3, 3);
 //    row1500.displayOneRow(3,3);

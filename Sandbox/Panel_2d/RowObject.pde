@@ -5,12 +5,12 @@ class RowObject
   // ArrayList<LedObject> arrayListOfLeds = new ArrayList<LedObject>(totalNumberOfLeds);
   LedObject[] arrayOfLeds = new LedObject[totalNumberOfLeds];
 
-  // TODO: create methods to define how to search the row for an led
 
 
   RowObject(int rowCoordinateY, int rowCoordinateZ)
   {
-
+ 
+    //TODO:This should not have 1  + in front
     int firstLedInRow = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16 -16;  // if we are on row 3 (base 0), of panel 0 (front panel) then the firstLedInRow = 48
     int lastLedInRow  = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16; // if we are on row 3 (base 0), of panel 0 (front panel) then the lastLedInRow = 63
 
@@ -21,14 +21,10 @@ class RowObject
 
       LedObject aLedObject = new LedObject( (firstLedInRow + ledNumberInRow), 255, 0, ledSize); // Create led object ( (0-4095), 255=black, 0 = brightness, ledsize=10)
 
-      //aLedObject.setLedNumberInCube(); // set the led to 0 through 4096
-      debug( "Created led " + aLedObject.getLedNumberInCube()  );
-      //debug ("Led Coordinate " + aLedObject.getLedNumberInCube() + " should equal " + (firstLedInRow + ledNumberInRow));
+
 
       arrayOfLeds[ aLedObject.getLedNumberInCube() ] = aLedObject; // examle, write led56 to arrary[56]
-      debug("arrayOfLeds[" + aLedObject.getLedNumberInCube()  + "] " + (firstLedInRow + ledNumberInRow) );
-      debug("length of array " + arrayOfLeds.length );
-      debug(" ");
+
     }
 
 
@@ -62,36 +58,30 @@ class RowObject
   public void displayOneRow(int rowCoordinateY, int rowCoordinateZ)
   {
 
-    //TODO: This code is repeated but it gives it least scope is there a better way to implement it?
-    int firstLedInRow = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16 -16;  // if we are on row 3 (base 0), of panel 0 (front panel) then the firstLedInRow = 48
-    int lastLedInRow  = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16; // if we are on row 3 (base 0), of panel 0 (front panel) then the lastLedInRow = 63
-  
-//    int rectangleXCoordinates = (width/2 / (zNumberOfPanels /2) )  ;
-//    int rectangleYCoordinate = height /2 - (ledSize * 2);
+      //TODO: This code is repeated but it gives it least scope is there a better way to implement it?
+      int firstLedInRow = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16 -16;  // if we are on row 3 (base 0), of panel 0 (front panel) then the firstLedInRow = 48
+      int lastLedInRow  = (1 + rowCoordinateY + rowCoordinateZ * 16 )* 16; // if we are on row 3 (base 0), of panel 0 (front panel) then the lastLedInRow = 63
 
-    debug("xNumberOfLeds = " + xNumberOfLeds);
-
-    //Draw a line in between every led 
-    //Number of leds in a row * how many panels /2 (because we are split screening) + 2 buffers for each panel
-    //  ( xNumberOfLeds
-    for (int aTemporaryCounter = 0; aTemporaryCounter  <= (xNumberOfLeds * (zNumberOfPanels/2))  ; aTemporaryCounter++)// TODO: rename this counter
-    {
-       // float anXLineVariable = (  8.2   *aTemporaryCounter);
-      float distanceBetweenLines = (    width /  (xNumberOfLeds * (zNumberOfPanels/2) )    *  aTemporaryCounter);
-
-      debug("The aXLineVariable is "  + distanceBetweenLines);
-      debug("The iterator is "        + xNumberOfLeds * (zNumberOfPanels/2));
-      debug("Atemporarycounter is "   +aTemporaryCounter);
-
-      if (aTemporaryCounter !=0 && aTemporaryCounter % 16 == 0 ) // Draw 7 black lines
-      { stroke (0);}
-      else
-      {stroke(195);} // all the rest of the lines are grey
-      
-      line(distanceBetweenLines, 0, distanceBetweenLines, height);
-      noStroke();
-
-    }
+    
+      //Draw a line in between every led 
+              for (int aTemporaryCounter = 0; aTemporaryCounter  <= (xNumberOfLeds * (zNumberOfPanels/2))  ; aTemporaryCounter++)// TODO: rename this counter
+              {
+                 // float anXLineVariable = (  8.2   *aTemporaryCounter);
+                float distanceBetweenLines = (    width /  (xNumberOfLeds * (zNumberOfPanels/2) )    *  aTemporaryCounter);
+          
+          //      debug("The aXLineVariable is "  + distanceBetweenLines);
+          //      debug("The iterator is "        + xNumberOfLeds * (zNumberOfPanels/2));
+          //      debug("Atemporarycounter is "   +aTemporaryCounter);
+          
+                if (aTemporaryCounter !=0 && aTemporaryCounter % 16 == 0 ) // Draw 7 black lines
+                { stroke (0);}
+                else
+                {stroke(195);} // all the rest of the lines are grey
+                
+                line(distanceBetweenLines, 0, distanceBetweenLines, height);
+                noStroke();
+          
+              }//end for loop
     stroke(0);
     line(0, height/2, width, height/2);
     noStroke();
@@ -100,41 +90,87 @@ class RowObject
 Draw each led from the specified row
 
 ***********************************/
-
-        for (int ledInRowCounter = firstLedInRow; ledInRowCounter < lastLedInRow; ledInRowCounter++ )
-        {
-          //Draw the leds that are only part of the row // example row[0,0] draws 0-15 leds
-          //If row = 0,0 then draw led 0 at pixels 13, led 2 at pixels 16
-          //If row = 1,1 then draw led 0 at pixel 210
+  
+            /*The ledInRowCounter is converted from the row[0,0] to a location in the array eg. 48, 64, 256...
+            ledInRowCounter is 16 digits larger 63, 95, 255 
+            */
+            for (int ledInRowCounter = firstLedInRow; ledInRowCounter < lastLedInRow; ledInRowCounter++ )
+           {
+              
+              debug("Drawing led " + ledInRowCounter + " out of " + lastLedInRow);
+      
+              //arrayOfLeds[ledInRowCounter].setLedColor(0); // turn all the leds black for testing
+              
+              /*
+              Tips, avoid doing calulations with pixels as long as possible, instead use ratios. 
+              Formula for locating position from left to right
+              1. Get the number of divisions per screen.  16 panels of 16 leds / 2  -1 = 127 leds per screen width
+              2. Get the start location by multiplying the Z panel number ([0-15) by 16 to get the starting row z0 starts at 0, z1 starts at 16, z15 starts at 112
+              3. Shift all leds over 1/2 width to be inbetween lines + (ledSize / 2)  
+              4. 
+              */
     
-          arrayOfLeds[ledInRowCounter].setLedColor(0); // turn all the leds black for testing
-
-          /*
-          Convert the panel number to a pixel on screen
-          */
-          
-          //1680 / (8 / 3) =  panel 3
-          //(width / (8 / rowCoordinateZ)) // this is the formula but cant divide by 0 !!!
-          
-
-          int verticalBuffer = ((height/ 2 - 208) / 2 + ledSize/2);
-          int distanceBetweenLeds = (    width /  (xNumberOfLeds * (zNumberOfPanels/2) )    *  ledInRowCounter);
-
-          
-          int compensateForDivideByO = width / (8 / (rowCoordinateY +1));
-          int placementLeftRight = (width / (8 / (rowCoordinateZ +1) ) - compensateForDivideByO + ledSize/2 ); // must shift right then shift left or else divide by 0 error
- 
-          int placementUpDown = (height /2  - verticalBuffer - (rowCoordinateY * ledSize) );
-          
-          
-          //displayOneLed(x location, y location)
-          //arrayOfLeds[ledInRowCounter].displayOneLed(  placementLeftRight  + ( distanceBetweenLeds) , placementUpDown  - verticalBuffer - rowCoordinateZ * ledInRowCounter );
-            arrayOfLeds[ledInRowCounter].displayOneLed(  placementLeftRight  + ( distanceBetweenLeds) , placementUpDown  - rowCoordinateZ * ledInRowCounter );
-          //  debug("Drawing led " + ledInRowCounter);
-        }
+    
+    /*127*/   float numberOfDivisionsPerScreen = zNumberOfPanels * xNumberOfLeds /2 -1;                 debug("divisions per screen " + numberOfDivisionsPerScreen);
+    /*13*/    float pixelsBetweenDivisions = width / numberOfDivisionsPerScreen;                        debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);
+    /*48*/    float horizontalLedStartLocation = rowCoordinateZ * xNumberOfLeds * pixelsBetweenDivisions;    debug("horizontalStartLocation " + horizontalLedStartLocation); 
+    /*5px*/   float putLedsBetweenLines = ledSize / 2;                                                  debug("ledSize " + ledSize /2);
+//              float distanceBetweenLeds = ledInRowCounter / 16 + pixelsBetweenDivisions;                debug("distancebween leds " + distanceBetweenLeds);
+              
+             
+             int ledLocationInRow = getLedNumberInRow(ledInRowCounter);                                 debug(ledInRowCounter + " Translates to " + ledLocationInRow);
+             
+              arrayOfLeds[ledInRowCounter].displayOneLed(int(horizontalLedStartLocation + (ledLocationInRow * pixelsBetweenDivisions)), 100);
+    
+    
+              /*
+              Broken Code
+    
+              int verticalBuffer = ((height/ 2 - 208) / 2 + ledSize/2); // = 32      debug("verticalBuffer "+verticalBuffer);
+              
+              int distanceBetweenLeds = (    width /  (xNumberOfLeds * (zNumberOfPanels/2) )    *  ledInRowCounter); debug("distance between leds "+distanceBetweenLeds);
+    
+              
+              int compensateForDivideByO = width / (8 / (rowCoordinateY +1)); debug("dividby0 " + compensateForDivideByO);
+              int placementLeftRight = (width / (8 / (rowCoordinateY +1) ) - compensateForDivideByO + ledSize/2 ); // must shift right then shift left or else divide by 0 error
+    //           int placementLeftRight = (width / (8 / (rowCoordinateZ +1) )  + ledSize/2 ); // must shift right then shift left or else divide by 0 error
+                      debug("placementleftright " + placementLeftRight);
+    
+              int placementUpDown = (height /2  - verticalBuffer - (rowCoordinateY * ledSize) ); debug("placementupdown " + placementUpDown);
+              
+              
+              //displayOneLed(x location, y location)
+              //arrayOfLeds[ledInRowCounter].displayOneLed(  placementLeftRight  + ( distanceBetweenLeds) , placementUpDown  - verticalBuffer - rowCoordinateZ * ledInRowCounter );
+                arrayOfLeds[ledInRowCounter].displayOneLed(  placementLeftRight  + ( distanceBetweenLeds) , placementUpDown  - rowCoordinateZ * ledInRowCounter );
+              //  debug("Drawing led " + ledInRowCounter);
+              
+              */
+              debug(" ");
+            }//end for loop
         
        
   }// end displayOneRow
+  
+  
+  
+  
+        public int getLedNumberInRow(int ledNumberInCube)
+        {
+          //If you pass in a number such as 65 it would return 1 because led is the second led in row
+          //Find first led in row
+          //subtract firstLedInRow from ledNumberInCube
+          //Subtract 1 for base 0
+          
+          int ledTotalRowNumber = ledNumberInCube/ 16; // 48 would return 3rd row TODO:Consider renaming locationInY
+          int ledVertialRowNumber = ledTotalRowNumber / 16; //we need to know how high from the ground, not how many rows there are total
+          int ledPanelNumber = ledNumberInCube /16 /16 ; //4095 would return panel 15, 300 returns panel 1 TODO:Consider renaming to locationINZ 
+          
+          int firstLedInRow  = (ledVertialRowNumber + ledPanelNumber * 16 )* 16; debug("firstledinRow " + firstLedInRow);
+          //int firstLedInRow = ( ledRowNumber * ledPanelNumber ) ;           debug("firstLedInRow " + firstLedInRow);
+          
+          debug("ledNumberInRow "+ (ledNumberInCube - firstLedInRow) );
+           return ledNumberInCube - firstLedInRow ;  
+        }
   
 
 } // end class RowObject
