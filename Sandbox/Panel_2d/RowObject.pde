@@ -17,21 +17,21 @@ class RowObject
       
           //TODO:This line is giving out of bounds exeption
           int firstLedInRow = relativeLedLocationToAbsolute(this.rowCoordinateY, this.rowCoordinateZ);  
-          debug("firstledInrow " + firstLedInRow);
+//          debug("firstledInrow " + firstLedInRow);
       
-          debug("Y : " + this.rowCoordinateY +" Z : " + this.rowCoordinateZ + " is led " + firstLedInRow);
+//          debug("Y : " + this.rowCoordinateY +" Z : " + this.rowCoordinateZ + " is led " + firstLedInRow);
       
 				// Create the led objects, add the lds to the array list, add the array list to the object
 				for ( int ledNumberInRowCounter = 0; ledNumberInRowCounter < xNumberOfLedsPerRow; ledNumberInRowCounter++)
 				{
-                    LedObject aLedObject16 = new LedObject( (firstLedInRow + ledNumberInRowCounter), 255, 0, ledSize); // Create led object ( (0-16), 255=black, 0 = brightness, ledsize=10)
-                    debug("created led object " + aLedObject16.getLedNumberInCube() + " With row index of " + aLedObject16.getLedNumberInRow() );
+                    LedObject aLedObject16 = new LedObject( (firstLedInRow + ledNumberInRowCounter), 150, 0, ledSize); // Create led object ( (0-16), 255=black, 0 = brightness, ledsize=10)
+//                    debug("created led object " + aLedObject16.getLedNumberInCube() + " With row index of " + aLedObject16.getLedNumberInRow() );
               
                    //Add the object to the class array.
                    this.anArrayOfRowLeds[ledNumberInRowCounter] = aLedObject16;
                    
                    int ledAbsoluteValue = relativeLedLocationToAbsolute(this.rowCoordinateY, this.rowCoordinateZ) + ledNumberInRowCounter;  // Convert this led to an absolute location
-                   debug("ledAbsoluteValue " + ledAbsoluteValue);
+//                   debug("ledAbsoluteValue " + ledAbsoluteValue);
 				   
                    aMasterArrayOfAllLeds[ledAbsoluteValue] = aLedObject16; // Add the led object to the master array aswell 
                   
@@ -53,7 +53,6 @@ class RowObject
         {
     
               //  debug("Drawing led " + ledInRowCounter + " out of " + lastLedInRow);
-        
               /*
                       Tips, avoid doing calulations with pixels as long as possible, instead use ratios. 
                Formula for locating position from left to right
@@ -62,30 +61,66 @@ class RowObject
                3. Shift all leds over 1/2 width to be inbetween lines instead of on top of them + (ledSize / 2)  
                4. 
                */
-        
-        
-              /*127*/   int numberOfDivisionsPerScreen = zNumberOfPanels * xNumberOfLedsPerRow /2 -1;             			//  debug("divisions per screen " + numberOfDivisionsPerScreen);
-              /*13*/    int pixelsBetweenDivisions = width / numberOfDivisionsPerScreen;                  					//  debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);
-              /*48*/    int horizontalLedStartLocation = this.rowCoordinateZ * xNumberOfLedsPerRow * pixelsBetweenDivisions;  //  debug("horizontalStartLocation " + horizontalLedStartLocation); 
-              /*5px*/   int putLedsBetweenLines = pixelsBetweenDivisions / 2;                                                 //  debug("ledSize " + ledSize /2);
-						int formulaResultOfFirstLine = (putLedsBetweenLines + (horizontalLedStartLocation + (ledInRowCounter * pixelsBetweenDivisions)));
-						  
-						  
-						int verticalBuffer = (height / 2) - (pixelsBetweenDivisions * yNumberOfRowsPerPanel);
-						int verticalStartLocation = ((height / 2) - verticalBuffer - (pixelsBetweenDivisions / 2));  
-						int verticalRowStartLocation = verticalStartLocation - (pixelsBetweenDivisions * this.rowCoordinateZ);
+
+                      // /*127*/   int numberOfDivisionsPerScreen  = zNumberOfPanels * xNumberOfLedsPerRow /2 -1;//  debug("divisions per screen " + numberOfDivisionsPerScreen);
+                      // /*13*/    int pixelsBetweenDivisions      = width / numberOfDivisionsPerScreen;//  debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);
+                      // /*48*/    int horizontalLedStartLocation  = this.rowCoordinateZ * xNumberOfLedsPerRow * pixelsBetweenDivisions;  //  debug("horizontalStartLocation " + horizontalLedStartLocation); 
+                      // /*5px*/   int putLedsBetweenLines         = pixelsBetweenDivisions / 2; //  debug("ledSize " + ledSize /2);
+                      //           int formulaResultOfFirstLine    = (putLedsBetweenLines + (horizontalLedStartLocation + (ledInRowCounter * pixelsBetweenDivisions)));              
+
+                      //           int    verticalBuffer              = (height / 2) - (pixelsBetweenDivisions * yNumberOfRowsPerPanel);
+                      //           int    verticalStartLocation       = ((height / 2) - verticalBuffer - (pixelsBetweenDivisions / 2));  
+                      //           int    verticalRowStartLocation    = (verticalStartLocation - (pixelsBetweenDivisions * this.rowCoordinateY));   
+
+
+                    //If panel is less than half of all panels draw on upper row, otherwise draw on bottom row
+                    if(this.rowCoordinateZ <= zNumberOfPanels /2 -1 )
+                    {	
+                      
+
+                      /*127*/   int numberOfDivisionsPerScreen  = zNumberOfPanels * xNumberOfLedsPerRow /2 -1;//  debug("divisions per screen " + numberOfDivisionsPerScreen);
+                      /*13*/    int pixelsBetweenDivisions      = width / numberOfDivisionsPerScreen;//  debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);
+                      /*48*/    int horizontalLedStartLocation  = this.rowCoordinateZ * xNumberOfLedsPerRow * pixelsBetweenDivisions;  //  debug("horizontalStartLocation " + horizontalLedStartLocation); 
+                      /*5px*/   int putLedsBetweenLines         = pixelsBetweenDivisions / 2; //  debug("ledSize " + ledSize /2);
+                                int formulaResultOfFirstLine    = (putLedsBetweenLines + (horizontalLedStartLocation + (ledInRowCounter * pixelsBetweenDivisions)));              
+
+                                int verticalBuffer              = ((height / 2) - (pixelsBetweenDivisions * yNumberOfRowsPerPanel))/2;
+                                int verticalStartLocation       = ((height / 2) - verticalBuffer - (pixelsBetweenDivisions / 2));  
+                                int verticalRowStartLocation    = (verticalStartLocation - (pixelsBetweenDivisions * this.rowCoordinateY));   
+                       
+                        this.anArrayOfRowLeds[ledInRowCounter].displayOneLed(formulaResultOfFirstLine, verticalRowStartLocation);
+
+                    }
+                    else // draw lower division of panels
+                    {
+
+                      /*127*/   int numberOfDivisionsPerScreen  = zNumberOfPanels * xNumberOfLedsPerRow /2 -1;//  debug("divisions per screen " + numberOfDivisionsPerScreen);
+                      /*13*/    int pixelsBetweenDivisions      = width / numberOfDivisionsPerScreen;//  debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);
+                      /*48*/    int horizontalLedStartLocation  = (this.rowCoordinateZ * xNumberOfLedsPerRow * pixelsBetweenDivisions) - (numberOfDivisionsPerScreen * pixelsBetweenDivisions) - pixelsBetweenDivisions ;  //  debug("horizontalStartLocation " + horizontalLedStartLocation); 
+                      /*5px*/   int putLedsBetweenLines         = pixelsBetweenDivisions / 2; //  debug("ledSize " + ledSize /2);
+                                int formulaResultOfBottomLine   = (putLedsBetweenLines + (horizontalLedStartLocation + (ledInRowCounter * pixelsBetweenDivisions)));              
+
+                                int verticalBuffer              = ((height /2 ) - (pixelsBetweenDivisions * yNumberOfRowsPerPanel))/2;
+                                int verticalStartLocation       = ((height ) - verticalBuffer - (pixelsBetweenDivisions / 2));  
+                                int verticalRowStartLocation    = (verticalStartLocation - (pixelsBetweenDivisions * this.rowCoordinateY));   
+
+                        this.anArrayOfRowLeds[ledInRowCounter].displayOneLed(formulaResultOfBottomLine, verticalRowStartLocation);
+                    }		
 						
+						// debug("========================================");
+						// debug("verticalBuffer " + verticalBuffer);
+						// debug("verticalStartLocation " + verticalStartLocation);
+						// debug("height / 2 " + height/2);
+						// debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);						
+						// debug("verticalRowStartLocation " + verticalRowStartLocation);
+      //                                           debug("========================================");
+					 //        debug(" ");
 						
-						
-					/*	debug("verticalBuffer " + verticalBuffer);
-						debug("verticalStartLocation " + verticalStartLocation);
-						debug("height / 2 " + height/2);
-						debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);						
-						debug("verticalRowStartLocation " + verticalRowStartLocation);
-					*/
-						
-              //Draw the led to the screen
-              this.anArrayOfRowLeds[ledInRowCounter].displayOneLed(formulaResultOfFirstLine, verticalRowStartLocation);
+      //         //Draw the led to the screen
+      //         debug("Led counter = " + ledInRowCounter + " led value = " + this.anArrayOfRowLeds[ledInRowCounter].getLedNumberInCube() + " Draw at " + formulaResultOfFirstLine +" "+ verticalRowStartLocation);
+              
+              // this.anArrayOfRowLeds[ledInRowCounter].displayOneLed(formulaResultOfFirstLine, verticalRowStartLocation);
+
 
               debug(" ");
     }//end for loop

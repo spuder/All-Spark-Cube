@@ -1,16 +1,18 @@
 
 //LedController aLedController;
-RowObject row0000;
-RowObject row1500;
-RowObject row0100;
-RowObject row0101;
-RowObject row0200;
-RowObject row0606;
-RowObject row0303;
-RowObject row0500;
-RowObject row0304;
-RowObject row0001;
+//RowObject row0000;
+//RowObject row1500;
+//RowObject row0100;
+//RowObject row0101;
+//RowObject row0200;
+//RowObject row0606;
+//RowObject row0303;
+//RowObject row0500;
+//RowObject row0304;
+//RowObject row0001;
+//RowObject row0009;
 
+RowObject aReusableRowObject;
 
 
 public LedObject[] aMasterArrayOfAllLeds;
@@ -28,53 +30,85 @@ public final int ledSize = 10;
 boolean debugMode = true;
 
 
-
 void setup()
 {
   size(screen.width, screen.height/2);
+  frame.setResizable(true);
+  background(160);
   drawLines(); // Call the draw lines method
   aMasterArrayOfAllLeds = new LedObject[totalNumberOfLeds]; // Create new array containng the object and index of all 4096 leds. 
 
   debug("aMasterArrayOfAllLeds.length = " + aMasterArrayOfAllLeds.length);
 
+  for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < 16; createABunchOfRowsCounterZ++)
+  {
+      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < 16; createABunchOfRowsCounterY++)
+      {
+        aReusableRowObject = new RowObject(createABunchOfRowsCounterY, createABunchOfRowsCounterZ);
+        
+        aReusableRowObject.displayOneRow();
+      }
+  }
 
-  row0000 = new RowObject(0, 0); // y = height from ground z = distance from front of cube
-  row0000.displayOneRow();
-  debug("row 0000 = " + row0000.relativeLedLocationToAbsolute(0,0));
-  // int relativeLedLocationToAbsolute(int rowCoordinateY, int rowCoordinateZ )
-  //    
-  row0100 = new RowObject(1, 0);
-  row0100.displayOneRow();
-  debug("row 0100 = " + row0100.relativeLedLocationToAbsolute(1,0));
-
-  row0200 = new RowObject(2,0);
-  row0200.displayOneRow();
-  debug("row 0200 = " + row0200.relativeLedLocationToAbsolute(2,0));
-
-  row0303 = new RowObject(3,3);
-  row0303.displayOneRow();
-  debug("row 0303 = " + row0303.relativeLedLocationToAbsolute(3,3));
+//  row0000 = new RowObject(0, 0); // y = height from ground z = distance from front of cube
+//  row0000.displayOneRow();
+//  debug("row 0000 = " + row0000.relativeLedLocationToAbsolute(0,0));
+//  // int relativeLedLocationToAbsolute(int rowCoordinateY, int rowCoordinateZ )
+//  //    
+//  row0100 = new RowObject(1, 0);
+//  row0100.displayOneRow();
+//  debug("row 0100 = " + row0100.relativeLedLocationToAbsolute(1,0));
+//
+//  row0200 = new RowObject(2,0);
+//  row0200.displayOneRow();
+//  debug("row 0200 = " + row0200.relativeLedLocationToAbsolute(2,0));
+//
+//  row0303 = new RowObject(3,3);
+//  row0303.displayOneRow();
+//  debug("row 0303 = " + row0303.relativeLedLocationToAbsolute(3,3));
+//  
+//  row0500 = new RowObject(15,0);
+//  row0500.displayOneRow();
+//  debug("row 0500 = " + row0000.relativeLedLocationToAbsolute(5,0));
+//  
+//  row0304 = new RowObject(3,4);
+//  row0304.displayOneRow();
+//  debug("row 0304 = " + row0304.relativeLedLocationToAbsolute(3,4));
+//  
+//  row0001 = new RowObject(15,15);
+//  row0001.displayOneRow();
+//  debug("row 0001 = " + row0001.relativeLedLocationToAbsolute(0,1));
+//
+//  row0606 = new RowObject(6,6);
+//  row0606.displayOneRow();
+//  debug("row 0606 = " + row0606.relativeLedLocationToAbsolute(6,6));
+//  
+//  
+//  
+//  row0009 = new RowObject(0,9);
+//  row0009.displayOneRow();  
+//  debug("row 0009 = " + row0009.relativeLedLocationToAbsolute(9,9));
   
-  row0500 = new RowObject(5,0);
-  row0500.displayOneRow();
-  debug("row 0500 = " + row0000.relativeLedLocationToAbsolute(5,0));
-  
-  row0304 = new RowObject(3,4);
-  row0304.displayOneRow();
-  debug("row 0304 = " + row0304.relativeLedLocationToAbsolute(3,4));
-  
-  row0001 = new RowObject(0,1);
-  row0001.displayOneRow();
-  debug("row 0001 = " + row0001.relativeLedLocationToAbsolute(0,1));
-
-  row0606 = new RowObject(6,6);
-  row0606.displayOneRow();
-  debug("row 0606 = " + row0606.relativeLedLocationToAbsolute(6,6));
 }
 
 
 void draw()
 {
+  
+  /************************************************************************************
+    NON PRODUCTION CODE, PROVES CONCEPT BUT HAS MEMORY LEAK. JAVA VIRTUAL MACHINE CANT
+    DELETE THE OBJECTS AS FAST AS THEY ARE CREATED
+  
+  *************************************************************************************/
+  drawLines();
+    for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < 16; createABunchOfRowsCounterZ++)
+  {
+      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < 16; createABunchOfRowsCounterY++)
+      {
+aReusableRowObject = new RowObject(createABunchOfRowsCounterY, createABunchOfRowsCounterZ);
+        aReusableRowObject.displayOneRow();
+      }
+  }
 }
 
 void mousePressed()
@@ -106,11 +140,11 @@ void drawLines()
     //Vertical Lines
     if (aTemporaryCounter !=0 && aTemporaryCounter % xNumberOfLedsPerRow == 0 ) 
     { 
-      stroke (0); // Draw Black line
+      stroke (color(#000000)); // Draw Black line
     }
     else
     {
-      stroke(195);// all the rest of the lines are grey
+      stroke(152);// all the rest of the lines are grey
     } 
 
     line(distanceBetweenLines, 0, distanceBetweenLines, height);
