@@ -7,6 +7,11 @@ RowObject row0101;
 RowObject row0200;
 RowObject row0606;
 RowObject row0303;
+RowObject row0500;
+RowObject row0304;
+RowObject row0001;
+
+
 
 public LedObject[] aMasterArrayOfAllLeds;
 
@@ -17,6 +22,7 @@ public final int yNumberOfRowsPerPanel = 16;
 public final int zNumberOfPanels = 16;
 public final int totalNumberOfLeds = xNumberOfLedsPerRow* yNumberOfRowsPerPanel * zNumberOfPanels;
 
+// Change this to be a ratio of the barsize
 public final int ledSize = 10;
 
 boolean debugMode = true;
@@ -33,22 +39,37 @@ void setup()
 
 
   row0000 = new RowObject(0, 0); // y = height from ground z = distance from front of cube
-  row0000.displayOneRow(0, 0);
+  row0000.displayOneRow();
+  debug("row 0000 = " + row0000.relativeLedLocationToAbsolute(0,0));
+  // int relativeLedLocationToAbsolute(int rowCoordinateY, int rowCoordinateZ )
   //    
   row0100 = new RowObject(1, 0);
-  row0100.displayOneRow(1, 0);
+  row0100.displayOneRow();
+  debug("row 0100 = " + row0100.relativeLedLocationToAbsolute(1,0));
 
   row0200 = new RowObject(2,0);
-  row0200.displayOneRow(2,0);
+  row0200.displayOneRow();
+  debug("row 0200 = " + row0200.relativeLedLocationToAbsolute(2,0));
 
   row0303 = new RowObject(3,3);
-  row0303.displayOneRow(3,3);
+  row0303.displayOneRow();
+  debug("row 0303 = " + row0303.relativeLedLocationToAbsolute(3,3));
+  
+  row0500 = new RowObject(5,0);
+  row0500.displayOneRow();
+  debug("row 0500 = " + row0000.relativeLedLocationToAbsolute(5,0));
+  
+  row0304 = new RowObject(3,4);
+  row0304.displayOneRow();
+  debug("row 0304 = " + row0304.relativeLedLocationToAbsolute(3,4));
+  
+  row0001 = new RowObject(0,1);
+  row0001.displayOneRow();
+  debug("row 0001 = " + row0001.relativeLedLocationToAbsolute(0,1));
 
-  //    row0101 = new RowObject(1, 1);
-  //    row0101.displayOneRow(1,1);
-  //    
   row0606 = new RowObject(6,6);
-  row0606.displayOneRow(6,6);
+  row0606.displayOneRow();
+  debug("row 0606 = " + row0606.relativeLedLocationToAbsolute(6,6));
 }
 
 
