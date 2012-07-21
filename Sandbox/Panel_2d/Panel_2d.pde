@@ -1,16 +1,15 @@
 
-//LedController aLedController;
-//RowObject row0000;
-//RowObject row1500;
-//RowObject row0100;
-//RowObject row0101;
-//RowObject row0200;
-//RowObject row0606;
-//RowObject row0303;
-//RowObject row0500;
-//RowObject row0304;
-//RowObject row0001;
-//RowObject row0009;
+RowObject row0000;
+RowObject row1500;
+RowObject row0100;
+RowObject row0101;
+RowObject row0200;
+RowObject row0606;
+RowObject row0303;
+RowObject row0500;
+RowObject row0304;
+RowObject row0001;
+RowObject row0009;
 
 RowObject aReusableRowObject;
 
@@ -19,9 +18,9 @@ public LedObject[] aMasterArrayOfAllLeds;
 
 color LedRed =  color(255, 0, 0);
 
-public final int xNumberOfLedsPerRow = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
-public final int yNumberOfRowsPerPanel = 16;
-public final int zNumberOfPanels = 16;
+public static final int xNumberOfLedsPerRow  = 8; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
+public final int yNumberOfRowsPerPanel       = 8;
+public final int zNumberOfPanels             = 8;
 public final int totalNumberOfLeds = xNumberOfLedsPerRow* yNumberOfRowsPerPanel * zNumberOfPanels;
 
 // Change this to be a ratio of the barsize
@@ -36,25 +35,27 @@ void setup()
   frame.setResizable(true);
   background(160);
   drawLines(); // Call the draw lines method
-  aMasterArrayOfAllLeds = new LedObject[totalNumberOfLeds]; // Create new array containng the object and index of all 4096 leds. 
+  aMasterArrayOfAllLeds = new LedObject[totalNumberOfLeds +5]; // Create new array containng the object and index of all 4096 leds. 
 
   debug("aMasterArrayOfAllLeds.length = " + aMasterArrayOfAllLeds.length);
+  debug("totalNumberOfLeds " + totalNumberOfLeds);
 
-  for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < 16; createABunchOfRowsCounterZ++)
-  {
-      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < 16; createABunchOfRowsCounterY++)
-      {
-        aReusableRowObject = new RowObject(createABunchOfRowsCounterY, createABunchOfRowsCounterZ);
-        
-        aReusableRowObject.displayOneRow();
-      }
-  }
+//  for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < zNumberOfPanels; createABunchOfRowsCounterZ++)
+//  {
+//      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < yNumberOfRowsPerPanel; createABunchOfRowsCounterY++)
+//      {
+//        aReusableRowObject = new RowObject(createABunchOfRowsCounterY, createABunchOfRowsCounterZ);
+//        
+//        aReusableRowObject.displayOneRow();
+//        aReusableRowObject = null;
+//      }
+//  }
 
-//  row0000 = new RowObject(0, 0); // y = height from ground z = distance from front of cube
-//  row0000.displayOneRow();
-//  debug("row 0000 = " + row0000.relativeLedLocationToAbsolute(0,0));
-//  // int relativeLedLocationToAbsolute(int rowCoordinateY, int rowCoordinateZ )
-//  //    
+  row0000 = new RowObject(0, 0); // y = height from ground z = distance from front of cube
+  row0000.displayOneRow();
+  debug("row 0000 = " + row0000.relativeLedLocationToAbsolute(0,0));
+  // int relativeLedLocationToAbsolute(int rowCoordinateY, int rowCoordinateZ )
+  //    
 //  row0100 = new RowObject(1, 0);
 //  row0100.displayOneRow();
 //  debug("row 0100 = " + row0100.relativeLedLocationToAbsolute(1,0));
@@ -101,12 +102,13 @@ void draw()
   
   *************************************************************************************/
   drawLines();
-    for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < 16; createABunchOfRowsCounterZ++)
+    for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < zNumberOfPanels; createABunchOfRowsCounterZ++)
   {
-      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < 16; createABunchOfRowsCounterY++)
+      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < yNumberOfRowsPerPanel; createABunchOfRowsCounterY++)
       {
 aReusableRowObject = new RowObject(createABunchOfRowsCounterY, createABunchOfRowsCounterZ);
         aReusableRowObject.displayOneRow();
+        aReusableRowObject = null;
       }
   }
 }
