@@ -1,15 +1,14 @@
 
 RowObject row0000;
-RowObject row1500;
 RowObject row0100;
 RowObject row0101;
-RowObject row0200;
-RowObject row0606;
-RowObject row0303;
-RowObject row0500;
-RowObject row0304;
-RowObject row0001;
-RowObject row0009;
+//RowObject row0200;
+//RowObject row0606;
+//RowObject row0303;
+//RowObject row0500;
+//RowObject row0304;
+//RowObject row0001;
+//RowObject row0009;
 
 RowObject aReusableRowObject;
 
@@ -18,10 +17,13 @@ public LedObject[] aMasterArrayOfAllLeds;
 
 color LedRed =  color(255, 0, 0);
 
-public static final int xNumberOfLedsPerRow  = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
-public final int yNumberOfRowsPerPanel       = 16;
-public final int zNumberOfPanels             = 16;
-public final int totalNumberOfLeds = xNumberOfLedsPerRow* yNumberOfRowsPerPanel * zNumberOfPanels;
+public static final int xNumberOfLedsPerRow         = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
+public        final int yNumberOfRowsPerPanel       = 16;
+public        final int zNumberOfPanels             = 16;
+public        final int totalNumberOfLeds = xNumberOfLedsPerRow* yNumberOfRowsPerPanel * zNumberOfPanels;
+private       final float millisecondsBetweenDrawings = 1000; //Set how often to draw all the objects on the screen. Once every couple dozen millisenconds is usally enough
+private             float lastDrawTime;
+
 
 // Change this to be a ratio of the barsize
 public final int ledSize = 10;
@@ -34,98 +36,69 @@ void setup()
   size(screen.width, screen.height/2);
   frame.setResizable(true);
   background(160);
-  drawLines(); // Call the draw lines method
+
   aMasterArrayOfAllLeds = new LedObject[totalNumberOfLeds +5]; // Create new array containng the object and index of all 4096 leds. 
+  text("Waiting 1000 miliseconds before updateing display", width/2- 100, height/2); 
+  
+row0000 = new RowObject( 0, 0 );
+row0100 = new RowObject( 1, 0 );
+row0101 = new RowObject( 1, 1 );
+  
 
-  debug("aMasterArrayOfAllLeds.length = " + aMasterArrayOfAllLeds.length);
-  debug("totalNumberOfLeds " + totalNumberOfLeds);
 
-  for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < zNumberOfPanels; createABunchOfRowsCounterZ++)
-  {
-      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < yNumberOfRowsPerPanel; createABunchOfRowsCounterY++)
-      {
-        aReusableRowObject = new RowObject(createABunchOfRowsCounterY, createABunchOfRowsCounterZ);
-        
-        aReusableRowObject.displayOneRow();
-        aReusableRowObject = null;
-      }
-  }
-
-  row0000 = new RowObject(0, 0); // y = height from ground z = distance from front of cube
-  row0000.displayOneRow();
-  debug("row 0000 = " + row0000.relativeLedLocationToAbsolute(0,0));
-  // int relativeLedLocationToAbsolute(int rowCoordinateY, int rowCoordinateZ )
-  //    
-//  row0100 = new RowObject(1, 0);
-//  row0100.displayOneRow();
-//  debug("row 0100 = " + row0100.relativeLedLocationToAbsolute(1,0));
-//
-//  row0200 = new RowObject(2,0);
-//  row0200.displayOneRow();
-//  debug("row 0200 = " + row0200.relativeLedLocationToAbsolute(2,0));
-//
-//  row0303 = new RowObject(3,3);
-//  row0303.displayOneRow();
-//  debug("row 0303 = " + row0303.relativeLedLocationToAbsolute(3,3));
-//  
-//  row0500 = new RowObject(15,0);
-//  row0500.displayOneRow();
-//  debug("row 0500 = " + row0000.relativeLedLocationToAbsolute(5,0));
-//  
-//  row0304 = new RowObject(3,4);
-//  row0304.displayOneRow();
-//  debug("row 0304 = " + row0304.relativeLedLocationToAbsolute(3,4));
-//  
-//  row0001 = new RowObject(15,15);
-//  row0001.displayOneRow();
-//  debug("row 0001 = " + row0001.relativeLedLocationToAbsolute(0,1));
-//
-//  row0606 = new RowObject(6,6);
-//  row0606.displayOneRow();
-//  debug("row 0606 = " + row0606.relativeLedLocationToAbsolute(6,6));
-//  
-//  
-//  
-//  row0009 = new RowObject(0,9);
-//  row0009.displayOneRow();  
-//  debug("row 0009 = " + row0009.relativeLedLocationToAbsolute(9,9));
   
 }
 
 
 void draw()
 {
+
+  //Improve performance by not redrawing all the leds every clock cycle. Only draw fast enough to appear smooth
   
-  /************************************************************************************
-    NON PRODUCTION CODE, PROVES CONCEPT BUT HAS MEMORY LEAK. JAVA VIRTUAL MACHINE CANT
-    DELETE THE OBJECTS AS FAST AS THEY ARE CREATED
-  
-  *************************************************************************************/
-  drawLines();
-//    for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < zNumberOfPanels; createABunchOfRowsCounterZ++)
-//  {
-//      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < yNumberOfRowsPerPanel; createABunchOfRowsCounterY++)
-//      {
-//aReusableRowObject = new RowObject(createABunchOfRowsCounterY, createABunchOfRowsCounterZ);
-//        aReusableRowObject.displayOneRow();
-//        aReusableRowObject = null;
-//      }
-//  }
-}
+  //get the number of millisends since app started
+  float currentMillisecond = millis();
+  if( currentMillisecond - lastDrawTime >= millisecondsBetweenDrawings)  //if the number of milliseconds is > 200 then draw lines
+  {
+      background(160);
+      drawLines();
+      drawRows();
+      lastDrawTime = currentMillisecond;  //reset lastdrawtime to now.
+  }
+
+}//end draw =================================
+
 
 void mousePressed()
 {
   println("x: " + mouseX + " y: " + mouseY );
+  
+  debug("Led 0 color is" + aMasterArrayOfAllLeds[0].getLedColor());
+ 
+  
+}//=====================================
+
+void keyPressed()
+{
+   if (key == 'd')
+  {
+/*
+Bug this is only temporarily modifying the object. How is that possible?? */
+
+    debug("led 0 color is : " +     aMasterArrayOfAllLeds[0].getLedColor());
+
+   debug("setting led0 to 100"); 
+    aMasterArrayOfAllLeds[0].setLedColor(    aMasterArrayOfAllLeds[0].getLedColor() +5 );
+    debug("led 0 color is now: " +     aMasterArrayOfAllLeds[0].getLedColor());
+  }
 }
 
-
-//void debug(String aDebugMessage) 
-//{
-//  if (debugMode = true) 
-//  {
-//    println(aDebugMessage);
-//  }
-//}//end debug
+void debug(String aDebugMessage) 
+{
+  if (debugMode = true) 
+  {
+    println(aDebugMessage);
+  }
+}//end debug================================
 
 
 
@@ -153,10 +126,31 @@ void drawLines()
     noStroke();// Undo the color setting to prevent accidentially chaning another objects color
   }//end for loop
 
-
   //Horitzontal Line
   stroke(0);
   line(0, height/2, width, height/2);
   noStroke();
-}//end drawLines
+}//end drawLines=============================================================================
 
+
+void drawRows()
+{
+  
+ row0000.displayOneRow();
+ row0100.displayOneRow();
+ row0101.displayOneRow();
+  //*******************
+  //This code is very poor and should not be used. It creates duplicate objects
+  //*******************
+//  for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < zNumberOfPanels; createABunchOfRowsCounterZ++)
+//  {
+//      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < yNumberOfRowsPerPanel; createABunchOfRowsCounterY++)
+//      {
+//        aReusableRowObject = new RowObject(createABunchOfRowsCounterY, createABunchOfRowsCounterZ);
+//        
+//        aReusableRowObject.displayOneRow();
+//        aReusableRowObject = null; //defrence the object since it is no longer needed. The java garbage collector will eventually find it. 
+//      }
+//  }
+  System.gc(); // Calls the garbage collector. There is a lot of debate if you should actually do this
+}//end drawRows============================================================================

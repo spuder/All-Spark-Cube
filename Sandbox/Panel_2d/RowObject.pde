@@ -17,14 +17,14 @@ class RowObject
       
           //TODO:This line is giving out of bounds exeption
           int firstLedInRow = relativeLedLocationToAbsolute(this.rowCoordinateY, this.rowCoordinateZ);  
-          debug("firstledInrow " + firstLedInRow);
+        //  debug("firstledInrow " + firstLedInRow);
       
 //          debug("Y : " + this.rowCoordinateY +" Z : " + this.rowCoordinateZ + " is led " + firstLedInRow);
       
 	        // Create the led objects, add the lds to the array list, add the array list to the object
 		for ( int ledNumberInRowCounter = 0; ledNumberInRowCounter < xNumberOfLedsPerRow; ledNumberInRowCounter++)
 	        {
-                    debug("ledNumberInRow " + ledNumberInRowCounter);
+                  //  debug("ledNumberInRow " + ledNumberInRowCounter);
                     LedObject aLedObject16 = new LedObject( (firstLedInRow + ledNumberInRowCounter), 150, 0, ledSize); // Create led object ( (0-16), 255=black, 0 = brightness, ledsize=10)
 //                    debug("created led object " + aLedObject16.getLedNumberInCube() + " With row index of " + aLedObject16.getLedNumberInRow() );
               
@@ -32,9 +32,10 @@ class RowObject
                    this.anArrayOfRowLeds[ledNumberInRowCounter] = aLedObject16;
                    
                    int ledAbsoluteValue = relativeLedLocationToAbsolute(this.rowCoordinateY, this.rowCoordinateZ) + ledNumberInRowCounter;  // Convert this led to an absolute location
-                   debug( ledNumberInRowCounter  +" ledAbsoluteValue " + this.rowCoordinateY + " " + this.rowCoordinateZ + " " + " " +ledAbsoluteValue);
+//                   debug( ledNumberInRowCounter  +" ledAbsoluteValue " + this.rowCoordinateY + " " + this.rowCoordinateZ + " " + " " +ledAbsoluteValue);
 				   
                    aMasterArrayOfAllLeds[ledAbsoluteValue] = aLedObject16; // Add the led object to the master array aswell 
+                   
                  }//end for loop create objects
   
 
@@ -85,11 +86,12 @@ class RowObject
                                 int formulaResultOfFirstLine    = (putLedsBetweenLines + (horizontalLedStartLocation + (ledInRowCounter * pixelsBetweenDivisions)));              
 
                                                                        
-                                int verticalBuffer              = ( (height / 2) - (pixelsBetweenDivisions * yNumberOfRowsPerPanel)  ) /2; debug("verticalBuffer " + verticalBuffer);
+                                int verticalBuffer              = ( (height / 2) - (pixelsBetweenDivisions * yNumberOfRowsPerPanel)  ) /2; //debug("verticalBuffer " + verticalBuffer);
                                 //int verticalBuffer                =    width /  (xNumberOfLedsPerRow * (zNumberOfPanels/2));
-                                int verticalStartLocation       = ( (height / 2) - verticalBuffer - (pixelsBetweenDivisions / 2)   );  debug("height /2 " + height /2);
-                                int verticalRowStartLocation    = (verticalStartLocation - (pixelsBetweenDivisions * this.rowCoordinateY)  );  debug("verticalRowStartLocation " + verticalRowStartLocation + " verticalStartLocation" +verticalStartLocation); 
-                       
+                                int verticalStartLocation       = ( (height / 2) - verticalBuffer - (pixelsBetweenDivisions / 2)   );//  debug("height /2 " + height /2);
+                                int verticalRowStartLocation    = (verticalStartLocation - (pixelsBetweenDivisions * this.rowCoordinateY)  ); // debug("verticalRowStartLocation " + verticalRowStartLocation + " verticalStartLocation" +verticalStartLocation); 
+                                
+                                
                         this.anArrayOfRowLeds[ledInRowCounter].displayOneLed( formulaResultOfFirstLine, verticalRowStartLocation );
 
                     }
@@ -124,7 +126,7 @@ class RowObject
               // this.anArrayOfRowLeds[ledInRowCounter].displayOneLed(formulaResultOfFirstLine, verticalRowStartLocation);
 
 
-              debug(" ");
+          //    debug(" ");
     }//end for loop
   }// end displayOneRow
 

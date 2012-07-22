@@ -4,32 +4,20 @@ class LedObject
 {
 
  
- /*This is the class that will be for all our led objects
- It has mulitple constuctors so that no all information needs to be entere
- for a led. 
- */
  /*TODO: should this be a string 0-0-0 ? Answer: maybe, it depends how you want the Parent (Row controller 
  to be able to address each led. It may be simpler to use an array. instead of led 000 through led 151515 you have 
  led 0 through 4095. It makes it much simpler to iterate through each one. Because the developer doesn't need
  to interact with each led in a 3d space there is no reason not to simply use integer 4095. Leds will be 
- abstracted out to row[led0,1,2,3,4....15]. A led is uniquely identifiable as (panel 0 [row0 [led0] ] )
-   
- 
- 
+ abstracted out to row[led0,1,2,3,4....15]. A led is uniquely identifiable as (panel 0 [row0 [led0] ] ) and absolute 4095
+
  */
  
   int ledNumberInCube;
-  //int   ledCoordinates; //example 000, 001 
   color ledColor;       //example red, green, blue, (255,0,0)
   float ledBrightness;  //example 0 - 4096 it will be divisable so it is a float
   int   ledSize;  
 
-   LedObject()  // default empty constuctor, created led with no attribuetes
-   {
-       
-   }
- 
-   
+
    LedObject(int ledNumberInCube, color ledColor, float ledBrightness, int ledSize)
    {
      
@@ -39,25 +27,18 @@ class LedObject
       this.ledSize = 10; // for testing set to 10 and dont worry about it
    } //end constuctor
    
-     //for whatever reason I cant have multiple constructors
-//   LedObject(int ledColor)
-//   {
-//      this.ledColor = ledColor;
-//   }
-//   
-//   
-//   LedObject(int ledSize)
-//   {
-//      this.ledSize = ledSize;
-//   }
-//   
    
    
 //TODO: Make this display relative to the parent
    public void displayOneLed(float ledXLocationOnScreen, float ledYLocationOnScreen)
    {
+     
+     //Draw a white line around the led if the mouse is over it. 
+     
       fill(this.ledColor);
+      stroke(255); // Augment this with an if this.isHoveredOver then stroke = white to hilight the led. 
       ellipse( ledXLocationOnScreen, ledYLocationOnScreen , this.ledSize, this.ledSize);
+      noStroke();
       noFill();
       
    }
@@ -91,8 +72,8 @@ class LedObject
             int ledTotalRowNumber = (this.ledNumberInCube / xNumberOfLedsPerRow); // 48 would return 3rd row TODO:Consider renaming locationInY
             int ledPanelNumber = (this.ledNumberInCube / xNumberOfLedsPerRow / yNumberOfRowsPerPanel); //4095 would return panel 15, 300 returns panel 1 TODO:Consider renaming to locationINZ 
             int ledVerticalRowNumber = (ledTotalRowNumber - (yNumberOfRowsPerPanel * ledPanelNumber)); //we need to know how high from the ground, not how many rows there are total
-			int firstLedInRow = ((1 + ledVerticalRowNumber + ledPanelNumber * zNumberOfPanels ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow);
-			return (this.ledNumberInCube - firstLedInRow);
+	    int firstLedInRow = ((1 + ledVerticalRowNumber + ledPanelNumber * zNumberOfPanels ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow);
+	  return (this.ledNumberInCube - firstLedInRow);
         }
         
         
