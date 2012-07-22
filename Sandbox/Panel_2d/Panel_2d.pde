@@ -25,7 +25,7 @@ private       final float millisecondsBetweenDrawings = 1000; //Set how often to
 private             float lastDrawTime;
 
 
-// Change this to be a ratio of the barsize
+// TODO:Change this to be a ratio of the barsize and then apply it to the led object
 public final int ledSize = 10;
 
 boolean debugMode = true;

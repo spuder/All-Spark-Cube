@@ -12,10 +12,12 @@ class LedObject
 
  */
  
-  int ledNumberInCube;
+  int   ledNumberInCube;
   color ledColor;       //example red, green, blue, (255,0,0)
   float ledBrightness;  //example 0 - 4096 it will be divisable so it is a float
-  int   ledSize;  
+  int   ledSize;
+  int   ledXPixelLocation;
+  int   ledYPixelLocation;
 
 
    LedObject(int ledNumberInCube, color ledColor, float ledBrightness, int ledSize)
@@ -30,14 +32,15 @@ class LedObject
    
    
 //TODO: Make this display relative to the parent
-   public void displayOneLed(float ledXLocationOnScreen, float ledYLocationOnScreen)
+  // public void displayOneLed(float ledXLocationOnScreen, float ledYLocationOnScreen)
+  public void displayOneLed()
    {
      
      //Draw a white line around the led if the mouse is over it. 
      
       fill(this.ledColor);
       stroke(255); // Augment this with an if this.isHoveredOver then stroke = white to hilight the led. 
-      ellipse( ledXLocationOnScreen, ledYLocationOnScreen , this.ledSize, this.ledSize);
+      ellipse( this.ledXPixelLocation, this.ledYPixelLocation , this.ledSize, this.ledSize);
       noStroke();
       noFill();
       
@@ -120,6 +123,28 @@ class LedObject
         
         }                                          //end getLedSize
     
+    
+        
+        public void setLedXPixelLocation(int ledXPixelLocation)
+        {
+          this.ledXPixelLocation = ledXPixelLocation;
+        }
+        
+        public void setLedYPixelLocation(int ledYPixelLocation)
+        {
+          this.ledYPixelLocation = ledYPixelLocation;
+        }
+        
+        public int getLedXPixelLocation()
+        {
+          return this.ledXPixelLocation;
+        }
+        
+        public int getLedYPixelLocation()
+        {
+          return this.ledYPixelLocation;
+        }
+
     
     
 } // end class LedObjects

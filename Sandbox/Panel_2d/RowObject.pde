@@ -91,8 +91,10 @@ class RowObject
                                 int verticalStartLocation       = ( (height / 2) - verticalBuffer - (pixelsBetweenDivisions / 2)   );//  debug("height /2 " + height /2);
                                 int verticalRowStartLocation    = (verticalStartLocation - (pixelsBetweenDivisions * this.rowCoordinateY)  ); // debug("verticalRowStartLocation " + verticalRowStartLocation + " verticalStartLocation" +verticalStartLocation); 
                                 
-                                
-                        this.anArrayOfRowLeds[ledInRowCounter].displayOneLed( formulaResultOfFirstLine, verticalRowStartLocation );
+                        
+                        this.anArrayOfRowLeds[ledInRowCounter].setLedXPixelLocation(formulaResultOfFirstLine); // Set the real location of led on screen in pixels, used with the mouse listener to change when clicked
+                        this.anArrayOfRowLeds[ledInRowCounter].setLedYPixelLocation(verticalRowStartLocation); // Set the abso
+                        this.anArrayOfRowLeds[ledInRowCounter].displayOneLed();  // this no longer needs arguments since the x an y in pixels are stored in the object. 
 
                     }
                     else // draw lower division of panels
@@ -108,7 +110,10 @@ class RowObject
                                 int verticalStartLocation       = ( (height ) - verticalBuffer - (pixelsBetweenDivisions / 2)  );  
                                 int verticalRowStartLocation    = (verticalStartLocation - (pixelsBetweenDivisions * this.rowCoordinateY)  );   
 
-                        this.anArrayOfRowLeds[ledInRowCounter].displayOneLed( formulaResultOfBottomLine, verticalRowStartLocation);
+                        this.anArrayOfRowLeds[ledInRowCounter].setLedXPixelLocation(formulaResultOfBottomLine); // Set the real location of led on screen in pixels, used with the mouse listener to change when clicked
+                        this.anArrayOfRowLeds[ledInRowCounter].setLedYPixelLocation(verticalRowStartLocation); // Set the abso
+                        this.anArrayOfRowLeds[ledInRowCounter].displayOneLed();  // this no longer needs arguments since the x an y in pixels are stored in the object. 
+
                     }		
 						
 						// debug("========================================");
