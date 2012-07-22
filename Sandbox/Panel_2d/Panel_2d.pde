@@ -18,9 +18,9 @@ public LedObject[] aMasterArrayOfAllLeds;
 
 color LedRed =  color(255, 0, 0);
 
-public static final int xNumberOfLedsPerRow  = 8; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
-public final int yNumberOfRowsPerPanel       = 8;
-public final int zNumberOfPanels             = 8;
+public static final int xNumberOfLedsPerRow  = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
+public final int yNumberOfRowsPerPanel       = 16;
+public final int zNumberOfPanels             = 16;
 public final int totalNumberOfLeds = xNumberOfLedsPerRow* yNumberOfRowsPerPanel * zNumberOfPanels;
 
 // Change this to be a ratio of the barsize
@@ -40,16 +40,16 @@ void setup()
   debug("aMasterArrayOfAllLeds.length = " + aMasterArrayOfAllLeds.length);
   debug("totalNumberOfLeds " + totalNumberOfLeds);
 
-//  for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < zNumberOfPanels; createABunchOfRowsCounterZ++)
-//  {
-//      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < yNumberOfRowsPerPanel; createABunchOfRowsCounterY++)
-//      {
-//        aReusableRowObject = new RowObject(createABunchOfRowsCounterY, createABunchOfRowsCounterZ);
-//        
-//        aReusableRowObject.displayOneRow();
-//        aReusableRowObject = null;
-//      }
-//  }
+  for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < zNumberOfPanels; createABunchOfRowsCounterZ++)
+  {
+      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < yNumberOfRowsPerPanel; createABunchOfRowsCounterY++)
+      {
+        aReusableRowObject = new RowObject(createABunchOfRowsCounterY, createABunchOfRowsCounterZ);
+        
+        aReusableRowObject.displayOneRow();
+        aReusableRowObject = null;
+      }
+  }
 
   row0000 = new RowObject(0, 0); // y = height from ground z = distance from front of cube
   row0000.displayOneRow();
@@ -102,30 +102,30 @@ void draw()
   
   *************************************************************************************/
   drawLines();
-    for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < zNumberOfPanels; createABunchOfRowsCounterZ++)
-  {
-      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < yNumberOfRowsPerPanel; createABunchOfRowsCounterY++)
-      {
-aReusableRowObject = new RowObject(createABunchOfRowsCounterY, createABunchOfRowsCounterZ);
-        aReusableRowObject.displayOneRow();
-        aReusableRowObject = null;
-      }
-  }
+//    for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < zNumberOfPanels; createABunchOfRowsCounterZ++)
+//  {
+//      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < yNumberOfRowsPerPanel; createABunchOfRowsCounterY++)
+//      {
+//aReusableRowObject = new RowObject(createABunchOfRowsCounterY, createABunchOfRowsCounterZ);
+//        aReusableRowObject.displayOneRow();
+//        aReusableRowObject = null;
+//      }
+//  }
 }
 
 void mousePressed()
 {
-  println("mouse pressed");
+  println("x: " + mouseX + " y: " + mouseY );
 }
 
 
-void debug(String aDebugMessage) 
-{
-  if (debugMode = true) 
-  {
-    println(aDebugMessage);
-  }
-}//end debug
+//void debug(String aDebugMessage) 
+//{
+//  if (debugMode = true) 
+//  {
+//    println(aDebugMessage);
+//  }
+//}//end debug
 
 
 
