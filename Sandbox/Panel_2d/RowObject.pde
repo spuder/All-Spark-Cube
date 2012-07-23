@@ -2,54 +2,48 @@
 class RowObject
 {
 
-  LedObject[] anArrayOfRowLeds = new LedObject[xNumberOfLedsPerRow];// Create a new array of Leds for just this row (16 long)
+  // Create a new array of Leds for just this row (16 long)
+  LedObject[] anArrayOfRowLeds;
 
   int rowCoordinateY;
   int rowCoordinateZ;
   
   RowObject(int rowCoordinateY, int rowCoordinateZ)
   {
-          this.anArrayOfRowLeds = anArrayOfRowLeds;
+          // Create a new array of Leds for just this row (16 long)
+          this.anArrayOfRowLeds = new LedObject[xNumberOfLedsPerRow];;
       
           this.rowCoordinateY = rowCoordinateY;
           this.rowCoordinateZ = rowCoordinateZ;
       
-      
-          //TODO:This line is giving out of bounds exeption
           int firstLedInRow = relativeLedLocationToAbsolute(this.rowCoordinateY, this.rowCoordinateZ);  
-        //  debug("firstledInrow " + firstLedInRow);
-      
-//          debug("Y : " + this.rowCoordinateY +" Z : " + this.rowCoordinateZ + " is led " + firstLedInRow);
-      
+
 	        // Create the led objects, add the lds to the array list, add the array list to the object
 		for ( int ledNumberInRowCounter = 0; ledNumberInRowCounter < xNumberOfLedsPerRow; ledNumberInRowCounter++)
 	        {
-                  //  debug("ledNumberInRow " + ledNumberInRowCounter);
-                    LedObject aLedObject16 = new LedObject( (firstLedInRow + ledNumberInRowCounter), 150, 0, ledSize); // Create led object ( (0-16), 255=black, 0 = brightness, ledsize=10)
-//                    debug("created led object " + aLedObject16.getLedNumberInCube() + " With row index of " + aLedObject16.getLedNumberInRow() );
-              
+                    // Create led object ( (0-16), 150=grey, 0 = brightness, ledsize=10)
+                    LedObject aLedObject16 = new LedObject( (firstLedInRow + ledNumberInRowCounter), 150, 0, ledSize);
+
                    //Add the object to the class array.
                    this.anArrayOfRowLeds[ledNumberInRowCounter] = aLedObject16;
                    
-                   int ledAbsoluteValue = relativeLedLocationToAbsolute(this.rowCoordinateY, this.rowCoordinateZ) + ledNumberInRowCounter;  // Convert this led to an absolute location
-//                   debug( ledNumberInRowCounter  +" ledAbsoluteValue " + this.rowCoordinateY + " " + this.rowCoordinateZ + " " + " " +ledAbsoluteValue);
-				   
-                   aMasterArrayOfAllLeds[ledAbsoluteValue] = aLedObject16; // Add the led object to the master array aswell 
+                   // Convert this led to an absolute location
+                   int ledAbsoluteValue = relativeLedLocationToAbsolute(this.rowCoordinateY, this.rowCoordinateZ) + ledNumberInRowCounter;  
+		   
+                   // Add the led object to the master array aswell 	   
+                   aMasterArrayOfAllLeds[ledAbsoluteValue] = aLedObject16; 
                    
                  }//end for loop create objects
   
 
-  } //end constuctor
+  } //end RowObject constuctor
 
 
-
-  //public void displayOneRow(int rowCoordinateY, int rowCoordinateZ)
   public void displayOneRow()
   {
 
         /*The ledInRowCounter is converted from the row[0,0] to a location in the array eg. 48, 64, 256...
-         ledInRowCounter is 16 digits larger 63, 95, 255 
-         */
+         ledInRowCounter is 16 digits larger 63, 95, 255 */
         for (int ledInRowCounter = 0; ledInRowCounter < xNumberOfLedsPerRow; ledInRowCounter++ )
         {
     
@@ -115,47 +109,33 @@ class RowObject
                         this.anArrayOfRowLeds[ledInRowCounter].displayOneLed();  // this no longer needs arguments since the x an y in pixels are stored in the object. 
 
                     }		
-						
-						// debug("========================================");
-						// debug("verticalBuffer " + verticalBuffer);
-						// debug("verticalStartLocation " + verticalStartLocation);
-						// debug("height / 2 " + height/2);
-						// debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);						
-						// debug("verticalRowStartLocation " + verticalRowStartLocation);
-      //                                           debug("========================================");
-					 //        debug(" ");
-						
-      //         //Draw the led to the screen
-      //         debug("Led counter = " + ledInRowCounter + " led value = " + this.anArrayOfRowLeds[ledInRowCounter].getLedNumberInCube() + " Draw at " + formulaResultOfFirstLine +" "+ verticalRowStartLocation);
-              
-              // this.anArrayOfRowLeds[ledInRowCounter].displayOneLed(formulaResultOfFirstLine, verticalRowStartLocation);
 
-
-          //    debug(" ");
-    }//end for loop
+ 
+        }//end for loop
+        
   }// end displayOneRow
 
 
-  int absoluteLedLocationToRelativeY(int absoluteLocation)
-  {
-        //If the user passes in a number like 48 return the first half of row[3, 0]
-        return absoluteLocation / xNumberOfLedsPerRow;
-  }
-
-  int absoluteLedLocationToRelativeZ(int absoluteLocation)
-  {
-        //If the user passes in a number like 48 return the second half of row[3,0]
-        return absoluteLocation / xNumberOfLedsPerRow / yNumberOfRowsPerPanel;
-  }
-
-
-  int relativeLedLocationToAbsolute(int rowCoordinateY, int rowCoordinateZ )
-  {
-        //If the user passes in a number like [3,0] it returns 48. [1,1] returns   
-        return (1 + rowCoordinateY + rowCoordinateZ * zNumberOfPanels ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow;
-		
-  }//end relativeLedLocationToAbsolute
+    int absoluteLedLocationToRelativeY(int absoluteLocation)
+    {
+          //If the user passes in a number like 48 return the first half of row[3, 0]
+          return absoluteLocation / xNumberOfLedsPerRow;
+    }
+  
+    int absoluteLedLocationToRelativeZ(int absoluteLocation)
+    {
+          //If the user passes in a number like 48 return the second half of row[3,0]
+          return absoluteLocation / xNumberOfLedsPerRow / yNumberOfRowsPerPanel;
+    }
   
   
+    int relativeLedLocationToAbsolute(int rowCoordinateY, int rowCoordinateZ )
+    {
+          //If the user passes in a number like [3,0] it returns 48. [1,1] returns   
+          return (1 + rowCoordinateY + rowCoordinateZ * zNumberOfPanels ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow;
+  		
+    }//end relativeLedLocationToAbsolute
+    
+    
 } // end class RowObject
 

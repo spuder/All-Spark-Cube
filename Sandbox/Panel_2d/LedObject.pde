@@ -37,51 +37,41 @@ class LedObject
   public void displayOneLed()
    {
      
-     //Draw a white line around the led if the mouse is over it. 
      
       fill(this.ledColor);
       
       
-      
-      //if the mouse x is > (led pixel locationX - 5) and < the (led pixel location + 5) then the mouse is in the same column as this led
-      //if the mouse y is > (led pixel locationY - 5) and < the (led pixel location + 5) then the mouse is in the same row  as this led. 
-      if (   (mouseX > this.ledXPixelLocation - (this.ledSize / 2 +2) ) //the plus 2 makes the hover a little more forgiving. but could cause problems on very close leds. 
-          && (mouseX < this.ledXPixelLocation + (this.ledSize / 2 +2) ) 
-          && (mouseY > this.ledYPixelLocation - (this.ledSize / 2 +2) ) 
-          && (mouseY < this.ledYPixelLocation + (this.ledSize / 2 +2) ) )
-      {
-        //If we have hovered over the led and clicked, then change the color
-        if ( ledHasBeenClicked  == true)
+        //if the mouse x is > (led pixel locationX - 5) and < the (led pixel location + 5) then the mouse is in the same column as this led
+        //if the mouse y is > (led pixel locationY - 5) and < the (led pixel location + 5) then the mouse is in the same row  as this led. 
+        if (   (mouseX > this.ledXPixelLocation - (this.ledSize / 2 +2) ) //the plus 2 makes the hover a little more forgiving. but could cause problems on very close leds. 
+            && (mouseX < this.ledXPixelLocation + (this.ledSize / 2 +2) ) 
+            && (mouseY > this.ledYPixelLocation - (this.ledSize / 2 +2) ) 
+            && (mouseY < this.ledYPixelLocation + (this.ledSize / 2 +2) ) )
         {
-          this.setLedColor(activeColor);
-          ledHasBeenClicked = false; // reset so that one click only changes 1 led. Future versions will also incorperate multiple led functionality
+              //If we have hovered over the led and clicked, then change the color
+              if ( ledHasBeenClicked  == true)
+              {
+                this.setLedColor(activeColor);
+                ledHasBeenClicked = false; // reset so that one click only changes 1 led. Future versions will also incorperate multiple led functionality
+              }
+              
+          stroke(activeColor); // if the mouse is over an led, draw the active color line ˚around it
         }
-        stroke(activeColor); // if the mouse is over an led, draw the active color line around it
-      }
       
       
       ellipse( this.ledXPixelLocation, this.ledYPixelLocation , this.ledSize, this.ledSize); // draw the led to the screen 
       noStroke();
       noFill();
       
-   }
+   }//end displayOneLed
    
    
    
    
 
-        // Led Coordinates
-        //===============================
-        public void setLedNumberInCube (int ledNumberInCube) 
-        {
-            this.ledNumberInCube = ledNumberInCube; 
-            
-        }                                         //end setLedCoordinates
-        
         public int getLedNumberInCube()
         {
-            return this.ledNumberInCube;
-            
+            return this.ledNumberInCube;    
         }                                         //end getLedCoordinates
         
 
@@ -147,22 +137,23 @@ class LedObject
         
         public void setLedXPixelLocation(int ledXPixelLocation)
         {
-          this.ledXPixelLocation = ledXPixelLocation;
-        }
-        
-        public void setLedYPixelLocation(int ledYPixelLocation)
-        {
-          this.ledYPixelLocation = ledYPixelLocation;
+            this.ledXPixelLocation = ledXPixelLocation;
         }
         
         public int getLedXPixelLocation()
         {
-          return this.ledXPixelLocation;
+            return this.ledXPixelLocation;
+        }
+        
+        
+        public void setLedYPixelLocation(int ledYPixelLocation)
+        {
+            this.ledYPixelLocation = ledYPixelLocation;
         }
         
         public int getLedYPixelLocation()
         {
-          return this.ledYPixelLocation;
+            return this.ledYPixelLocation;
         }
 
     
