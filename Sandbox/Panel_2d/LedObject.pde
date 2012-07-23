@@ -18,6 +18,7 @@ class LedObject
   int   ledSize;
   int   ledXPixelLocation;
   int   ledYPixelLocation;
+  
 
 
    LedObject(int ledNumberInCube, color ledColor, float ledBrightness, int ledSize)
@@ -44,11 +45,17 @@ class LedObject
       
       //if the mouse x is > (led pixel locationX - 5) and < the (led pixel location + 5) then the mouse is in the same column as this led
       //if the mouse y is > (led pixel locationY - 5) and < the (led pixel location + 5) then the mouse is in the same row  as this led. 
-      if (   (mouseX > this.ledXPixelLocation - (this.ledSize / 2) ) 
-          && (mouseX < this.ledXPixelLocation + (this.ledSize / 2) ) 
-          && (mouseY > this.ledYPixelLocation - (this.ledSize / 2) ) 
-          && (mouseY < this.ledYPixelLocation + (this.ledSize / 2)   ) )
+      if (   (mouseX > this.ledXPixelLocation - (this.ledSize / 2 +2) ) //the plus 2 makes the hover a little more forgiving. but could cause problems on very close leds. 
+          && (mouseX < this.ledXPixelLocation + (this.ledSize / 2 +2) ) 
+          && (mouseY > this.ledYPixelLocation - (this.ledSize / 2 +2) ) 
+          && (mouseY < this.ledYPixelLocation + (this.ledSize / 2 +2) ) )
       {
+        //If we have hovered over the led and clicked, then change the color
+        if ( ledHasBeenClicked  == true)
+        {
+          this.setLedColor(activeColor);
+          ledHasBeenClicked = false; // reset so that one click only changes 1 led. Future versions will also incorperate multiple led functionality
+        }
         stroke(255); // if the mouse is over an led, draw a white line around it
       }
       

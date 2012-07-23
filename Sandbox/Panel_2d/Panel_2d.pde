@@ -10,30 +10,29 @@ RowObject row0101;
 //RowObject row0001;
 //RowObject row0009;
 
-RowObject aReusableRowObject;
-
+//RowObject aReusableRowObject;
 
 public LedObject[] aMasterArrayOfAllLeds;
 
-color LedRed =  color(255, 0, 0);
 
-public static final int xNumberOfLedsPerRow         = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
-public        final int yNumberOfRowsPerPanel       = 16;
-public        final int zNumberOfPanels             = 16;
-public        final int totalNumberOfLeds = xNumberOfLedsPerRow* yNumberOfRowsPerPanel * zNumberOfPanels;
-private       final float millisecondsBetweenDrawings = 10; //Set how often to draw all the objects on the screen. Once every couple dozen millisenconds is usally enough
-private             float lastDrawTime;
+public              boolean debugMode = true;
 
+public static final int     xNumberOfLedsPerRow         = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
+public        final int     yNumberOfRowsPerPanel       = 16;
+public        final int     zNumberOfPanels             = 16;
+public        final int     totalNumberOfLeds = xNumberOfLedsPerRow* yNumberOfRowsPerPanel * zNumberOfPanels;
 
-// TODO:Change this to be a ratio of the barsize and then apply it to the led object
-public final int ledSize = 10;
-
-boolean debugMode = true;
+private       final float   millisecondsBetweenDrawings = 20; //Set how often to draw all the objects on the screen. Once every couple dozen millisenconds is usally enough
+private             float   lastDrawTime;
+public static       boolean ledHasBeenClicked;  //This would be good to put in the led class but processing doesn't allow static fields in non static classes
+                                                //An alternative would be to convert it to java but for now this works. http://www.processing.org/discourse/beta/num_1263237645.html
+public              color   activeColor = color(204, 153, 0);                                                
+public        final int     ledSize = 10; // TODO:Change this to be a ratio of the barsize and then apply it to the led object
 
 
 void setup()
 {
-  size(screen.width, screen.height/2);
+  size( screen.width, screen.height/2 );
   frame.setResizable(true);
   background(160);
 
@@ -70,10 +69,7 @@ void draw()
 
 void mousePressed()
 {
-  println("x: " + mouseX + " y: " + mouseY );
-  
-  debug("Led 0 color is" + aMasterArrayOfAllLeds[0].getLedColor());
- 
+  ledHasBeenClicked = true; // set this global variable to true and update the led color respectivly
   
 }//=====================================
 
@@ -81,16 +77,28 @@ void keyPressed()
 {
    if (key == 'd')
   {
-/*
-Bug this is only temporarily modifying the object. How is that possible?? */
 
     debug("led 0 color is : " +     aMasterArrayOfAllLeds[0].getLedColor());
-
-   debug("setting led0 to 100"); 
+    debug("setting led0 to 100"); 
     aMasterArrayOfAllLeds[0].setLedColor(    aMasterArrayOfAllLeds[0].getLedColor() +5 );
     debug("led 0 color is now: " +     aMasterArrayOfAllLeds[0].getLedColor());
   }
-}
+  
+  if ( key == 'r' || key == 'R' )
+  {
+    activeColor = color( 255, 0, 0);
+  }
+  if ( key == 'g' || key == 'G' )
+  {
+    activeColor = color( 0, 255, 0);
+  }
+  if ( key == 'b' || key == 'B' )
+  {
+    activeColor = color( 0, 0, 255);
+  }
+  
+  
+}//
 
 void debug(String aDebugMessage) 
 {
@@ -139,8 +147,9 @@ void drawRows()
  row0000.displayOneRow();
  row0100.displayOneRow();
  row0101.displayOneRow();
+ 
   //*******************
-  //This code is very poor and should not be used. It creates duplicate objects
+  //This code is very poor and should not be used. It creates duplicate objects which the garbage collector cant destroy fast enough. 
   //*******************
 //  for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < zNumberOfPanels; createABunchOfRowsCounterZ++)
 //  {
@@ -152,5 +161,5 @@ void drawRows()
 //        aReusableRowObject = null; //defrence the object since it is no longer needed. The java garbage collector will eventually find it. 
 //      }
 //  }
-  System.gc(); // Calls the garbage collector. There is a lot of debate if you should actually do this
+ // System.gc(); // Calls the garbage collector. There is a lot of debate if you should actually do this
 }//end drawRows============================================================================

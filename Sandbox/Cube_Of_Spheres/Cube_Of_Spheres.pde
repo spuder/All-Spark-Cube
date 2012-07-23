@@ -36,7 +36,7 @@ RectButton rect1, rect2;  	// Button objects (may not be used).
 
 
 void setup() { 
-	size(screen.width,screen.height, OPENGL); 
+	size(screen.width, screen.height, OPENGL); 
 	frameRate(framesPerSecond);
 	sphereDetail(ledDetail);
 	noStroke(); 
