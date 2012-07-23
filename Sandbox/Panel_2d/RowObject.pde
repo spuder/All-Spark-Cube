@@ -93,7 +93,7 @@ class RowObject
                                 
                         
                         this.anArrayOfRowLeds[ledInRowCounter].setLedXPixelLocation(formulaResultOfFirstLine); // Set the real location of led on screen in pixels, used with the mouse listener to change when clicked
-                        this.anArrayOfRowLeds[ledInRowCounter].setLedYPixelLocation(verticalRowStartLocation); // Set the abso
+                        this.anArrayOfRowLeds[ledInRowCounter].setLedYPixelLocation(verticalRowStartLocation); 
                         this.anArrayOfRowLeds[ledInRowCounter].displayOneLed();  // this no longer needs arguments since the x an y in pixels are stored in the object. 
 
                     }

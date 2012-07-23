@@ -39,8 +39,21 @@ class LedObject
      //Draw a white line around the led if the mouse is over it. 
      
       fill(this.ledColor);
-      stroke(255); // Augment this with an if this.isHoveredOver then stroke = white to hilight the led. 
-      ellipse( this.ledXPixelLocation, this.ledYPixelLocation , this.ledSize, this.ledSize);
+      
+      
+      
+      //if the mouse x is > (led pixel locationX - 5) and < the (led pixel location + 5) then the mouse is in the same column as this led
+      //if the mouse y is > (led pixel locationY - 5) and < the (led pixel location + 5) then the mouse is in the same row  as this led. 
+      if (   (mouseX > this.ledXPixelLocation - (this.ledSize / 2) ) 
+          && (mouseX < this.ledXPixelLocation + (this.ledSize / 2) ) 
+          && (mouseY > this.ledYPixelLocation - (this.ledSize / 2) ) 
+          && (mouseY < this.ledYPixelLocation + (this.ledSize / 2)   ) )
+      {
+        stroke(255); // if the mouse is over an led, draw a white line around it
+      }
+      
+      
+      ellipse( this.ledXPixelLocation, this.ledYPixelLocation , this.ledSize, this.ledSize); // draw the led to the screen 
       noStroke();
       noFill();
       

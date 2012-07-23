@@ -21,7 +21,7 @@ public static final int xNumberOfLedsPerRow         = 16; // this is used in the
 public        final int yNumberOfRowsPerPanel       = 16;
 public        final int zNumberOfPanels             = 16;
 public        final int totalNumberOfLeds = xNumberOfLedsPerRow* yNumberOfRowsPerPanel * zNumberOfPanels;
-private       final float millisecondsBetweenDrawings = 1000; //Set how often to draw all the objects on the screen. Once every couple dozen millisenconds is usally enough
+private       final float millisecondsBetweenDrawings = 10; //Set how often to draw all the objects on the screen. Once every couple dozen millisenconds is usally enough
 private             float lastDrawTime;
 
 
