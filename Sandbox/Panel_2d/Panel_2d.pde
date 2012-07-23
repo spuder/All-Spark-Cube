@@ -26,18 +26,18 @@ private       final float   millisecondsBetweenDrawings = 20; //Set how often to
 private             float   lastDrawTime;
 public static       boolean ledHasBeenClicked;  //This would be good to put in the led class but processing doesn't allow static fields in non static classes
                                                 //An alternative would be to convert it to java but for now this works. http://www.processing.org/discourse/beta/num_1263237645.html
-public              color   activeColor = color(204, 153, 0);                                                
+public              color   activeColor = color( 204, 153, 0 );                                                
 public        final int     ledSize = 10; // TODO:Change this to be a ratio of the barsize and then apply it to the led object
 
 
 void setup()
 {
   size( screen.width, screen.height/2 );
-  frame.setResizable(true);
-  background(160);
+  frame.setResizable(true);             //Allows window to be resized. 
+  background(160);                      //Draw a grey background once. This will be over written later. 
 
-  aMasterArrayOfAllLeds = new LedObject[totalNumberOfLeds +5]; // Create new array containng the object and index of all 4096 leds. 
-  text("Waiting 1000 miliseconds before updateing display", width/2- 100, height/2); 
+  aMasterArrayOfAllLeds = new LedObject[totalNumberOfLeds +5]; // Create new array containing the object and index of all 4096 leds. 
+  text("Waiting 1000 miliseconds before updateing display", width/2- 100, height/2); // Expiramental code to test millisecondsBetweenDrawings feature for performance
   
 row0000 = new RowObject( 0, 0 );
 row0100 = new RowObject( 1, 0 );
@@ -78,23 +78,23 @@ void keyPressed()
    if (key == 'd')
   {
 
-    debug("led 0 color is : " +     aMasterArrayOfAllLeds[0].getLedColor());
-    debug("setting led0 to 100"); 
-    aMasterArrayOfAllLeds[0].setLedColor(    aMasterArrayOfAllLeds[0].getLedColor() +5 );
-    debug("led 0 color is now: " +     aMasterArrayOfAllLeds[0].getLedColor());
+      debug("led 0 color is : " +     aMasterArrayOfAllLeds[0].getLedColor());
+      debug("setting led0 to 100"); 
+      aMasterArrayOfAllLeds[0].setLedColor(    aMasterArrayOfAllLeds[0].getLedColor() +5 );
+      debug("led 0 color is now: " +     aMasterArrayOfAllLeds[0].getLedColor());
   }
   
-  if ( key == 'r' || key == 'R' )
+  if ( key == 'r' || key == 'R' ) // pressing r on keyboard sets color mode to red. all subsequent leds clicked will turn red. 
   {
-    activeColor = color( 255, 0, 0);
+      activeColor = color( 255, 0, 0);
   }
-  if ( key == 'g' || key == 'G' )
+  if ( key == 'g' || key == 'G' ) // pressing g on keyboard sets color mode to green. all subsequent leds clicked will turn green. 
   {
-    activeColor = color( 0, 255, 0);
+      activeColor = color( 0, 255, 0);
   }
   if ( key == 'b' || key == 'B' )
   {
-    activeColor = color( 0, 0, 255);
+      activeColor = color( 0, 0, 255);
   }
   
   

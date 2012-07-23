@@ -56,7 +56,7 @@ class LedObject
           this.setLedColor(activeColor);
           ledHasBeenClicked = false; // reset so that one click only changes 1 led. Future versions will also incorperate multiple led functionality
         }
-        stroke(255); // if the mouse is over an led, draw a white line around it
+        stroke(activeColor); // if the mouse is over an led, draw the active color line around it
       }
       
       
