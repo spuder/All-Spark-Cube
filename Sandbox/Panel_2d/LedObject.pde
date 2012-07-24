@@ -1,17 +1,8 @@
-//class LedObject extends LedController implements Serializable
-//class LedObject extends RowObject implements Serializable
+
 class LedObject 
 {
 
- 
- /*TODO: should this be a string 0-0-0 ? Answer: maybe, it depends how you want the Parent (Row controller 
- to be able to address each led. It may be simpler to use an array. instead of led 000 through led 151515 you have 
- led 0 through 4095. It makes it much simpler to iterate through each one. Because the developer doesn't need
- to interact with each led in a 3d space there is no reason not to simply use integer 4095. Leds will be 
- abstracted out to row[led0,1,2,3,4....15]. A led is uniquely identifiable as (panel 0 [row0 [led0] ] ) and absolute 4095
 
- */
- 
   int   ledNumberInCube;
   color ledColor;       //example red, green, blue, (255,0,0)
   float ledBrightness;  //example 0 - 4096 it will be divisable so it is a float
@@ -26,14 +17,18 @@ class LedObject
      
       this.ledNumberInCube = ledNumberInCube;
       this.ledColor = ledColor;
-      this.ledBrightness = 255; // for testing set a perminate value and dont worry about it
-      this.ledSize = 10; // for testing set to 10 and dont worry about it
+      
+      // for testing set a perminate value and dont worry about it
+      this.ledBrightness = 255; 
+      
+      // for testing set to 10 and dont worry about it
+      this.ledSize = 10; 
+      
    } //end constuctor
    
    
    
-//TODO: Make this display relative to the parent
-  // public void displayOneLed(float ledXLocationOnScreen, float ledYLocationOnScreen)
+
   public void displayOneLed()
    {
      
@@ -51,16 +46,28 @@ class LedObject
               //If we have hovered over the led and clicked, then change the color
               if ( ledHasBeenClicked  == true)
               {
+                
+                //Change the current leds color to the key that was pressed earlier (red, green, blue, ect)
                 this.setLedColor(activeColor);
-                ledHasBeenClicked = false; // reset so that one click only changes 1 led. Future versions will also incorperate multiple led functionality
-              }
+                
+                // reset so that one click only changes 1 led. Future versions will also incorperate multiple led functionality
+                ledHasBeenClicked = false; 
+                
+              }//end if ledHasBeenClicked
               
-          stroke(activeColor); // if the mouse is over an led, draw the active color line ˚around it
-        }
+          // if the mouse is over an led, draw the active color line around it
+          stroke(activeColor); 
+          
+        }//end if mousePosition = led
+        
       
+      // draw the led to the screen The location on screen is saved in the objects attributes
+      ellipse( this.ledXPixelLocation, this.ledYPixelLocation , this.ledSize, this.ledSize); 
       
-      ellipse( this.ledXPixelLocation, this.ledYPixelLocation , this.ledSize, this.ledSize); // draw the led to the screen 
+      //Stroke method is no longer needed, set stroke to nothing.
       noStroke();
+      
+      //Fill method is no longer needed, set fill to nothing
       noFill();
       
    }//end displayOneLed
@@ -72,7 +79,7 @@ class LedObject
         public int getLedNumberInCube()
         {
             return this.ledNumberInCube;    
-        }                                         //end getLedCoordinates
+        }//end getLedCoordinates
         
 
         public int getLedNumberInRow()
@@ -87,7 +94,7 @@ class LedObject
             int ledVerticalRowNumber = (ledTotalRowNumber - (yNumberOfRowsPerPanel * ledPanelNumber)); //we need to know how high from the ground, not how many rows there are total
 	    int firstLedInRow = ((1 + ledVerticalRowNumber + ledPanelNumber * zNumberOfPanels ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow);
 	  return (this.ledNumberInCube - firstLedInRow);
-        }
+        }//end getLedNumberInRow
         
         
         // Led Color
@@ -96,12 +103,12 @@ class LedObject
         {
             this.ledColor = ledColor;
             
-        }                                         //end setLedColor
+        }//end setLedColor
         
         public color getLedColor()
         {
             return this.ledColor;
-        }                                         //end getLedColor
+        }//end getLedColor
         
         
         // Led Brightness
@@ -116,7 +123,7 @@ class LedObject
         {
             return this.ledBrightness;
             
-        }                                         //end getLedBrightness
+        }//end getLedBrightness
     
     
         // Led Size
@@ -125,16 +132,17 @@ class LedObject
         {
             this.ledSize = ledSize;
             
-        }                                          //end setLedSize
+        }//end setLedSize
         
         public int getLedSize()
         {
             return this.ledSize;
         
-        }                                          //end getLedSize
+        }//end getLedSize
     
     
-        
+        // Led Location
+        //==================================
         public void setLedXPixelLocation(int ledXPixelLocation)
         {
             this.ledXPixelLocation = ledXPixelLocation;

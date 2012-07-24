@@ -22,19 +22,24 @@ class RowObject
 		for ( int ledNumberInRowCounter = 0; ledNumberInRowCounter < xNumberOfLedsPerRow; ledNumberInRowCounter++)
 	        {
                     // Create led object ( (0-16), 150=grey, 0 = brightness, ledsize=10)
-                    LedObject aLedObject16 = new LedObject( (firstLedInRow + ledNumberInRowCounter), 150, 0, ledSize);
+                    LedObject aLedObject = new LedObject( (firstLedInRow + ledNumberInRowCounter), 150, 0, ledSize);
 
                    //Add the object to the class array.
-                   this.anArrayOfRowLeds[ledNumberInRowCounter] = aLedObject16;
+                   this.anArrayOfRowLeds[ledNumberInRowCounter] = aLedObject;
                    
                    // Convert this led to an absolute location
                    int ledAbsoluteValue = relativeLedLocationToAbsolute(this.rowCoordinateY, this.rowCoordinateZ) + ledNumberInRowCounter;  
 		   
                    // Add the led object to the master array aswell 	   
-                   aMasterArrayOfAllLeds[ledAbsoluteValue] = aLedObject16; 
+                   aMasterArrayOfAllLeds[ledAbsoluteValue] = aLedObject; 
                    
+                   //Decomission the object to mark it for the java garbage collector
+                   aLedObject = null;
                  }//end for loop create objects
-  
+                 
+      //TODO: Research if manually calling garbage collector actually speeds up program. 
+      System.gc();
+      
 
   } //end RowObject constuctor
 

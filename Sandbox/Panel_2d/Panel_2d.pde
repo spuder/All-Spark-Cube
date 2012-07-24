@@ -1,7 +1,7 @@
 
-RowObject row0000;
-RowObject row0100;
-RowObject row0101;
+//RowObject row0000;
+//RowObject row0100;
+//RowObject row0101;
 //RowObject row0200;
 //RowObject row0606;
 //RowObject row0303;
@@ -9,6 +9,9 @@ RowObject row0101;
 //RowObject row0304;
 //RowObject row0001;
 //RowObject row0009;
+
+PanelObject panel1;
+PanelObject panel2;
 
 //RowObject aReusableRowObject;
 
@@ -39,10 +42,13 @@ void setup()
   aMasterArrayOfAllLeds = new LedObject[totalNumberOfLeds +5]; // Create new array containing the object and index of all 4096 leds. 
   text("Waiting 1000 miliseconds before updateing display", width/2- 100, height/2); // Expiramental code to test millisecondsBetweenDrawings feature for performance
   
-row0000 = new RowObject( 0, 0 );
-row0100 = new RowObject( 1, 0 );
-row0101 = new RowObject( 1, 1 );
   
+  panel1 = new PanelObject(0);
+  panel2 = new PanelObject(1);
+//row0000 = new RowObject( 0, 0 );
+//row0100 = new RowObject( 1, 0 );
+//row0101 = new RowObject( 1, 1 );
+//  
 
 
   
@@ -60,8 +66,11 @@ void draw()
   {
       background(160);
       drawLines();
-      drawRows();
-      lastDrawTime = currentMillisecond;  //reset lastdrawtime to now.
+      drawPanels();
+      //drawRows();
+      
+      //reset lastdrawtime to now.
+      lastDrawTime = currentMillisecond;  
   }
 
 }//end draw =================================
@@ -94,7 +103,27 @@ void keyPressed()
   }
   if ( key == 'b' || key == 'B' )
   {
-      activeColor = color( 0, 0, 255);
+      activeColor = color( 0, 0, 255 );
+  }
+  if ( key == 'p' || key == 'P' )
+  {
+      activeColor = color( 255, 0, 255 );
+  }
+  if ( key == 'o' || key == 'O' )
+  {
+      activeColor = color( 255, 125, 0 );
+  }
+  if ( key == 'y' || key == 'Y' )
+  {
+      activeColor = color( 255, 255, 0);
+  }
+  if ( key == 'w' || key == 'W' )
+  {
+      activeColor = color( 255, 255, 255);
+  }
+  if ( key == '0'  )
+  {
+      activeColor = color( 150);
   }
   
   
@@ -116,22 +145,22 @@ void drawLines()
   //Draw a line in between every led 
   for (int aTemporaryCounter = 0; aTemporaryCounter  <= (xNumberOfLedsPerRow * (zNumberOfPanels/2))  ; aTemporaryCounter++)// TODO: rename this counter
   {
-    // float anXLineVariable = (  8.2   *aTemporaryCounter);
-    float distanceBetweenLines = (    width /  (xNumberOfLedsPerRow * (zNumberOfPanels/2) )    *  aTemporaryCounter);
-
-
-    //Vertical Lines
-    if (aTemporaryCounter !=0 && aTemporaryCounter % xNumberOfLedsPerRow == 0 ) 
-    { 
-      stroke (color(#000000)); // Draw Black line
-    }
-    else
-    {
-      stroke(152);// all the rest of the lines are grey
-    } 
-
-    line(distanceBetweenLines, 0, distanceBetweenLines, height);
-    noStroke();// Undo the color setting to prevent accidentially chaning another objects color
+      // float anXLineVariable = (  8.2   *aTemporaryCounter);
+      float distanceBetweenLines = (    width /  (xNumberOfLedsPerRow * (zNumberOfPanels/2) )    *  aTemporaryCounter);
+  
+  
+      //Vertical Lines
+      if (aTemporaryCounter !=0 && aTemporaryCounter % xNumberOfLedsPerRow == 0 ) 
+      { 
+        stroke (color(#000000)); // Draw Black line
+      }
+      else
+      {
+        stroke(152);// all the rest of the lines are grey
+      } 
+  
+      line(distanceBetweenLines, 0, distanceBetweenLines, height);
+      noStroke();// Undo the color setting to prevent accidentially chaning another objects color
   }//end for loop
 
   //Horitzontal Line
@@ -141,25 +170,9 @@ void drawLines()
 }//end drawLines=============================================================================
 
 
-void drawRows()
+
+void drawPanels()
 {
-  
- row0000.displayOneRow();
- row0100.displayOneRow();
- row0101.displayOneRow();
- 
-  //*******************
-  //This code is very poor and should not be used. It creates duplicate objects which the garbage collector cant destroy fast enough. 
-  //*******************
-//  for(int createABunchOfRowsCounterZ = 0; createABunchOfRowsCounterZ < zNumberOfPanels; createABunchOfRowsCounterZ++)
-//  {
-//      for(int createABunchOfRowsCounterY = 0; createABunchOfRowsCounterY < yNumberOfRowsPerPanel; createABunchOfRowsCounterY++)
-//      {
-//        aReusableRowObject = new RowObject(createABunchOfRowsCounterY, createABunchOfRowsCounterZ);
-//        
-//        aReusableRowObject.displayOneRow();
-//        aReusableRowObject = null; //defrence the object since it is no longer needed. The java garbage collector will eventually find it. 
-//      }
-//  }
- // System.gc(); // Calls the garbage collector. There is a lot of debate if you should actually do this
-}//end drawRows============================================================================
+  panel1.displayOnePanel();
+  panel2.displayOnePanel();
+}//end drawPanels============================================================================
