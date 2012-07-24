@@ -13,6 +13,8 @@
 PanelObject panel1;
 PanelObject panel2;
 
+CubeObject theCube;
+
 //RowObject aReusableRowObject;
 
 public LedObject[] aMasterArrayOfAllLeds;
@@ -22,12 +24,14 @@ public              boolean debugMode = true;
 
 public static final int     xNumberOfLedsPerRow         = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
 public        final int     yNumberOfRowsPerPanel       = 16;
-public        final int     zNumberOfPanels             = 16;
-public        final int     totalNumberOfLeds = xNumberOfLedsPerRow* yNumberOfRowsPerPanel * zNumberOfPanels;
+public        final int     zNumberOfPanelsPerCube      = 16;
+public        final int     totalNumberOfLeds = xNumberOfLedsPerRow* yNumberOfRowsPerPanel * zNumberOfPanelsPerCube;
 
 private       final float   millisecondsBetweenDrawings = 20; //Set how often to draw all the objects on the screen. Once every couple dozen millisenconds is usally enough
 private             float   lastDrawTime;
-public static       boolean ledHasBeenClicked;  //This would be good to put in the led class but processing doesn't allow static fields in non static classes
+public static       boolean ledHasBeenClicked = false;  //This would be good to put in the led class but processing doesn't allow static fields in non static classes
+public static       boolean ledHasBeenReleased = true;
+public static       boolean ledHasBeenDragged  = false;
                                                 //An alternative would be to convert it to java but for now this works. http://www.processing.org/discourse/beta/num_1263237645.html
 public              color   activeColor = color( 204, 153, 0 );                                                
 public        final int     ledSize = 10; // TODO:Change this to be a ratio of the barsize and then apply it to the led object
@@ -48,6 +52,8 @@ void setup()
 //row0000 = new RowObject( 0, 0 );
 //row0100 = new RowObject( 1, 0 );
 //row0101 = new RowObject( 1, 1 );
+
+  theCube = new CubeObject();
 //  
 
 
@@ -66,8 +72,9 @@ void draw()
   {
       background(160);
       drawLines();
-      drawPanels();
+      //drawPanels();
       //drawRows();
+      drawCube();
       
       //reset lastdrawtime to now.
       lastDrawTime = currentMillisecond;  
@@ -81,6 +88,17 @@ void mousePressed()
   ledHasBeenClicked = true; // set this global variable to true and update the led color respectivly
   
 }//=====================================
+
+void mouseReleased()
+{
+
+  ledHasBeenClicked = false;
+}
+
+void mouseDragged()
+{
+    
+}
 
 void keyPressed()
 {
@@ -115,15 +133,15 @@ void keyPressed()
   }
   if ( key == 'y' || key == 'Y' )
   {
-      activeColor = color( 255, 255, 0);
+      activeColor = color( 255, 255, 0 );
   }
   if ( key == 'w' || key == 'W' )
   {
-      activeColor = color( 255, 255, 255);
+      activeColor = color( 255, 255, 255 );
   }
   if ( key == '0'  )
   {
-      activeColor = color( 150);
+      activeColor = color( 150 );
   }
   
   
@@ -143,10 +161,10 @@ void debug(String aDebugMessage)
 void drawLines()
 {
   //Draw a line in between every led 
-  for (int aTemporaryCounter = 0; aTemporaryCounter  <= (xNumberOfLedsPerRow * (zNumberOfPanels/2))  ; aTemporaryCounter++)// TODO: rename this counter
+  for (int aTemporaryCounter = 0; aTemporaryCounter  <= (xNumberOfLedsPerRow * ( zNumberOfPanelsPerCube / 2 ) )  ; aTemporaryCounter++)// TODO: rename this counter
   {
       // float anXLineVariable = (  8.2   *aTemporaryCounter);
-      float distanceBetweenLines = (    width /  (xNumberOfLedsPerRow * (zNumberOfPanels/2) )    *  aTemporaryCounter);
+      float distanceBetweenLines = (    width /  (xNumberOfLedsPerRow * ( zNumberOfPanelsPerCube / 2 ) )    *  aTemporaryCounter);
   
   
       //Vertical Lines
@@ -170,6 +188,10 @@ void drawLines()
 }//end drawLines=============================================================================
 
 
+void drawCube()
+{
+  theCube.displayOneCube();
+}
 
 void drawPanels()
 {

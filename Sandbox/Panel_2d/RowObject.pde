@@ -38,7 +38,8 @@ class RowObject
                  }//end for loop create objects
                  
       //TODO: Research if manually calling garbage collector actually speeds up program. 
-      System.gc();
+      //Answer: This dramatically slows down startup time of program
+      //System.gc();
       
 
   } //end RowObject constuctor
@@ -74,11 +75,11 @@ class RowObject
 
 
                     //If panel is less than half of all panels draw on upper row, otherwise draw on bottom row
-                    if(this.rowCoordinateZ < (zNumberOfPanels / 2)  )
+                    if(this.rowCoordinateZ < (zNumberOfPanelsPerCube / 2)  )
                     {	
                       
 
-                      /*127*/   int numberOfDivisionsPerScreen  = zNumberOfPanels * (xNumberOfLedsPerRow /2) -1;//  debug("divisions per screen " + numberOfDivisionsPerScreen);
+                      /*127*/   int numberOfDivisionsPerScreen  = zNumberOfPanelsPerCube * ( xNumberOfLedsPerRow /2 ) -1;//  debug("divisions per screen " + numberOfDivisionsPerScreen);
                       /*13*/    int pixelsBetweenDivisions      = width / numberOfDivisionsPerScreen;//  debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);
                       /*48*/    int horizontalLedStartLocation  = this.rowCoordinateZ * xNumberOfLedsPerRow * pixelsBetweenDivisions;  //  debug("horizontalStartLocation " + horizontalLedStartLocation); 
                       /*5px*/   int putLedsBetweenLines         = pixelsBetweenDivisions / 2; //  debug("ledSize " + ledSize /2);
@@ -99,7 +100,7 @@ class RowObject
                     else // draw lower division of panels
                     {
 
-                      /*127*/   int numberOfDivisionsPerScreen  = zNumberOfPanels * (xNumberOfLedsPerRow / 2) -1;//  debug("divisions per screen " + numberOfDivisionsPerScreen);
+                      /*127*/   int numberOfDivisionsPerScreen  = zNumberOfPanelsPerCube * (xNumberOfLedsPerRow / 2) -1;//  debug("divisions per screen " + numberOfDivisionsPerScreen);
                       /*13*/    int pixelsBetweenDivisions      = width / numberOfDivisionsPerScreen;//  debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);
                       /*48*/    int horizontalLedStartLocation  = (this.rowCoordinateZ * xNumberOfLedsPerRow * pixelsBetweenDivisions) - (numberOfDivisionsPerScreen * pixelsBetweenDivisions) - pixelsBetweenDivisions ;  //  debug("horizontalStartLocation " + horizontalLedStartLocation); 
                       /*5px*/   int putLedsBetweenLines         = pixelsBetweenDivisions / 2; //  debug("ledSize " + ledSize /2);
@@ -137,7 +138,7 @@ class RowObject
     int relativeLedLocationToAbsolute(int rowCoordinateY, int rowCoordinateZ )
     {
           //If the user passes in a number like [3,0] it returns 48. [1,1] returns   
-          return (1 + rowCoordinateY + rowCoordinateZ * zNumberOfPanels ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow;
+          return (1 + rowCoordinateY + rowCoordinateZ * zNumberOfPanelsPerCube ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow;
   		
     }//end relativeLedLocationToAbsolute
     

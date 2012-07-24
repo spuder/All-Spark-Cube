@@ -44,16 +44,17 @@ class LedObject
             && (mouseY < this.ledYPixelLocation + (this.ledSize / 2 +2) ) )
         {
               //If we have hovered over the led and clicked, then change the color
-              if ( ledHasBeenClicked  == true)
+              if ( ledHasBeenClicked  == true )
               {
                 
                 //Change the current leds color to the key that was pressed earlier (red, green, blue, ect)
                 this.setLedColor(activeColor);
                 
-                // reset so that one click only changes 1 led. Future versions will also incorperate multiple led functionality
-                ledHasBeenClicked = false; 
+                
                 
               }//end if ledHasBeenClicked
+
+              
               
           // if the mouse is over an led, draw the active color line around it
           stroke(activeColor); 
@@ -92,7 +93,7 @@ class LedObject
             int ledTotalRowNumber = (this.ledNumberInCube / xNumberOfLedsPerRow); // 48 would return 3rd row TODO:Consider renaming locationInY
             int ledPanelNumber = (this.ledNumberInCube / xNumberOfLedsPerRow / yNumberOfRowsPerPanel); //4095 would return panel 15, 300 returns panel 1 TODO:Consider renaming to locationINZ 
             int ledVerticalRowNumber = (ledTotalRowNumber - (yNumberOfRowsPerPanel * ledPanelNumber)); //we need to know how high from the ground, not how many rows there are total
-	    int firstLedInRow = ((1 + ledVerticalRowNumber + ledPanelNumber * zNumberOfPanels ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow);
+	    int firstLedInRow = ((1 + ledVerticalRowNumber + ledPanelNumber * zNumberOfPanelsPerCube ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow);
 	  return (this.ledNumberInCube - firstLedInRow);
         }//end getLedNumberInRow
         
