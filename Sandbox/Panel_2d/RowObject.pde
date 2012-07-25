@@ -83,12 +83,12 @@ class RowObject
                       /*13*/    int pixelsBetweenDivisions      = width / numberOfDivisionsPerScreen;//  debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);
                       /*48*/    int horizontalLedStartLocation  = this.rowCoordinateZ * xNumberOfLedsPerRow * pixelsBetweenDivisions;  //  debug("horizontalStartLocation " + horizontalLedStartLocation); 
                       /*5px*/   int putLedsBetweenLines         = pixelsBetweenDivisions / 2; //  debug("ledSize " + ledSize /2);
-                                int formulaResultOfFirstLine    = (putLedsBetweenLines + (horizontalLedStartLocation + (ledInRowCounter * pixelsBetweenDivisions)));              
+                                int formulaResultOfFirstLine    = (putLedsBetweenLines + (horizontalLedStartLocation + (ledInRowCounter * pixelsBetweenDivisions) )  );              
 
                                                                        
                                 int verticalBuffer              = ( (height / 2) - (pixelsBetweenDivisions * yNumberOfRowsPerPanel)  ) /2; //debug("verticalBuffer " + verticalBuffer);
                                 //int verticalBuffer                =    width /  (xNumberOfLedsPerRow * (zNumberOfPanels/2));
-                                int verticalStartLocation       = ( (height / 2) - verticalBuffer - (pixelsBetweenDivisions / 2)   );//  debug("height /2 " + height /2);
+                                int verticalStartLocation       = ( (height / 2) - verticalBuffer - (pixelsBetweenDivisions / 2)   ); // debug("height /2  - vertBuff -pix Per division /2" + ((height / 2) - verticalBuffer - (pixelsBetweenDivisions / 2) ));
                                 int verticalRowStartLocation    = (verticalStartLocation - (pixelsBetweenDivisions * this.rowCoordinateY)  ); // debug("verticalRowStartLocation " + verticalRowStartLocation + " verticalStartLocation" +verticalStartLocation); 
                                 
                         
@@ -104,7 +104,7 @@ class RowObject
                       /*13*/    int pixelsBetweenDivisions      = width / numberOfDivisionsPerScreen;//  debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);
                       /*48*/    int horizontalLedStartLocation  = (this.rowCoordinateZ * xNumberOfLedsPerRow * pixelsBetweenDivisions) - (numberOfDivisionsPerScreen * pixelsBetweenDivisions) - pixelsBetweenDivisions ;  //  debug("horizontalStartLocation " + horizontalLedStartLocation); 
                       /*5px*/   int putLedsBetweenLines         = pixelsBetweenDivisions / 2; //  debug("ledSize " + ledSize /2);
-                                int formulaResultOfBottomLine   = (putLedsBetweenLines + (horizontalLedStartLocation + (ledInRowCounter * pixelsBetweenDivisions)));              
+                                int formulaResultOfBottomLine   = (putLedsBetweenLines + (horizontalLedStartLocation + (ledInRowCounter * pixelsBetweenDivisions) )   );              
 
                                 int verticalBuffer              = ( (height /2 ) - (pixelsBetweenDivisions * yNumberOfRowsPerPanel)  )/ 2;
                                 int verticalStartLocation       = ( (height ) - verticalBuffer - (pixelsBetweenDivisions / 2)  );  
@@ -138,7 +138,7 @@ class RowObject
     int relativeLedLocationToAbsolute(int rowCoordinateY, int rowCoordinateZ )
     {
           //If the user passes in a number like [3,0] it returns 48. [1,1] returns   
-          return (1 + rowCoordinateY + rowCoordinateZ * zNumberOfPanelsPerCube ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow;
+          return ( 1 + rowCoordinateY + rowCoordinateZ * zNumberOfPanelsPerCube ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow;
   		
     }//end relativeLedLocationToAbsolute
     
