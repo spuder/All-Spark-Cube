@@ -12,6 +12,7 @@ int ledDetail = 1; 			// detail of LED, default 6, lower value offers better per
 int h,i,j;  				// LED x y z position variables
 int cubeSize = 16;  		// Number of LEDs on one axis
 int framesPerSecond = 30;  	// Specifies the number of frames/second
+int cnt = 0; 				// count 0-4095 
 
 float rotBuffX = 0;  		// angle of rotation X
 float rotBuffY = 0;  		// angle of rotation Y
@@ -30,7 +31,7 @@ float x[] = new float[cubeSize*cubeSize*cubeSize];
 float y[] = new float[cubeSize*cubeSize*cubeSize]; 
 float z[] = new float[cubeSize*cubeSize*cubeSize];
 
-Map<String, String> ledList = new HashMap<String, String>(cubeSize*cubeSize*cubeSize);  // hashmap for whether LED is on or off
+Map<Integer, String> ledList = new HashMap<Integer, String>(cubeSize*cubeSize*cubeSize);  // hashmap for whether LED is on or off
 RectButton rect1, rect2;  	// Button objects (may not be used).
 
 
@@ -78,7 +79,7 @@ lights();
  // center of rotation 
  // Offset distance from center red dot
  translate(-((grille*cubeSize/2)-(grille/2)),-((grille*cubeSize/2)-(grille/2)),-((grille*cubeSize/2)-(grille/2)));   
- int cnt = 0; // count 0-125 
+ cnt=0;
  for (h=0; h<cubeSize; h++) { 
    for (i=0; i<cubeSize; i++) { 
     for (j=0; j<cubeSize; j++) { 
@@ -90,42 +91,42 @@ lights();
       ledIsHoveredOver = checkDist(x[cnt],y[cnt],z[cnt]);  // threshold is fourth value, default is 15 - We deleted the hover over code...
           
       if (ledIsHoveredOver) { // LED is being hovered over
-            if (debug){ println("ledIsHoveredOver = true, led " + +h+"-"+i+"-"+j +" is hovered over");}
+            if (debug){ println("ledIsHoveredOver = true, led "+cnt+" is hovered over");}
             
             if (ledHasBeenClicked == true){  // LED has been hovered and clicked
-				if (debug){ println("ledHasBeenClicked = true, led " + +h+"-"+i+"-"+j +" is marked as clicked");}
-				if (debug){ println("Clicked LED "+h+"-"+i+"-"+j);}
+				if (debug){ println("ledHasBeenClicked = true, led "+cnt+" is marked as clicked");}
+				if (debug){ println("Clicked LED "+cnt);}
                   
-				if(ledList.get(h+"-"+i+"-"+j).equals("off")) { 		// LED has been hovered, clicked, and is turned off
-					ledList.put(h+"-"+i+"-"+j,ledColor); 			// assigns true value to ledList hashmap to turn the LED on.
+				if(ledList.get(cnt).equals("off")) { 		// LED has been hovered, clicked, and is turned off
+					ledList.put(cnt,ledColor); 			// assigns true value to ledList hashmap to turn the LED on.
 				}
 				else {  										// LED has been hovered, clicked and is currently on
-					ledList.put(h+"-"+i+"-"+j,"off");  			// assigns off value to ledList hashmap.
+					ledList.put(cnt,"off");  			// assigns off value to ledList hashmap.
 				}
             }
             ledHasBeenClicked = false; 							// user didn't click anything
       }
     
     
-	if(ledList.get(h+"-"+i+"-"+j).equals("red")){  // turns LED on from ledList value
+	if(ledList.get(cnt).equals("red")){  // turns LED on from ledList value
        fill(255,0,0);  // LED is red
     }
-	else if (ledList.get(h+"-"+i+"-"+j).equals("green")){
+	else if (ledList.get(cnt).equals("green")){
 		fill(0,255,0);  // LED is green
 	}
-	else if (ledList.get(h+"-"+i+"-"+j).equals("blue")){
+	else if (ledList.get(cnt).equals("blue")){
 		fill(0,0,255);  // LED is blue
 	}
-	else if (ledList.get(h+"-"+i+"-"+j).equals("yellow")){
+	else if (ledList.get(cnt).equals("yellow")){
 		fill(255,255,0);  // LED is yellow
 	}
-	else if (ledList.get(h+"-"+i+"-"+j).equals("orange")){
-		fill(255,100,0);  // LED is orange
+	else if (ledList.get(cnt).equals("orange")){
+		fill(255,125,0);  // LED is orange
 	}
-	else if (ledList.get(h+"-"+i+"-"+j).equals("purple")){
+	else if (ledList.get(cnt).equals("purple")){
 		fill(255,0,255);  // LED is green
 	}
-	else if (ledList.get(h+"-"+i+"-"+j).equals("white")){
+	else if (ledList.get(cnt).equals("white")){
 		fill(255,255,255);  // LED is green
 	}
     else {  // led is off and should stay off
@@ -193,7 +194,7 @@ void keyReleased()   {
 } 
 
 void mouseReleased() {
-	if (debug){ println("mouse has been clicked, fyi led is currently" +h+"-"+i+"-"+j );}
+	if (debug){ println("mouse has been clicked, fyi led is currently" +cnt);}
 	ledHasBeenClicked = true;  // Sets current clicked LED to true on next loop iteration.
 }
 
@@ -207,21 +208,18 @@ boolean checkDist(float x1,float y1,float z1) { // check distance between mouse 
 }
 
 void clearHashMap () {  // Function to set all hashmap values to off
-	for (h=0; h<cubeSize; h++) { 
-		for (i=0; i<cubeSize; i++) { 
-			for (j=0; j<cubeSize; j++) { 
-				ledList.put(h+"-"+i+"-"+j,"off");  // Sets all hashmap values to off
-			}
-		}
+	for (int loop=0; h<cubeSize*cubeSize*cubeSize; h++) { 
+		ledList.put(h,"off");  // Sets all hashmap values to off
 	}
 }
+
 
 void importHashMap () {  // Function to import hashmap from file
 	String importStringArray[] = loadStrings(selectInput());  // Load text file into String array
 	for (int s=0; s<importStringArray.length; s++)
 	{
 		String[] tempList = split(importStringArray[s]," ");  // Split strings using " " as a delimeter
-		ledList.put(tempList[0],tempList[1]);  // Turns LED on
+		ledList.put(int(tempList[0]),tempList[1]);  // Turns LED on
 	}
 	println("Finished import");
 }
@@ -233,14 +231,11 @@ void exportHashMap() {  // Function to export hashmap into file
 	int arrayLoop = 0;
 	while (loopdaloop.hasNext()){
 		Map.Entry entry = (Map.Entry) loopdaloop.next();
-		String key = (String)entry.getKey();
+		int key = (Integer)entry.getKey();
 		String value = (String)entry.getValue();
 		outputStringArray[arrayLoop]=key+" "+value;
 		arrayLoop++;
 	}
-	DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy_HH-mm-ss");  // Sets timestamp to human readable
-	Date date = new Date();  // Creates new timestamp for filename
-	saveStrings(selectInput(),outputStringArray);
-	//saveStrings("output/"+dateFormat.format(date)+".txt",outputStringArray);  // Exports file as txt names as current time
-	println("File has been saved to "+dateFormat.format(date)+".txt");
+	saveStrings(selectInput(),outputStringArray);  // Lets user choose location and name of exported file.
+	println("File has been saved!");
 }
