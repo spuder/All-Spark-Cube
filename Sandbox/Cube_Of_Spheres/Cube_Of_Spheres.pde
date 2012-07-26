@@ -177,7 +177,7 @@ void keyPressed() {
 	}
 	
 	if (keyCode == CONTROL){ // user pushed CTL key on keyboard
-		exportHashMap();
+		exportToFile();
 	}
 } 
 
@@ -238,7 +238,7 @@ void importHashMap () {  // Function to import hashmap from file
       	        {
                     // Every time we encounter a space save the preceding 
                     // Text to a single string
-      	    	    String[] tempList = split(importStringArray[s]," ");  // Split strings using " " as a delimeter
+      	    	    String[] tempList = split(importStringArray[s],"\t");  // Split strings using " " as a delimeter
         	   
                     // Add the 1st and 2nd word on each line of the
                     // text file to our hashmap example 48 red
@@ -254,7 +254,7 @@ void importHashMap () {  // Function to import hashmap from file
     
 }//end importHashMap
 
-void exportHashMap() {  // Function to export hashmap into file
+void exportToFile() {  // Function to export hashmap into file
 	// Loop through hashmap & export
 	Iterator loopdaloop = ledList.entrySet().iterator();
 	String[] outputStringArray = new String[cubeSize*cubeSize*cubeSize];
@@ -263,9 +263,9 @@ void exportHashMap() {  // Function to export hashmap into file
 		Map.Entry entry = (Map.Entry) loopdaloop.next();
 		int key = (Integer)entry.getKey();
 		String value = (String)entry.getValue();
-		outputStringArray[arrayLoop]=key+" "+value;
+		outputStringArray[arrayLoop]=key+"\t"+value;
 		arrayLoop++;
 	}
-	saveStrings(selectInput(),outputStringArray);  // Lets user choose location and name of exported file.
+	saveStrings(selectOutput(),outputStringArray);  // Lets user choose location and name of exported file.
 	println("File has been saved!");
 }
