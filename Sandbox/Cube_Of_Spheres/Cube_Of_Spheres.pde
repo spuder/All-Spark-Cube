@@ -22,7 +22,6 @@ float threshhold = 8;  		// Hover tolerance - lower number means you must be mor
 boolean rotateMode = false; // mouse rotation 
 boolean ledHasBeenClicked;  // Value for if the LED is on or off
 String ledColor = "blue";	// Color of LED (Red, Green, Yellow, Blue, White, Orange, Purple)
-boolean locked;  			// for Button class
 boolean ledIsHoveredOver = false;  	// hover variable
 boolean debug = false;  	// turn debugging on and off
 
@@ -32,7 +31,6 @@ float y[] = new float[cubeSize*cubeSize*cubeSize];
 float z[] = new float[cubeSize*cubeSize*cubeSize];
 
 Map<Integer, String> ledList = new HashMap<Integer, String>(cubeSize*cubeSize*cubeSize);  // hashmap for whether LED is on or off
-RectButton rect1, rect2;  	// Button objects (may not be used).
 
 
 
@@ -51,9 +49,7 @@ void setup() {
 	}
 	); 
  
-	color buttoncolor = color(153);
-	color highlight = color(103);
-	rect1 = new RectButton(200, 200, 50, buttoncolor, highlight);
+
 	clearHashMap();  // Sets all the values in the hashMap to false
 } 
 
@@ -142,7 +138,6 @@ lights();
  }// end for (h=0; h<cubeSize; h++)  
 
  popMatrix(); 
- //rect1.display(); // show button object
 } 
 
 void keyPressed() {
@@ -215,14 +210,49 @@ void clearHashMap () {  // Function to set all hashmap values to off
 
 
 void importHashMap () {  // Function to import hashmap from file
-	String importStringArray[] = loadStrings(selectInput());  // Load text file into String array
-	for (int s=0; s<importStringArray.length; s++)
-	{
-		String[] tempList = split(importStringArray[s]," ");  // Split strings using " " as a delimeter
-		ledList.put(int(tempList[0]),tempList[1]);  // Turns LED on
-	}
-	println("Finished import");
-}
+     
+     // Create a new thread to allow screen to continue to refresh  
+     // while we open the file
+    new Thread(
+      //Create a new runnable class inside the thread
+      new Runnable() 
+          {
+          // Call the runnable with the actual code to execute
+          public void run()
+          {      
+              // Prompt the user for a file and save that location to a string
+              // example = c:\someFile.txt     
+      	      String inputFile = selectInput();
+              
+              // Verify the user did not click cancel
+              if (inputFile == null) { println("No file selected"); }
+              else
+              {
+              
+              //loadStrings creates an array of all the text of a file
+              String importStringArray[] = loadStrings(inputFile);
+              
+              
+                // look at every single character in the file one by one
+      	        for (int s=0; s<importStringArray.length; s++)
+      	        {
+                    // Every time we encounter a space save the preceding 
+                    // Text to a single string
+      	    	    String[] tempList = split(importStringArray[s]," ");  // Split strings using " " as a delimeter
+        	   
+                    // Add the 1st and 2nd word on each line of the
+                    // text file to our hashmap example 48 red
+                    ledList.put(int(tempList[0]),tempList[1]);  // Turns LED on
+      	        }
+              // Debugging print out that the import completed
+	      println("Finished import");
+              } //end else
+    
+          }//end run()
+          }//end Runnable
+    ).start();//end thread
+    
+}//end importHashMap
 
 void exportHashMap() {  // Function to export hashmap into file
 	// Loop through hashmap & export
