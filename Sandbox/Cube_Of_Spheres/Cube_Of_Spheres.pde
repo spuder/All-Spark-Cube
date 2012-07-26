@@ -232,7 +232,7 @@ void importHashMap () {  // Function to import hashmap from file
               //loadStrings creates an array of all the text of a file
               String importStringArray[] = loadStrings(inputFile);
               
-              
+                
                 // look at every single character in the file one by one
       	        for (int s=0; s<importStringArray.length; s++)
       	        {

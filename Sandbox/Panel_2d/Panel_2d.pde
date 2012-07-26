@@ -1,21 +1,4 @@
-
-//RowObject row0000;
-//RowObject row0100;
-//RowObject row0101;
-//RowObject row0200;
-//RowObject row0606;
-//RowObject row0303;
-//RowObject row0500;
-//RowObject row0304;
-//RowObject row0001;
-//RowObject row0009;
-
-PanelObject panel1;
-PanelObject panel2;
-
 CubeObject theCube;
-
-//RowObject aReusableRowObject;
 
 public LedObject[] aMasterArrayOfAllLeds;
 
@@ -27,7 +10,7 @@ public        final int     yNumberOfRowsPerPanel       = 16;
 public        final int     zNumberOfPanelsPerCube      = 16;
 public        final int     totalNumberOfLeds = xNumberOfLedsPerRow* yNumberOfRowsPerPanel * zNumberOfPanelsPerCube;
 
-private       final float   millisecondsBetweenDrawings = 20; //Set how often to draw all the objects on the screen. Once every couple dozen millisenconds is usally enough
+//private       final float   millisecondsBetweenDrawings = 1; //Set how often to draw all the objects on the screen. Once every couple dozen millisenconds is usally enough
 private             float   lastDrawTime;
 public static       boolean ledHasBeenClicked = false;  //This would be good to put in the led class but processing doesn't allow static fields in non static classes
 public static       boolean ledHasBeenReleased = true;
@@ -41,20 +24,15 @@ void setup()
 {
   size( screen.width, screen.height/2 );
   frame.setResizable(true);             //Allows window to be resized. 
+  frameRate(25);
   background(160);                      //Draw a grey background once. This will be over written later. 
 
   aMasterArrayOfAllLeds = new LedObject[totalNumberOfLeds +5]; // Create new array containing the object and index of all 4096 leds. 
-  text("Waiting 1000 miliseconds before updateing display", width/2- 100, height/2); // Expiramental code to test millisecondsBetweenDrawings feature for performance
-  
-  
-  panel1 = new PanelObject(0);
-  panel2 = new PanelObject(1);
-//row0000 = new RowObject( 0, 0 );
-//row0100 = new RowObject( 1, 0 );
-//row0101 = new RowObject( 1, 1 );
+  //text("Waiting 1000 miliseconds before updateing display", width/2- 100, height/2); // Expiramental code to test millisecondsBetweenDrawings feature for performance
+
 
   theCube = new CubeObject();
-//  
+
 
 
   
@@ -68,8 +46,8 @@ void draw()
   
   //get the number of millisends since app started
   float currentMillisecond = millis();
-  if( currentMillisecond - lastDrawTime >= millisecondsBetweenDrawings)  //if the number of milliseconds is > 200 then draw lines
-  {
+//  if( currentMillisecond - lastDrawTime >= millisecondsBetweenDrawings)  //if the number of milliseconds is > 200 then draw lines
+//  {
       background(160);
       drawLines();
       //drawPanels();
@@ -77,8 +55,8 @@ void draw()
       drawCube();
       
       //reset lastdrawtime to now.
-      lastDrawTime = currentMillisecond;  
-  }
+//      lastDrawTime = currentMillisecond;  
+//  }// end if
 
 }//end draw =================================
 
@@ -95,6 +73,7 @@ void mouseReleased()
   ledHasBeenClicked = false;
 }
 
+
 void mouseDragged()
 {
     
@@ -102,14 +81,6 @@ void mouseDragged()
 
 void keyPressed()
 {
-   if (key == 'd')
-  {
-
-      debug("led 0 color is : " +     aMasterArrayOfAllLeds[0].getLedColor());
-      debug("setting led0 to 100"); 
-      aMasterArrayOfAllLeds[0].setLedColor(    aMasterArrayOfAllLeds[0].getLedColor() +5 );
-      debug("led 0 color is now: " +     aMasterArrayOfAllLeds[0].getLedColor());
-  }
   
   if ( key == 'r' || key == 'R' ) // pressing r on keyboard sets color mode to red. all subsequent leds clicked will turn red. 
   {
@@ -145,8 +116,9 @@ void keyPressed()
   }
   
   
-}//
+}//end keyPressed
 
+//Reusable method to print out text only if debug is true
 void debug(String aDebugMessage) 
 {
   if (debugMode = true) 
@@ -161,14 +133,14 @@ void debug(String aDebugMessage)
 void drawLines()
 {
   //Draw a line in between every led 
-  for (int aTemporaryCounter = 0; aTemporaryCounter  <= (xNumberOfLedsPerRow * ( zNumberOfPanelsPerCube / 2 ) )  ; aTemporaryCounter++)// TODO: rename this counter
+  for (int aLineCounter = 0; aLineCounter  <= (xNumberOfLedsPerRow * ( zNumberOfPanelsPerCube / 2 ) )  ; aLineCounter++ )// TODO: rename this counter
   {
-      // float anXLineVariable = (  8.2   *aTemporaryCounter);
-      float distanceBetweenLines = (    width /  (xNumberOfLedsPerRow * ( zNumberOfPanelsPerCube / 2 ) )    *  aTemporaryCounter);
+      // float anXLineVariable = (  8.2   * aLineCounter);
+      float distanceBetweenLines = (    width /  (xNumberOfLedsPerRow * ( zNumberOfPanelsPerCube / 2 ) )    *  aLineCounter);
   
   
       //Vertical Lines
-      if (aTemporaryCounter !=0 && aTemporaryCounter % xNumberOfLedsPerRow == 0 ) 
+      if (aLineCounter !=0 && aLineCounter % xNumberOfLedsPerRow == 0 ) 
       { 
         stroke (color(#000000)); // Draw Black line
       }
@@ -193,8 +165,4 @@ void drawCube()
   theCube.displayOneCube();
 }
 
-void drawPanels()
-{
-  panel1.displayOnePanel();
-  panel2.displayOnePanel();
-}//end drawPanels============================================================================
+

@@ -11,7 +11,7 @@ class RowObject
   RowObject(int rowCoordinateY, int rowCoordinateZ)
   {
           // Create a new array of Leds for just this row (16 long)
-          this.anArrayOfRowLeds = new LedObject[xNumberOfLedsPerRow];;
+          this.anArrayOfRowLeds = new LedObject[xNumberOfLedsPerRow];
       
           this.rowCoordinateY = rowCoordinateY;
           this.rowCoordinateZ = rowCoordinateZ;
@@ -28,18 +28,15 @@ class RowObject
                    this.anArrayOfRowLeds[ledNumberInRowCounter] = aLedObject;
                    
                    // Convert this led to an absolute location
-                   int ledAbsoluteValue = relativeLedLocationToAbsolute(this.rowCoordinateY, this.rowCoordinateZ) + ledNumberInRowCounter;  
+                   int ledAbsoluteValue = relativeLedLocationToAbsolute( this.rowCoordinateY, this.rowCoordinateZ ) + ledNumberInRowCounter;  
 		   
                    // Add the led object to the master array aswell 	   
-                   aMasterArrayOfAllLeds[ledAbsoluteValue] = aLedObject; 
+                   aMasterArrayOfAllLeds[ ledAbsoluteValue ] = aLedObject; 
                    
                    //Decomission the object to mark it for the java garbage collector
                    aLedObject = null;
                  }//end for loop create objects
-                 
-      //TODO: Research if manually calling garbage collector actually speeds up program. 
-      //Answer: This dramatically slows down startup time of program
-      //System.gc();
+
       
 
   } //end RowObject constuctor
@@ -50,7 +47,7 @@ class RowObject
 
         /*The ledInRowCounter is converted from the row[0,0] to a location in the array eg. 48, 64, 256...
          ledInRowCounter is 16 digits larger 63, 95, 255 */
-        for (int ledInRowCounter = 0; ledInRowCounter < xNumberOfLedsPerRow; ledInRowCounter++ )
+        for ( int ledInRowCounter = 0; ledInRowCounter < xNumberOfLedsPerRow; ledInRowCounter++ )
         {
     
               //  debug("Drawing led " + ledInRowCounter + " out of " + lastLedInRow);
@@ -75,7 +72,7 @@ class RowObject
 
 
                     //If panel is less than half of all panels draw on upper row, otherwise draw on bottom row
-                    if(this.rowCoordinateZ < (zNumberOfPanelsPerCube / 2)  )
+                    if( this.rowCoordinateZ < ( zNumberOfPanelsPerCube / 2 )  )
                     {	
                       
 
@@ -83,13 +80,13 @@ class RowObject
                       /*13*/    int pixelsBetweenDivisions      = width / numberOfDivisionsPerScreen;//  debug("pixelsBetweenDivisons " + pixelsBetweenDivisions);
                       /*48*/    int horizontalLedStartLocation  = this.rowCoordinateZ * xNumberOfLedsPerRow * pixelsBetweenDivisions;  //  debug("horizontalStartLocation " + horizontalLedStartLocation); 
                       /*5px*/   int putLedsBetweenLines         = pixelsBetweenDivisions / 2; //  debug("ledSize " + ledSize /2);
-                                int formulaResultOfFirstLine    = (putLedsBetweenLines + (horizontalLedStartLocation + (ledInRowCounter * pixelsBetweenDivisions) )  );              
+                                int formulaResultOfFirstLine    = (putLedsBetweenLines + ( horizontalLedStartLocation + ( ledInRowCounter * pixelsBetweenDivisions )  )  );              
 
                                                                        
                                 int verticalBuffer              = ( (height / 2) - (pixelsBetweenDivisions * yNumberOfRowsPerPanel)  ) /2; //debug("verticalBuffer " + verticalBuffer);
                                 //int verticalBuffer                =    width /  (xNumberOfLedsPerRow * (zNumberOfPanels/2));
                                 int verticalStartLocation       = ( (height / 2) - verticalBuffer - (pixelsBetweenDivisions / 2)   ); // debug("height /2  - vertBuff -pix Per division /2" + ((height / 2) - verticalBuffer - (pixelsBetweenDivisions / 2) ));
-                                int verticalRowStartLocation    = (verticalStartLocation - (pixelsBetweenDivisions * this.rowCoordinateY)  ); // debug("verticalRowStartLocation " + verticalRowStartLocation + " verticalStartLocation" +verticalStartLocation); 
+                                int verticalRowStartLocation    = (verticalStartLocation - ( pixelsBetweenDivisions * this.rowCoordinateY )  ); // debug("verticalRowStartLocation " + verticalRowStartLocation + " verticalStartLocation" +verticalStartLocation); 
                                 
                         
                         this.anArrayOfRowLeds[ledInRowCounter].setLedXPixelLocation(formulaResultOfFirstLine); // Set the real location of led on screen in pixels, used with the mouse listener to change when clicked
@@ -108,10 +105,10 @@ class RowObject
 
                                 int verticalBuffer              = ( (height /2 ) - (pixelsBetweenDivisions * yNumberOfRowsPerPanel)  )/ 2;
                                 int verticalStartLocation       = ( (height ) - verticalBuffer - (pixelsBetweenDivisions / 2)  );  
-                                int verticalRowStartLocation    = (verticalStartLocation - (pixelsBetweenDivisions * this.rowCoordinateY)  );   
+                                int verticalRowStartLocation    = ( verticalStartLocation - (pixelsBetweenDivisions * this.rowCoordinateY)  );   
 
-                        this.anArrayOfRowLeds[ledInRowCounter].setLedXPixelLocation(formulaResultOfBottomLine); // Set the real location of led on screen in pixels, used with the mouse listener to change when clicked
-                        this.anArrayOfRowLeds[ledInRowCounter].setLedYPixelLocation(verticalRowStartLocation); // Set the abso
+                        this.anArrayOfRowLeds[ledInRowCounter].setLedXPixelLocation( formulaResultOfBottomLine ); // Set the real location of led on screen in pixels, used with the mouse listener to change when clicked
+                        this.anArrayOfRowLeds[ledInRowCounter].setLedYPixelLocation( verticalRowStartLocation ); // Set the abso
                         this.anArrayOfRowLeds[ledInRowCounter].displayOneLed();  // this no longer needs arguments since the x an y in pixels are stored in the object. 
 
                     }		
