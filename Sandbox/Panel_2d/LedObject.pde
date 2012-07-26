@@ -4,7 +4,7 @@ class LedObject
 
 
   int   ledNumberInCube;
-  color ledColor;       //example red, green, blue, (255,0,0)
+  int ledColor;       //example #ff00ff
   float ledBrightness;  //example 0 - 4096 it will be divisable so it is a float
   int   ledSize;
   int   ledXPixelLocation;
@@ -12,7 +12,7 @@ class LedObject
 
 
 
-  LedObject(int ledNumberInCube, color ledColor, float ledBrightness, int ledSize)
+  LedObject(int ledNumberInCube, int ledColor, float ledBrightness, int ledSize)
   {
 
     this.ledNumberInCube = ledNumberInCube;
@@ -31,7 +31,7 @@ class LedObject
   public void displayOneLed()
   {
 
-
+    //debug("this.ledColor = " + this.ledColor);
     fill(this.ledColor);
 
 
@@ -94,12 +94,12 @@ class LedObject
 
     // Led Color
   //================================
-  public void setLedColor(color ledColor)
+  public void setLedColor(int ledColor)
   {
     this.ledColor = ledColor;
   }//end setLedColor
 
-    public color getLedColor()
+    public int getLedColor()
   {
     return this.ledColor;
   }//end getLedColor

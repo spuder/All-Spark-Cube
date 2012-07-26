@@ -3,11 +3,6 @@ class CubeObject
 {
   // Create a new array of Panels 
   PanelObject[] anArrayOfPanels;
-  
-
- // int panelCoordinateZ;
-  
-
 
   //Panel Constuctor. Actually makes the object. 
   CubeObject()
