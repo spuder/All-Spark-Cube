@@ -21,7 +21,7 @@ float threshhold = 8;  		// Hover tolerance - lower number means you must be mor
 
 boolean rotateMode = false; // mouse rotation 
 boolean ledHasBeenClicked;  // Value for if the LED is on or off
-String ledColor = "blue";	// Color of LED (Red, Green, Yellow, Blue, White, Orange, Purple)
+int ledColor = #0000FF;	// Color of LED (Red, Green, Yellow, Blue, White, Orange, Purple)
 boolean ledIsHoveredOver = false;  	// hover variable
 boolean debug = false;  	// turn debugging on and off
 
@@ -30,7 +30,7 @@ float x[] = new float[cubeSize*cubeSize*cubeSize];
 float y[] = new float[cubeSize*cubeSize*cubeSize]; 
 float z[] = new float[cubeSize*cubeSize*cubeSize];
 
-Map<Integer, String> ledList = new HashMap<Integer, String>(cubeSize*cubeSize*cubeSize);  // hashmap for whether LED is on or off
+Map<Integer, Integer> ledList = new HashMap<Integer, Integer>(cubeSize*cubeSize*cubeSize);  // hashmap for whether LED is on or off
 
 
 
@@ -93,40 +93,40 @@ lights();
 				if (debug){ println("ledHasBeenClicked = true, led "+cnt+" is marked as clicked");}
 				if (debug){ println("Clicked LED "+cnt);}
                   
-				if(ledList.get(cnt).equals("off")) { 		// LED has been hovered, clicked, and is turned off
+				if(ledList.get(cnt).equals(#000000)) { 		// LED has been hovered, clicked, and is turned off
 					ledList.put(cnt,ledColor); 			// assigns true value to ledList hashmap to turn the LED on.
 				}
 				else {  										// LED has been hovered, clicked and is currently on
-					ledList.put(cnt,"off");  			// assigns off value to ledList hashmap.
+					ledList.put(cnt,#000000);  			// assigns off value to ledList hashmap.
 				}
             }
             ledHasBeenClicked = false; 							// user didn't click anything
       }
     
     
-	if(ledList.get(cnt).equals("red")){  // turns LED on from ledList value
-       fill(255,0,0);  // LED is red
+	if(ledList.get(cnt).equals(#FF0000)){  // turns LED on from ledList value
+       fill(#FF0000);  // LED is red
     }
-	else if (ledList.get(cnt).equals("green")){
-		fill(0,255,0);  // LED is green
+	else if (ledList.get(cnt).equals(#00FF00)){
+		fill(#00FF00);  // LED is green
 	}
-	else if (ledList.get(cnt).equals("blue")){
-		fill(0,0,255);  // LED is blue
+	else if (ledList.get(cnt).equals(#0000FF)){
+		fill(#0000FF);  // LED is blue
 	}
-	else if (ledList.get(cnt).equals("yellow")){
-		fill(255,255,0);  // LED is yellow
+	else if (ledList.get(cnt).equals(#FFFF00)){
+		fill(#FFFF00);  // LED is yellow
 	}
-	else if (ledList.get(cnt).equals("orange")){
-		fill(255,125,0);  // LED is orange
+	else if (ledList.get(cnt).equals(#FF7D00)){
+		fill(#FF7D00);  // LED is orange
 	}
-	else if (ledList.get(cnt).equals("purple")){
-		fill(255,0,255);  // LED is green
+	else if (ledList.get(cnt).equals(#FF00FF)){
+		fill(#FF00FF);  // LED is purple
 	}
-	else if (ledList.get(cnt).equals("white")){
-		fill(255,255,255);  // LED is green
+	else if (ledList.get(cnt).equals(#FFFFFF)){
+		fill(#FFFFFF);  // LED is white
 	}
     else {  // led is off and should stay off
-       fill(90,90,90);  // LED is gray (off)
+       fill(#5A5A5A);  // LED is gray (off)
     }
       
     sphere(5); 
@@ -161,13 +161,13 @@ void keyPressed() {
 		else { debug = true; }  // turns debug on if it was off
 	}
 	
-	if (key == 'b'){ledColor = "blue"; } // Sets LED color
-	if (key == 'r'){ledColor = "red"; } // Sets LED color
-	if (key == 'g'){ledColor = "green"; } // Sets LED color
-	if (key == 'y'){ledColor = "yellow"; } // Sets LED color
-	if (key == 'o'){ledColor = "orange"; } // Sets LED color
-	if (key == 'w'){ledColor = "white"; } // Sets LED color
-	if (key == 'p'){ledColor = "purple"; } // Sets LED color
+	if (key == 'b'){ledColor = #0000FF; } // Sets LED color
+	if (key == 'r'){ledColor = #FF0000; } // Sets LED color
+	if (key == 'g'){ledColor = #00FF00; } // Sets LED color
+	if (key == 'y'){ledColor = #FFFF00; } // Sets LED color
+	if (key == 'o'){ledColor = #FF7D00; } // Sets LED color
+	if (key == 'w'){ledColor = #FFFFFF; } // Sets LED color
+	if (key == 'p'){ledColor = #FF00FF; } // Sets LED color
 	if (key == 'i'){importHashMap(); } // import file
 	
 	if (key == 't'){  // timestamp
@@ -204,13 +204,12 @@ boolean checkDist(float x1,float y1,float z1) { // check distance between mouse 
 
 void clearHashMap () {  // Function to set all hashmap values to off
 	for (int loop=0; h<cubeSize*cubeSize*cubeSize; h++) { 
-		ledList.put(h,"off");  // Sets all hashmap values to off
+		ledList.put(h,#000000);  // Sets all hashmap values to off
 	}
 }
 
 
 void importHashMap () {  // Function to import hashmap from file
-     
      // Create a new thread to allow screen to continue to refresh  
      // while we open the file
     new Thread(
@@ -242,7 +241,7 @@ void importHashMap () {  // Function to import hashmap from file
         	   
                     // Add the 1st and 2nd word on each line of the
                     // text file to our hashmap example 48 red
-                    ledList.put(int(tempList[0]),tempList[1]);  // Turns LED on
+                    ledList.put(int(tempList[0]),int(tempList[1]));  // Turns LED on
       	        }
               // Debugging print out that the import completed
 	      println("Finished import");
@@ -251,7 +250,6 @@ void importHashMap () {  // Function to import hashmap from file
           }//end run()
           }//end Runnable
     ).start();//end thread
-    
 }//end importHashMap
 
 void exportToFile() {  // Function to export hashmap into file
@@ -262,7 +260,7 @@ void exportToFile() {  // Function to export hashmap into file
 	while (loopdaloop.hasNext()){
 		Map.Entry entry = (Map.Entry) loopdaloop.next();
 		int key = (Integer)entry.getKey();
-		String value = (String)entry.getValue();
+		int value = (Integer)entry.getValue();
 		outputStringArray[arrayLoop]=key+"\t"+value;
 		arrayLoop++;
 	}
