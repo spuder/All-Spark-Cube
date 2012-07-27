@@ -21,8 +21,8 @@ class RowObject
 	        // Create the led objects, add the lds to the array list, add the array list to the object
 		for ( int ledNumberInRowCounter = 0; ledNumberInRowCounter < xNumberOfLedsPerRow; ledNumberInRowCounter++)
 	        {
-                    // Create led object ( (0-16), 150=grey, 0 = brightness, ledsize=10)
-                    LedObject aLedObject = new LedObject( (firstLedInRow + ledNumberInRowCounter), 150, 0, ledSize);
+                    // Create led object ( (0-16), #969696`=grey, 0 = brightness, ledsize=10)
+                    LedObject aLedObject = new LedObject( (firstLedInRow + ledNumberInRowCounter), #969696, 0, ledSize);
 
                    //Add the object to the class array.
                    this.anArrayOfRowLeds[ledNumberInRowCounter] = aLedObject;

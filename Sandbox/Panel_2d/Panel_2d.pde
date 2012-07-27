@@ -92,6 +92,10 @@ void keyPressed()
 //        exportToFile();
 //      }
   }
+  if (key == 'i' || key == 'I' )
+  {
+    importFromFile();
+  }
   
   if ( key == 'r' || key == 'R' ) // pressing r on keyboard sets color mode to red. all subsequent leds clicked will turn red. 
   {
@@ -123,7 +127,8 @@ void keyPressed()
   }
   if ( key == '0'  )
   {
-      activeColor = #000000;
+      //Draw Grey
+      activeColor = #969696;
   }
   
 }//end keyPressed
@@ -219,11 +224,58 @@ void exportToFile()
               
       
       
-  //Loop through all leds
-  
-  //Create an array of strings containing each line of text 4096 lines long
-  
-  //Save the array using saveStrings( selectInput(), the name of the array
-}
+
+}//end exportToFile
+
+void importFromFile()
+{
+ 
+ 
+   debug("Importing to file");
+      // Create a new thread to allow screen to continue to refresh  
+     // while we open the file
+    new Thread(
+      //Create a new runnable class inside the thread
+      new Runnable() 
+          {
+          // Call the runnable with the actual code to execute
+          public void run()
+          {      
+            
+            
+              // locationOfFileToImport example c:\someText.txt
+              String locationOfFileToImport = selectInput();
+              
+              // Create aray of strings with 4096 spaces in it
+              //Add the file to the array
+              String[] arrayOfLedsToImport = loadStrings(locationOfFileToImport);
+              
+
+              debug(arrayOfLedsToImport.length +"");
+              //Look at every character in the file
+              for( int fileToLedCounter = 0; fileToLedCounter < arrayOfLedsToImport.length ; fileToLedCounter++ )
+              {
+                
+                    // Every time we encounter a space save the preceding 
+                    // Text to a single string
+      	    	    String[] wordsSplitFromLines = split(arrayOfLedsToImport[ fileToLedCounter ],"\t");  // Split strings using " " as a delimeter
+        	   
+                    //Get the led number as a string 0 to 4096
+                    //Convert it to a number 0-4096
+                    int ledNumberInTextFile = int(wordsSplitFromLines[0]);
+                    
+                    //Get the led color saved as a string -650000
+                    //convert it to an int
+                    int ledColorInTextFile = int(wordsSplitFromLines[1]);
+                    
+                    //Lookup the led number that matches in the array
+                    //and update the object attributes
+                    aMasterArrayOfAllLeds[ledNumberInTextFile].setLedColor(ledColorInTextFile);
+                
+              }
+           }//end run()
+          }//end Runnable
+    ).start();//end thread
+}//end importFromFile
 
 

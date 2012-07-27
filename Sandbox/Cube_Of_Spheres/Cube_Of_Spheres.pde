@@ -37,6 +37,7 @@ Map<Integer, Integer> ledList = new HashMap<Integer, Integer>(cubeSize*cubeSize*
 void setup() { 
 	size(screen.width, screen.height, OPENGL); 
 	frameRate(framesPerSecond);
+        frame.setResizable(true);
 	sphereDetail(ledDetail);
 	noStroke(); 
 	// mouse Wheel 
@@ -63,7 +64,8 @@ lights();
    rotBuffY= -1*mouseX*rotVit; // the speed that the mouse rotates the screen
  } 
 
- translate(screen.width/2,screen.height/2,zoom); // center cube on the screen 
+  // center cube on the window 
+ translate(width/2, height/2,zoom); 
  rotateX(rotBuffX); 
  rotateY(rotBuffY); 
  pushMatrix(); 
