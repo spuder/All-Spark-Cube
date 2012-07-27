@@ -255,17 +255,33 @@ void importHashMap () {  // Function to import hashmap from file
 }//end importHashMap
 
 void exportToFile() {  // Function to export hashmap into file
+ // Create a new thread to allow screen to continue to refresh  
+ // while we open the file
+  new Thread( new Runnable() { public void run()
+  { 
+      String outputFile = selectOutput();
+      if (outputFile == null) { println("No file selected"); }
+       else
+      {
 	// Loop through hashmap & export
 	Iterator loopdaloop = ledList.entrySet().iterator();
 	String[] outputStringArray = new String[cubeSize*cubeSize*cubeSize];
 	int arrayLoop = 0;
-	while (loopdaloop.hasNext()){
-		Map.Entry entry = (Map.Entry) loopdaloop.next();
-		int key = (Integer)entry.getKey();
-		int value = (Integer)entry.getValue();
-		outputStringArray[arrayLoop]=key+"\t"+value;
-		arrayLoop++;
-	}
-	saveStrings(selectOutput(),outputStringArray);  // Lets user choose location and name of exported file.
+    	    while (loopdaloop.hasNext())
+            {
+    	    	    Map.Entry entry = (Map.Entry) loopdaloop.next();
+    		    int key = (Integer)entry.getKey();
+    		    int value = (Integer)entry.getValue();
+    		    outputStringArray[arrayLoop]=key+"\t"+value;
+    		    arrayLoop++;
+    	    }// end while
+    
+	saveStrings(outputFile,outputStringArray);  // Lets user choose location and name of exported file.
 	println("File has been saved!");
-}
+      }
+      
+      }//end run()
+    }//end Runnable
+    ).start();//end thread
+    
+}//end exportToFile()
