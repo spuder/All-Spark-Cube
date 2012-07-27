@@ -1,3 +1,15 @@
+//***************************************************************//
+//  Name    : All Sparks Cube - 2d Panel                         //
+//  Author  : Spencer Owen, Thomas Bennet                        //
+//            All Rights Reserved                                //
+//  Date    : 06 July, 2012                                      //
+//  Version : 1.0                                                //
+//  Notes   : Displays Graphical User interface to interact      //
+//            with a 16 x 16 x 16 led cube                       //
+//***************************************************************//
+
+/* Create a cube object which encapsulates
+   panels rows and leds */
 CubeObject theCube;
 
 public LedObject[] aMasterArrayOfAllLeds;
@@ -12,11 +24,11 @@ public        final int     totalNumberOfLeds = xNumberOfLedsPerRow * yNumberOfR
 
 //private       final float   millisecondsBetweenDrawings = 1; //Set how often to draw all the objects on the screen. Once every couple dozen millisenconds is usally enough
 private             float   lastDrawTime;
-public static       boolean ledHasBeenClicked = false;  //This would be good to put in the led class but processing doesn't allow static fields in non static classes
-public static       boolean ledHasBeenReleased = true;
-public static       boolean ledHasBeenDragged  = false;
+public static       boolean ledHasBeenClicked    = false;  //This would be good to put in the led class but processing doesn't allow static fields in non static classes
+public static       boolean ledHasBeenReleased   = true;
+public static       boolean ledHasBeenDragged    = false;
                                                 //An alternative would be to convert it to java but for now this works. http://www.processing.org/discourse/beta/num_1263237645.html
-public              int   activeColor = #666666;                                                
+public              int   activeColor = #0000FF;                                                
 public        final int     ledSize = 10; // TODO:Change this to be a ratio of the barsize and then apply it to the led object
 
 
@@ -30,13 +42,9 @@ void setup()
   aMasterArrayOfAllLeds = new LedObject[totalNumberOfLeds]; // Create new array containing the object and index of all 4096 leds. 
   //text("Waiting 1000 miliseconds before updateing display", width/2- 100, height/2); // Expiramental code to test millisecondsBetweenDrawings feature for performance
 
-
   theCube = new CubeObject();
 
-
-
-  
-}
+}//end setup
 
 
 void draw()
@@ -48,10 +56,11 @@ void draw()
   float currentMillisecond = millis();
 //  if( currentMillisecond - lastDrawTime >= millisecondsBetweenDrawings)  //if the number of milliseconds is > 200 then draw lines
 //  {
+      // Fill the background with neutral grey
       background(160);
+      // Draw divider lines
       drawLines();
-      //drawPanels();
-      //drawRows();
+      // Draw the actual leds
       drawCube();
       
       //reset lastdrawtime to now.
@@ -63,8 +72,8 @@ void draw()
 
 void mousePressed()
 {
-  ledHasBeenClicked = true; // set this global variable to true and update the led color respectivly
   
+  ledHasBeenClicked = true; // set this global variable to true and update the led color respectivly
 }//=====================================
 
 void mouseReleased()
@@ -148,14 +157,14 @@ void debug(String aDebugMessage)
 void drawLines()
 {
   //Draw a line in between every led 
-  for (int aLineCounter = 0; aLineCounter  <= (xNumberOfLedsPerRow * ( zNumberOfPanelsPerCube / 2 ) )  ; aLineCounter++ )// TODO: rename this counter
+  for (int aLineCounter = 0; aLineCounter  <= ( xNumberOfLedsPerRow * ( zNumberOfPanelsPerCube / 2 ) )  ; aLineCounter++ )// TODO: rename this counter
   {
       // float anXLineVariable = (  8.2   * aLineCounter);
-      float distanceBetweenLines = (    width /  (xNumberOfLedsPerRow * ( zNumberOfPanelsPerCube / 2 ) )    *  aLineCounter);
+      float distanceBetweenLines = (    width /  (xNumberOfLedsPerRow * ( zNumberOfPanelsPerCube / 2 ) )    *  aLineCounter );
   
   
       //Vertical Lines
-      if (aLineCounter !=0 && aLineCounter % xNumberOfLedsPerRow == 0 ) 
+      if ( aLineCounter !=0 && aLineCounter % xNumberOfLedsPerRow == 0 ) 
       { 
         stroke (color(0)); // Draw Black line
       }
@@ -192,34 +201,40 @@ void exportToFile()
           // Call the runnable with the actual code to execute
           public void run()
           {      
-            
-              // Create aray of strings with 4096 spaces in it
-              String[] arrayOfLedsToExport = new String[totalNumberOfLeds];
-    
+              //Prompt user where to save file
               String locationOfFileToExport = selectOutput();
-
-              debug(aMasterArrayOfAllLeds.length +"");
-              for( int ledToFileCounter = 0; ledToFileCounter < aMasterArrayOfAllLeds.length ; ledToFileCounter++ )
+              
+              //Verify the user did not click cancel
+              if ( locationOfFileToExport == null )
+              { println("No File Selected"); }
+              else
               {
+                  // Create aray of strings with 4096 spaces in it
+                  String[] arrayOfLedsToExport = new String[totalNumberOfLeds];
+                  
+                    for( int ledToFileCounter = 0; ledToFileCounter < aMasterArrayOfAllLeds.length ; ledToFileCounter++ )
+                    {
+                      
+                      String numberOfLed = aMasterArrayOfAllLeds[ledToFileCounter].getLedNumberInCube() + "";
+                      String colorOfLed = aMasterArrayOfAllLeds[ledToFileCounter].getLedColor() + "";
+                   
+                      
+                      arrayOfLedsToExport[ledToFileCounter] = ( numberOfLed +"\t"+ colorOfLed);
+                      
+                    }// end for ledToFileCounter
+                    
                 
-                String numberOfLed = aMasterArrayOfAllLeds[ledToFileCounter].getLedNumberInCube() + "";
-                String colorOfLed = aMasterArrayOfAllLeds[ledToFileCounter].getLedColor() + "";
-             
+
+                // Prompt the user for a file and save that location to a string
+                // example = c:\someFile.txt   
+                saveStrings( locationOfFileToExport, arrayOfLedsToExport);
                 
-                arrayOfLedsToExport[ledToFileCounter] = ( numberOfLed +"\t"+ colorOfLed);
-                
-              }
-              
-              debug("About to save out");
-              // Prompt the user for a file and save that location to a string
-              // example = c:\someFile.txt   
-              saveStrings( locationOfFileToExport, arrayOfLedsToExport);
-              
+              }//end if locationOfFileToExport = null
       
       
       
-          }
-          }
+          }// end run()
+          }//end Runnable
           ).start();
               
       
@@ -246,36 +261,42 @@ void importFromFile()
               // locationOfFileToImport example c:\someText.txt
               String locationOfFileToImport = selectInput();
               
-              // Create aray of strings with 4096 spaces in it
-              //Add the file to the array
-              String[] arrayOfLedsToImport = loadStrings(locationOfFileToImport);
-              
-
-              debug(arrayOfLedsToImport.length +"");
-              //Look at every character in the file
-              for( int fileToLedCounter = 0; fileToLedCounter < arrayOfLedsToImport.length ; fileToLedCounter++ )
+              //Verify the user did not click cancel
+              if ( locationOfFileToImport == null )
+              { println("No file selected"); }
+              else
               {
-                
-                    // Every time we encounter a space save the preceding 
-                    // Text to a single string
-      	    	    String[] wordsSplitFromLines = split(arrayOfLedsToImport[ fileToLedCounter ],"\t");  // Split strings using " " as a delimeter
-        	   
-                    //Get the led number as a string 0 to 4096
-                    //Convert it to a number 0-4096
-                    int ledNumberInTextFile = int(wordsSplitFromLines[0]);
+                  // Create aray of strings
+                  // Add the file to the array
+                  String[] arrayOfLedsToImport = loadStrings(locationOfFileToImport);
+
+                  //Look at every character in the file
+                  for( int fileToLedCounter = 0; fileToLedCounter < arrayOfLedsToImport.length ; fileToLedCounter++ )
+                  {
                     
-                    //Get the led color saved as a string -650000
-                    //convert it to an int
-                    int ledColorInTextFile = int(wordsSplitFromLines[1]);
+                        // Every time we encounter a space save the 
+                        // preceding text to a single string
+          	    	    String[] wordsSplitFromLines = split(arrayOfLedsToImport[ fileToLedCounter ],"\t");  // Split strings using " " as a delimeter
+            	   
+                        //Get the led number as a string 0 to 4096
+                        //Convert it to a number 0-4096
+                        int ledNumberInTextFile = int(wordsSplitFromLines[0]);
+                        
+                        //Get the led color saved as a string -650000
+                        //convert it to an int
+                        int ledColorInTextFile = int(wordsSplitFromLines[1]);
+                        
+                        //Lookup the led number that matches in the array
+                        //and update the object attributes
+                        aMasterArrayOfAllLeds[ledNumberInTextFile].setLedColor(ledColorInTextFile);
                     
-                    //Lookup the led number that matches in the array
-                    //and update the object attributes
-                    aMasterArrayOfAllLeds[ledNumberInTextFile].setLedColor(ledColorInTextFile);
-                
-              }
+                  }//end for fileToLedCounter
+              
+              }//end else
            }//end run()
-          }//end Runnable
+          }//end Runnable()
     ).start();//end thread
-}//end importFromFile
+    
+}//end importFromFile()
 
 
