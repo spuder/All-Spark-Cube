@@ -37,7 +37,8 @@ public              int     activeAnimation = 0;
 void setup()
 {
   size( screen.width, screen.height/2 );
-  frame.setResizable(true);             //Allows window to be resized. 
+  frame.setResizable(true);             //Allows window to be resized.
+  frame.setTitle("All Spark Cube"); 
   frameRate(25);
   background(160);                      //Draw a grey background once. This will be over written later. 
 
@@ -159,7 +160,7 @@ void keyPressed()
         //Pressing the right key moves to the next animation
         //in the sequence
         debug("activeAnimation is " + activeAnimation);
-        
+
         //See if we are navigating to a new cube sequence or an existing one
         if (activeAnimation < theAnimation.getHighestCubeNumberInAnimation() )
         {
@@ -173,14 +174,19 @@ void keyPressed()
           activeAnimation = activeAnimation + 1;
           debug("created new cube in animation");
         }
+
+      updateWindowTitle();
+
     }// end RIGHT
     
    if (keyCode == LEFT )
    {
+
        // See if we are at the first cube in sequnce
        // Prevent negative animations
        debug("Left key pressed");
        debug("activeAnimation is " + activeAnimation + "\n");
+
        if (activeAnimation >= 1)
        {
          activeAnimation = activeAnimation - 1;
@@ -190,6 +196,8 @@ void keyPressed()
        {
           debug("Already at cube 0"); 
        }
+      
+    updateWindowTitle();
      
    }// end LEFT
     
@@ -208,7 +216,10 @@ void debug(String aDebugMessage)
   }
 }//end debug================================
 
-
+void updateWindowTitle()
+{
+  frame.setTitle("Animation " + activeAnimation + " of " + theAnimation.getHighestCubeNumberInAnimation());
+}
 
 
 void drawLines()
@@ -255,9 +266,9 @@ void drawAnimation()
 
 void exportToFile()
 {
-      debug("Exporting to file");
-      // Create a new thread to allow screen to continue to refresh  
-     // while we open the file
+    debug("Exporting to file");
+    // Create a new thread to allow screen to continue to refresh  
+    // while we open the file
     new Thread(
       //Create a new runnable class inside the thread
       new Runnable() 
@@ -275,11 +286,34 @@ void exportToFile()
               { println("No File Selected"); }
               else
               {
-                
+                debug("Exporting to " + locationOfFileToExport);
                 // Create aray of strings with 4096 spaces in it
-                String[] arrayOfCubesToExport = new String[theAnimation.getHighestCubeNumberInAnimation() * totalNumberOfLeds];
-                debug("Text file will have "+theAnimation.getHighestCubeNumberInAnimation() * totalNumberOfLeds+ " lines in it");
+                String[] arrayOfCubesToExport = new String[ (theAnimation.getHighestCubeNumberInAnimation() + 1) * totalNumberOfLeds];
+                debug(theAnimation.getHighestCubeNumberInAnimation() +" Text file will have "+(theAnimation.getHighestCubeNumberInAnimation() + 1) * totalNumberOfLeds +  " lines in it");
                 
+                /*
+                For every cube in the cubearray in animation
+                  for every led in cube array
+                    get the cube number
+                    get the led number
+                    get the color
+                    save to string
+                */
+                    // Look at all the leds in every cube
+                    for( int cubeInAnimationCounter = 0; cubeInAnimationCounter <= theAnimation.getHighestCubeNumberInAnimation(); cubeInAnimationCounter++)
+                    {
+                        for( int ledInCubeCounter = 0; ledInCubeCounter <= totalNumberOfLeds - 1; ledInCubeCounter++ )
+                        {
+                          String cubeInAnimation = cubeInAnimationCounter + "";
+                          String ledInCube       = ledInCubeCounter       + "";
+                          String colorOfLed      = theAnimation.anArrayOfCubes.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + "";
+                          
+                          arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation +"\t"+ ledInCube +"\t"+ colorOfLed);
+
+                        }// end ledInCubeCounter
+
+                    }// end cubeInAnimationCounter 
+                /*
                       //Every time we reach a multiple of 4096 we can be sure we are on the next frame in the animation
                       int cubeInAnimationCounter = 0;
 
@@ -309,9 +343,10 @@ void exportToFile()
                         
                       }// end for ledInCubeCounter
                     
-
+            */
                 //Save to file locationOfFileToExport example  "C:\someFile" 
                 saveStrings( locationOfFileToExport, arrayOfCubesToExport);
+                debug("Done Exporting to " + locationOfFileToExport);
                 
               }//end if locationOfFileToExport = null
       
@@ -330,8 +365,8 @@ void exportToFile()
 void importFromFile()
 {
  
- 
-    debug("Importing from file");
+    
+
       // Create a new thread to allow screen to continue to refresh  
       // while we open the file
      new Thread(
@@ -352,6 +387,9 @@ void importFromFile()
                else
                {
                  
+                  //Deconstruct the object to the best ability of java
+                  theAnimation = null;
+
                    /*
                    Create array of strings for every line in file✓
                    create array of strings for every word in line✓
@@ -363,17 +401,23 @@ void importFromFile()
                    
                    */
                    
-                   
+                   //Recreate the animation object
+                   theAnimation = new AnimationObject();
+
                    // Create aray of strings
                    // Add the file to the array
                    String[] arrayOfLedsToImport = loadStrings(locationOfFileToImport);
                    
                    //Look at every character in the file
+                   debug("About to import " + arrayOfLedsToImport.length + " lines from " + locationOfFileToImport +"\n");
+                   
+                   
+
                    for( int fileToLedCounter = 0; fileToLedCounter < arrayOfLedsToImport.length ; fileToLedCounter++ )
                    {
                         // Every time we encounter a space save the 
                         // preceding text to a single string
-           	    	String[] wordsSplitFromLines = split(arrayOfLedsToImport[ fileToLedCounter ],"\t");  // Split strings using " " as a delimeter
+           	    	      String[] wordsSplitFromLines  = split(arrayOfLedsToImport[ fileToLedCounter ],"\t");  // Split strings using " " as a delimeter
                         
                         //Get the cube in animation sequence number
                         int cubeInAnimationInTextFile = int(wordsSplitFromLines[0]);
@@ -383,54 +427,24 @@ void importFromFile()
                         int ledColorInTextFile        = int(wordsSplitFromLines[2]);
                         
                         //See if first word is bigger than the number of objects we have
-                        debug("theAnimation.getNumberOfCubesInAnimation() is " + theAnimation.getHighestCubeNumberInAnimation() + " the cubeInAnimationInTextFile is " + cubeInAnimationInTextFile+"\n");
-                        if ( theAnimation.getHighestCubeNumberInAnimation() > cubeInAnimationInTextFile )
+                        //debug(" the cubeInAnimationInTextFile is " + cubeInAnimationInTextFile + "theAnimation.getNumberOfCubesInAnimation() is " + theAnimation.getHighestCubeNumberInAnimation() + "\n");
+                        if ( cubeInAnimationInTextFile > theAnimation.getHighestCubeNumberInAnimation() )
                         {
                           debug("Creating a new cube in animation");
                           theAnimation.addNewCubeToAnimation();
                         }
+                        
                         //Get the cube object we are working with and add all the leds to it
                         theAnimation.anArrayOfCubes.get(cubeInAnimationInTextFile).getLedObjectForParent(ledNumberInTextFile).setLedColor(ledColorInTextFile);
                         //theAnimation.getCubeFromAnimation(cubeInAnimationInTextFile).setLedColor(ledNumberInTextFile, ledColorInTextFile);
                      
 
                    }//end for fileToLedCounter
+                   println("Imported " + arrayOfLedsToImport.length+ " lines from " + locationOfFileToImport);
                    
-                   
-//                   //Look at every character in the file
-//                   for( int fileToLedCounter = 0; fileToLedCounter < arrayOfLedsToImport.length ; fileToLedCounter++ )
-//                   {
-//                 
-//                         // Every time we encounter a space save the 
-//                         // preceding text to a single string
-//           	    	    String[] wordsSplitFromLines = split(arrayOfLedsToImport[ fileToLedCounter ],"\t");  // Split strings using " " as a delimeter
-//   
-//                         //Get the cube in animation sequence number
-//                         int cubeInAnimationInTextFile = int(wordsSplitFromLines[0]);
-//            	   
-//                         //Get the led number as a string 0 to 4096
-//                         //Convert it to a number 0-4096
-//                         int ledNumberInTextFile = int(wordsSplitFromLines[1]);
-//                        
-//                         //Get the led color saved as a string -650000
-//                         //convert it to an int
-//                         int ledColorInTextFile = int(wordsSplitFromLines[2]);
-//                        
-//                         //Lookup the led number that matches in the array
-//                         //and update the object attributes
-//                         //aMasterArrayOfAllLeds[ledNumberInTextFile].setLedColor(ledColorInTextFile);
-//                         int ledNumberInMasterArrayOfAllLedsInAllCubes = (cubeInAnimationInTextFile * totalNumberOfLeds ) + ledNumberInTextFile; 
-//                         aMasterArrayOfAllLedsInAllCubes.get(ledNumberInTextFile).setLedColor(ledColorInTextFile);
-//                    
-//                   }//end for fileToLedCounter
-                   
-                   
-                   
-                   
-                   
-                   
-                   
-              
+                   //Change the name of the title bar to reflect the number of frames in sequence
+                   updateWindowTitle();
+
                }//end else
             }//end run()
            }//end Runnable()

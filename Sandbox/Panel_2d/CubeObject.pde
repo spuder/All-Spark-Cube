@@ -84,11 +84,11 @@ class CubeObject
   {
       int ledTotalRowNumber     = (ledToFind / xNumberOfLedsPerRow);      
       int ledPanelNumber        = (ledToFind / xNumberOfLedsPerRow / yNumberOfRowsPerPanel); //4095 would return panel 15, 300 returns panel 1 TODO:Consider renaming to locationINZ 
-      debug("Led number " + ledToFind + " is in panel "+ ledPanelNumber + "\n");
+    //  debug("Led number " + ledToFind + " is in panel "+ ledPanelNumber + "\n");
       return ledPanelNumber;
   }
 
-    LedObject getLedObjectForParent(int ledToFind)
+  LedObject getLedObjectForParent(int ledToFind)
   {
     return anArrayOfPanels[getPanelThatContainsLed(ledToFind)].getLedObjectForParent(ledToFind);
     //return anArrayOfRows[getRelativeRowThatContainsLed(ledToFind)].getLedObjectForParent(ledToFind);

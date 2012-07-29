@@ -151,7 +151,7 @@ class RowObject
     int ledPanelNumber = (absoluteLocation / xNumberOfLedsPerRow / yNumberOfRowsPerPanel); //4095 would return panel 15, 300 returns panel 1 TODO:Consider renaming to locationINZ 
     int ledVerticalRowNumber = (ledTotalRowNumber - (yNumberOfRowsPerPanel * ledPanelNumber)); //we need to know how high from the ground, not how many rows there are total
     int firstLedInRow = ((1 + ledVerticalRowNumber + ledPanelNumber * zNumberOfPanelsPerCube ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow);
-    debug("Led number " + absoluteLocation + " is in position " + (absoluteLocation - firstLedInRow) + " in a row");
+   // debug("Led number " + absoluteLocation + " is in position " + (absoluteLocation - firstLedInRow) + " in a row");
     return (absoluteLocation - firstLedInRow);
 
     }

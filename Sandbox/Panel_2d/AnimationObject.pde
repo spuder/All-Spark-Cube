@@ -54,7 +54,7 @@ class AnimationObject
   
   public int getHighestCubeNumberInAnimation()
   {
-    debug("anArrayOfCubes.size is " + anArrayOfCubes.size() +"\n");
+   // debug("anArrayOfCubes.size is " + anArrayOfCubes.size() +"\n");
     //we subtract one because we are asking for highest number
     //if there is only 1 cube then that cube is cube 0
     return anArrayOfCubes.size() - 1;
