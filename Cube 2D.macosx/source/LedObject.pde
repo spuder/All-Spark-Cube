@@ -1,10 +1,10 @@
 
-class LedObject 
+class LedObject
 {
 
 
   int   ledNumberInCube;
-  int ledColor;       //example #ff00ff
+  int   ledColor;       //example #ff00ff
   float ledBrightness;  //example 0 - 4096 it will be divisable so it is a float
   int   ledSize;
   int   ledXPixelLocation;

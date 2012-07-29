@@ -17,7 +17,7 @@ List<LedObject> aMasterArrayOfAllLedsInAllCubes;
 
 
 
-public              boolean debugMode = true;
+public              boolean debugMode = false;
 
 public static final int     xNumberOfLedsPerRow         = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
 public        final int     yNumberOfRowsPerPanel       = 16;
