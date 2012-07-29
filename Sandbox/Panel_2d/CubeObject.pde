@@ -1,18 +1,19 @@
-
 class CubeObject
 {
   // Create a new array of Panels 
   PanelObject[] anArrayOfPanels;
   
+  //TODO: Change the parent of the master array
+ public LedObject[] anArrayOfLedsInThisCube;
   
 
 
   //Panel Constuctor. Actually makes the object. 
   CubeObject()
   {
-      
-        
-
+    
+        //Every cube creates a list of all its leds 
+        this.anArrayOfLedsInThisCube = new LedObject[totalNumberOfLeds];   
         
         //Every panel creates an array of 16 rows
         this.anArrayOfPanels = new PanelObject[zNumberOfPanelsPerCube];
@@ -56,14 +57,42 @@ class CubeObject
   }// end displayOneRow
 
 
-//  //Calling aPanel.getPanelCoordinate from parent class will 
-//  //return the integer of the panel object 0 -15
-//  public int getPanelCoordinate()
-//  {
-//      return this.panelCoordinateZ;
-//
-//  }//end getPanelCoordinate
+  public LedObject[] getMasterArrayOfAllLeds()
+  {
 
+    return this.anArrayOfLedsInThisCube;
+
+  }// end getMasterArrayOfAllLeds
+
+
+  public void saveAllLedsToArray()
+  {
+    // Loop through all 4096 leds
+    // Create a duplicate of those led objects
+    // Save those duplicate objects to an arrary
+    //this.anArrayOfLedsInThisCube.add(aTemporaryLed)
+    //Delete that led object
+    //aTemporaryLed.finalize();
+  }
+
+  public void setLedColor(int ledToSetColor, int colorToSetLed ) 
+  {
+    anArrayOfLedsInThisCube[ledToSetColor].setLedColor(colorToSetLed);
+  }
+
+  public int getPanelThatContainsLed(int ledToFind)
+  {
+      int ledTotalRowNumber     = (ledToFind / xNumberOfLedsPerRow);      
+      int ledPanelNumber        = (ledToFind / xNumberOfLedsPerRow / yNumberOfRowsPerPanel); //4095 would return panel 15, 300 returns panel 1 TODO:Consider renaming to locationINZ 
+      debug("Led number " + ledToFind + " is in panel "+ ledPanelNumber + "\n");
+      return ledPanelNumber;
+  }
+
+    LedObject getLedObjectForParent(int ledToFind)
+  {
+    return anArrayOfPanels[getPanelThatContainsLed(ledToFind)].getLedObjectForParent(ledToFind);
+    //return anArrayOfRows[getRelativeRowThatContainsLed(ledToFind)].getLedObjectForParent(ledToFind);
+  }
 
   
 } // end class RowObject

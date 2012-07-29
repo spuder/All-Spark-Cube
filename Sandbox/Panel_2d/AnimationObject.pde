@@ -43,11 +43,21 @@ class AnimationObject
         anArrayOfCubes.add(aCube);
   }
   
+  public CubeObject getCubeFromAnimation(int CubeNumberInArrayListOfCubes)
+  {
+      CubeObject aCube = anArrayOfCubes.get(CubeNumberInArrayListOfCubes);
+      return aCube;
+  }
+
+
+
   
-  public int getNumberOfCubesInAnimation()
+  public int getHighestCubeNumberInAnimation()
   {
     debug("anArrayOfCubes.size is " + anArrayOfCubes.size() +"\n");
-    return anArrayOfCubes.size();
+    //we subtract one because we are asking for highest number
+    //if there is only 1 cube then that cube is cube 0
+    return anArrayOfCubes.size() - 1;
     
     
   }
