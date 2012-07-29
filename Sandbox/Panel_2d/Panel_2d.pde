@@ -10,8 +10,11 @@
 
 /* Create a cube object which encapsulates
    panels rows and leds */
-CubeObject theCube;
+//CubeObject theCube;
+AnimationObject theAnimation;
 
+
+//TODO: Change the parent of the master array
 public LedObject[] aMasterArrayOfAllLeds;
 
 
@@ -30,7 +33,7 @@ public static       boolean ledHasBeenDragged    = false;
                                                 //An alternative would be to convert it to java but for now this works. http://www.processing.org/discourse/beta/num_1263237645.html
 public              int   activeColor = #0000FF;                                                
 public        final int     ledSize = 10; // TODO:Change this to be a ratio of the barsize and then apply it to the led object
-
+public              int     activeAnimation = 0;
 
 void setup()
 {
@@ -39,10 +42,12 @@ void setup()
   frameRate(25);
   background(160);                      //Draw a grey background once. This will be over written later. 
 
-  aMasterArrayOfAllLeds = new LedObject[totalNumberOfLeds]; // Create new array containing the object and index of all 4096 leds. 
-  //text("Waiting 1000 miliseconds before updateing display", width/2- 100, height/2); // Expiramental code to test millisecondsBetweenDrawings feature for performance
+//Every cube creates a list of all its leds 
+        this.aMasterArrayOfAllLeds = new LedObject[totalNumberOfLeds];   //text("Waiting 1000 miliseconds before updateing display", width/2- 100, height/2); // Expiramental code to test millisecondsBetweenDrawings feature for performance
 
-  theCube = new CubeObject();
+  //theCube = new CubeObject();
+  //Create a collection of cubes (aka animation)
+  theAnimation = new AnimationObject();
 
 }//end setup
 
@@ -61,7 +66,8 @@ void draw()
       // Draw divider lines
       drawLines();
       // Draw the actual leds
-      drawCube();
+      //drawCube();
+      drawAnimation();
       
       //reset lastdrawtime to now.
 //      lastDrawTime = currentMillisecond;  
@@ -139,6 +145,48 @@ void keyPressed()
       //Draw Grey
       activeColor = #969696;
   }
+  if (keyCode == RIGHT)
+  {
+        //Pressing the right key moves to the next animation
+        //in the sequence
+        debug("activeAnimation is " + activeAnimation);
+        
+        //See if we are navigating to a new cube sequence or an existing one
+        if (activeAnimation < theAnimation.getNumberOfCubesInAnimation() -1 )
+        {
+          debug("activeAnimation is " + activeAnimation + " NumberOfCubesInAnimation is " + theAnimation.getNumberOfCubesInAnimation() );
+          activeAnimation = activeAnimation + 1;
+          debug("activeAnimation been changed to " + activeAnimation);
+        }
+        else 
+        {
+          theAnimation.addNewCubeToAnimation();
+          activeAnimation = activeAnimation + 1;
+          debug("created new cube in animation");
+        }
+    }// end RIGHT
+    
+   if (keyCode == LEFT )
+   {
+       // See if we are at the first cube in sequnce
+       // Prevent negative animations
+       debug("Left key pressed");
+       debug("activeAnimation is " + activeAnimation + "\n");
+       if (activeAnimation >= 1)
+       {
+         activeAnimation = activeAnimation - 1;
+         debug("Decreased activeAnimation by 1");
+       }
+       else
+       {
+          debug("Already at cube 0"); 
+       }
+     
+   }// end LEFT
+    
+    
+    
+  
   
 }//end keyPressed
 
@@ -186,7 +234,14 @@ void drawLines()
 
 void drawCube()
 {
-  theCube.displayOneCube();
+  //theCube.displayOneCube();
+}
+
+void drawAnimation()
+{
+  //Draw the cube to the screen
+  //activeAnimation = the number in the animation, 0 - infinity
+   theAnimation.displayOneAnimation(activeAnimation); 
 }
 
 void exportToFile()
@@ -209,25 +264,36 @@ void exportToFile()
               { println("No File Selected"); }
               else
               {
-                  // Create aray of strings with 4096 spaces in it
-                  String[] arrayOfLedsToExport = new String[totalNumberOfLeds];
-                  
-                    for( int ledToFileCounter = 0; ledToFileCounter < aMasterArrayOfAllLeds.length ; ledToFileCounter++ )
-                    {
-                      
-                      String numberOfLed = aMasterArrayOfAllLeds[ledToFileCounter].getLedNumberInCube() + "";
-                      String colorOfLed = aMasterArrayOfAllLeds[ledToFileCounter].getLedColor() + "";
-                   
-                      
-                      arrayOfLedsToExport[ledToFileCounter] = ( numberOfLed +"\t"+ colorOfLed);
-                      
-                    }// end for ledToFileCounter
-                    
                 
+                // Create aray of strings with 4096 spaces in it
+                String[] arrayOfCubesToExport = new String[theAnimation.getNumberOfCubesInAnimation() * totalNumberOfLeds];
+                debug("Text file will have "+theAnimation.getNumberOfCubesInAnimation() * totalNumberOfLeds+ " lines in it");
+                //Save every cube, led and color to text file
+                for (int cubeInAnimationCounter = 0; cubeInAnimationCounter < theAnimation.getNumberOfCubesInAnimation(); cubeInAnimationCounter++)
+                {
+                  debug("Saving cube number " + cubeInAnimationCounter + " to file");
+
+                      for( int ledInCubeCounter = 0; ledInCubeCounter < aMasterArrayOfAllLeds.length ; ledInCubeCounter++ )
+                      {
+                        
+                        String numberOfCube = cubeInAnimationCounter + "";
+                        //Covert the led number 0-4096 to a string
+                        //String numberOfLed = aMasterArrayOfAllLeds[ledInCubeCounter].getLedNumberInCube() + "";
+                        String numberOfLed = aMasterArrayOfAllLeds[ledInCubeCounter].getLedNumberInCube() + "";
+                       
+                        //Convert the color #ff00ff to a string
+                        String colorOfLed = aMasterArrayOfAllLeds[ledInCubeCounter].getLedColor() + "";
+                     
+                        
+                        arrayOfCubesToExport[ (totalNumberOfLeds * cubeInAnimationCounter) +  ledInCubeCounter ] = ( numberOfCube +"\t"+ numberOfLed +"\t"+ colorOfLed);
+                        
+                      }// end for ledInCubeCounter
+                    
+                }// end cubeInAnimationCounter
 
                 // Prompt the user for a file and save that location to a string
                 // example = c:\someFile.txt   
-                saveStrings( locationOfFileToExport, arrayOfLedsToExport);
+                saveStrings( locationOfFileToExport, arrayOfCubesToExport);
                 
               }//end if locationOfFileToExport = null
       

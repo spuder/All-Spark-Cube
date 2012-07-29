@@ -3,11 +3,15 @@ class CubeObject
 {
   // Create a new array of Panels 
   PanelObject[] anArrayOfPanels;
+  
+  
+
 
   //Panel Constuctor. Actually makes the object. 
   CubeObject()
   {
       
+        
 
         
         //Every panel creates an array of 16 rows
