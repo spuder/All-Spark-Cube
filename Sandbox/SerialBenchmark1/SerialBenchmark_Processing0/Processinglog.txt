@@ -1,0 +1,16 @@
+21:21:17 Wrote to serial 13
+21:21:19 Wrote to serial 13
+21:21:20 Wrote to serial 13
+21:36:44 Wrote to serial 13
+21:37:2 Wrote to serial 13
+21:37:3 Wrote to serial 13
+21:37:4 Wrote to serial 13
+21:38:24 Wrote to serial 13
+21:38:24 Wrote to serial 13
+21:38:25 Wrote to serial 13
+21:38:26 Wrote to serial 13
+21:38:27 Wrote to serial 13
+21:38:27 Wrote to serial 13
+21:38:27 Wrote to serial 13
+21:38:27 Wrote to serial 13
+21:38:27 Wrote to serial 13
