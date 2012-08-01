@@ -39,7 +39,7 @@ void setup()
   size( screen.width, screen.height/2 );
   frame.setResizable(true);             //Allows window to be resized.
   frame.setTitle("All Spark Cube"); 
-  frameRate(25);
+  frameRate(30);
   background(160);                      //Draw a grey background once. This will be over written later. 
 
   aMasterArrayOfAllLedsInAllCubes = new ArrayList<LedObject>();
@@ -174,7 +174,8 @@ void keyPressed()
           activeAnimation = activeAnimation + 1;
           debug("created new cube in animation");
         }
-
+        
+      // Change the title bar from All Spark Cube to Animation x of x
       updateWindowTitle();
 
     }// end RIGHT
@@ -196,7 +197,7 @@ void keyPressed()
        {
           debug("Already at cube 0"); 
        }
-      
+    // Change the title bar from All Spark Cube to Animation x of x
     updateWindowTitle();
      
    }// end LEFT

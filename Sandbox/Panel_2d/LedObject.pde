@@ -31,40 +31,46 @@ class LedObject
   public void displayOneLed()
   {
 
-    //debug("this.ledColor = " + this.ledColor);
-    fill(this.ledColor);
-
-
-    //if the mouse x is > (led pixel locationX - 5) and < the (led pixel location + 5) then the mouse is in the same column as this led
-    //if the mouse y is > (led pixel locationY - 5) and < the (led pixel location + 5) then the mouse is in the same row  as this led. 
-    if (   (mouseX > this.ledXPixelLocation - (this.ledSize / 2 ) ) 
-      && (mouseX < this.ledXPixelLocation + (this.ledSize / 2 ) ) 
-      && (mouseY > this.ledYPixelLocation - (this.ledSize / 2 ) ) 
-      && (mouseY < this.ledYPixelLocation + (this.ledSize / 2 ) ) )
-    {
-      //If we have hovered over the led and clicked, then change the color
-      if ( ledHasBeenClicked  == true )
-      {
-
-        //Change the current leds color to the key that was pressed earlier (red, green, blue, ect)
-        this.setLedColor(activeColor);
-      }//end if ledHasBeenClicked
-
-
-
-      // if the mouse is over an led, draw the active color line around it
-      stroke(activeColor);
-    }//end if mousePosition = led
-
-
-    // draw the led to the screen The location on screen is saved in the objects attributes
-    ellipse( this.ledXPixelLocation, this.ledYPixelLocation, this.ledSize, this.ledSize); 
-
-    //Stroke method is no longer needed, set stroke to nothing.
-    noStroke();
-
-    //Fill method is no longer needed, set fill to nothing
-    noFill();
+      //debug("this.ledColor = " + this.ledColor);
+      fill(this.ledColor);
+      
+      // Your mouse will be considered hovered over an led if it is within
+      // 2 pixels of the edge of the led. Mouse can't be between leds at 16x16x16 resolution
+      // on a 1620x1050 screen. Gives more responsive feel
+      // TODO: Make this dynamic. Github issue #46
+      int hoverGreedyness = 2;
+  
+  
+        //if the mouse x is > (led pixel locationX - 5) and < the (led pixel location + 5) then the mouse is in the same column as this led
+        //if the mouse y is > (led pixel locationY - 5) and < the (led pixel location + 5) then the mouse is in the same row  as this led. 
+        if (   (mouseX > this.ledXPixelLocation - (this.ledSize / 2 ) - hoverGreedyness) 
+            && (mouseX < this.ledXPixelLocation + (this.ledSize / 2 ) + hoverGreedyness) 
+            && (mouseY > this.ledYPixelLocation - (this.ledSize / 2 ) - hoverGreedyness) 
+            && (mouseY < this.ledYPixelLocation + (this.ledSize / 2 ) + hoverGreedyness) )
+        {
+            //If we have hovered over the led and clicked, then change the color
+            if ( ledHasBeenClicked  == true )
+            {
+      
+              //Change the current leds color to the key that was pressed earlier (red, green, blue, ect)
+              this.setLedColor(activeColor);
+            }//end if ledHasBeenClicked
+      
+    
+    
+          // if the mouse is over an led, draw the active color line around it
+          stroke(activeColor);
+        }//end if mousePosition = led
+    
+    
+      // draw the led to the screen The location on screen is saved in the objects attributes
+      ellipse( this.ledXPixelLocation, this.ledYPixelLocation, this.ledSize, this.ledSize); 
+  
+      //Stroke method is no longer needed, set stroke to nothing.
+      noStroke();
+  
+      //Fill method is no longer needed, set fill to nothing
+      noFill();
   }//end displayOneLed
 
 
