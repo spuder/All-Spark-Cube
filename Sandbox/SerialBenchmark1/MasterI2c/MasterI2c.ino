@@ -42,8 +42,9 @@
         Serial.println( String( dataRecieved ) );
         
         Wire.beginTransmission( SlaveAddress );
-        Wire.write( byte(dataRecieved)  );
+        Wire.write( dataRecieved  );
         Wire.endTransmission();
       } 
     
   }// end loop
+  

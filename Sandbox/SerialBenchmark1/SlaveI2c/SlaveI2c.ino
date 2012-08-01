@@ -23,7 +23,7 @@ to comunicate over i2c
     // a slave device receives a transmission from a master." 
     // In other words it calls a function when the master
     // alerts data is on the way
-    Wire.onReceive(receiveEvent);
+    Wire.onReceive(receiveEvent());
     
   }// end setup()
 
@@ -37,8 +37,10 @@ to comunicate over i2c
   // data is on its way from the master
   void receiveEvent(int howMany)
   {
+    Serial.println("about to get some text");
       while( Wire.available() == true )
       {
+          
           byteOfDataRecieved = Wire.read();
           Serial.println("Got some text");
       }

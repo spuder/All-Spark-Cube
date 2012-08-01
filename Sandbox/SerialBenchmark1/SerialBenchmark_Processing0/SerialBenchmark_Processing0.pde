@@ -8,7 +8,7 @@ import processing.serial.*;
 int potPin = 0;
 //int ledBrightness = 0;
 
-int led0 = 13;
+char led0 = 1;
 int led0Brightness = 0;
 int led1;
 int led1Brightness = 0;
@@ -62,8 +62,9 @@ void mousePressed()
   
   
 // ledBrightness = ledBrightness + 25;
- aSerialPort.write(arrayOfDataToSendToArduino[0]);
- outputFile.println(hour()+":"+minute()+":"+second()+" Wrote to serial " + arrayOfDataToSendToArduino[0]);
+  int temporaryInt = arrayOfDataToSendToArduino[0];
+ aSerialPort.write(temporaryInt);
+ outputFile.println(hour()+":"+minute()+":"+second()+" Wrote to serial " + arrayOfDataToSendToArduino[0] + " which is " + byte(arrayOfDataToSendToArduino[0]));
  outputFile.flush();
  //outputFile.close();
  //println(ledBrightness);
