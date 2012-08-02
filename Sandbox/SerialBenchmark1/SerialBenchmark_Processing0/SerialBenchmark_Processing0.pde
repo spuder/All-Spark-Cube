@@ -8,7 +8,7 @@ import processing.serial.*;
 int potPin = 0;
 //int ledBrightness = 0;
 
-char led0 = 1;
+char led0 = 48;
 int led0Brightness = 0;
 int led1;
 int led1Brightness = 0;
