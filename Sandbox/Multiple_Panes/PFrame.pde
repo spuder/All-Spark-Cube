@@ -3,10 +3,10 @@ public class PFrame extends Frame
     public PFrame() 
     {
         
-        setBounds(100,100,400,300);
+        setBounds(300,screen.height/2, screen.width/2,screen.height/2);
         aSecondApplet = new secondApplet();
-        add(aSecondApplet);
-        aSecondApplet.init();
+                        add(aSecondApplet);
+                            aSecondApplet.init();
         show();
     }
 
@@ -16,7 +16,9 @@ public class secondApplet extends PApplet
 {
       public void setup() 
       {
-          size(400, 300);
+        //**** This must be set in conjunction with the PFrame class
+        // to set the size and start position of a window
+         // size(width,height); //nevermind, dont set it at all
           noLoop();
       }// end setup
   
