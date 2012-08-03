@@ -1,10 +1,10 @@
-public class PFrame extends Frame 
+public class PFrame extends java.awt.Frame 
 {
     public PFrame() 
     {
         
-        setBounds(300,screen.height/2, screen.width/2,screen.height/2);
-        aSecondApplet = new secondApplet();
+       setBounds(300,screen.height/2, screen.width/2,screen.height/2);
+       aSecondApplet = new SecondApplet();
                         add(aSecondApplet);
                             aSecondApplet.init();
         show();
@@ -12,26 +12,39 @@ public class PFrame extends Frame
 
 }// end PFrame
 
-public class secondApplet extends PApplet 
+ class SecondApplet extends processing.core.PApplet 
 {
+  
+  CircleObject childCircle;
+  
       public void setup() 
       {
-        //**** This must be set in conjunction with the PFrame class
-        // to set the size and start position of a window
-         // size(width,height); //nevermind, dont set it at all
+     
+        //Create a new circle object
+        //childCircle = new CircleObject();
+        //Create a shallow copy (clone) of the object
+//        try{
+//            CircleObject childCircle = (CircleObject) theParentCircle.clone();
+//        }
+//        catch (CloneNotSupportedException cnse) {
+//         System.out.println("Cloneable should be implemented. " + cnse );
+//        }
+
+        
           noLoop();
       }// end setup
   
       public void draw() 
       {
           background(0,0,255);
-          ellipse(30,30,30,30);
+          childCircle.displayCircle();
+          //theParentCircleClone.displayCircle();
         
       }// end draw
       
       public void mouseReleased()
       {
-        fill( 255, 0, 0 );
+        
       }// end mouseReleased
       
 }// end secondApplet

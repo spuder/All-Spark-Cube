@@ -1,8 +1,16 @@
 import processing.opengl.*;
 
-
+//I am calling this PFrame4 just to prove that the name doesn matter
 PFrame aPFrame;
-secondApplet aSecondApplet;
+SecondApplet aSecondApplet;
+
+public CircleObject theParentCircle;
+public CircleObject theParentCircleClone;
+public CircleObject childCircle;
+
+color red   = color(#FF0000);
+color green = color(0,255,0);
+color blue  = color(0,0,255);
 
 void setup() {
  size( screen.width, screen.height/2, OPENGL);
@@ -13,25 +21,23 @@ void setup() {
  frame.addNotify();
  
  PFrame aPFrame = new PFrame();
-        aPFrame.setTitle("Second JFrame");
-        aPFrame.setLocation(screen.width/2, 0);
+         aPFrame.setTitle("Second JFrame");
+         aPFrame.setLocation(screen.width/2, 0);
 
-            
-      
+  theParentCircle = new CircleObject();   
+  childCircle = theParentCircle;
 }
     
 void draw() {
   background(255,0,0);
-  //aSecondApplet.background(0, 0, 255);
-   //aSecondApplet.fill(100);
-   //s.rect(10,20,frameCount0,10);// default line, wont compile
-   aSecondApplet.redraw();   
-   ellipse(40,40,40,40); 
+   
+   theParentCircle.displayCircle();   
+   aSecondApplet.redraw(); 
 }
 
 void mouseReleased()
 {
-  fill(0,255,0);
+  theParentCircle.setColor( red );
 }
 
 
