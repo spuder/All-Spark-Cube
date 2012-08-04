@@ -16,28 +16,29 @@
 //CubeSnapshot theCube;
 
 
-AnimationObject theAnimation;
+AnimationOfSnapshots theAnimation;
 
+//This code should no longer be needed now that classes can pass to others
 List<LedObject> aMasterArrayOfAllLedsInAllCubes;
 
 
 
-public              boolean debugMode = true;
+public              boolean   debugMode = true;
 
-public static final int     xNumberOfLedsPerRow         = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
-public        final int     yNumberOfRowsPerPanel       = 16;
-public        final int     zNumberOfPanelsPerCube      = 16;
-public        final int     totalNumberOfLeds = xNumberOfLedsPerRow * yNumberOfRowsPerPanel * zNumberOfPanelsPerCube;
+public static final int       xNumberOfLedsPerRow         = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
+public        final int       yNumberOfRowsPerPanel       = 16;
+public        final int       zNumberOfPanelsPerCube      = 16;
+public        final int       totalNumberOfLeds = xNumberOfLedsPerRow * yNumberOfRowsPerPanel * zNumberOfPanelsPerCube;
 
 //private       final float   millisecondsBetweenDrawings = 1; //Set how often to draw all the objects on the screen. Once every couple dozen millisenconds is usally enough
-private             float   lastDrawTime;
-public static       boolean ledHasBeenClicked    = false;  //This would be good to put in the led class but processing doesn't allow static fields in non static classes
-public static       boolean ledHasBeenReleased   = true;
-public static       boolean ledHasBeenDragged    = false;
+//private             float   lastDrawTime;
+public static       boolean   ledHasBeenClicked    = false;  //This would be good to put in the led class but processing doesn't allow static fields in non static classes
+public static       boolean   ledHasBeenReleased   = true;
+public static       boolean   ledHasBeenDragged    = false;
                                                 //An alternative would be to convert it to java but for now this works. http://www.processing.org/discourse/beta/num_1263237645.html
-public              int   activeColor = #0000FF;                                                
-public        final int     ledSize = 10; // TODO:Change this to be a ratio of the barsize and then apply it to the led object
-public              int     activeAnimation = 0;
+public              int       activeColor = #0000FF;                                                
+public        final int       ledSize = 10; // TODO:Change this to be a ratio of the barsize and then apply it to the led object
+public              int       activeAnimation = 0;
 
 void setup()
 {
@@ -60,9 +61,9 @@ void setup()
   
   aMasterArrayOfAllLedsInAllCubes = new ArrayList<LedObject>();
   //theCube = new CubeSnapshot`();
-  //Create a collection of cubes (aka animation)
+  //Create a collection of cubeSnapshots (aka animation)
   //TODO: This should only be made when we know wheter we are importing an existing or creating a new
-  theAnimation = new AnimationObject();
+  theAnimation = new AnimationOfSnapshots();
 
 }//end setup
 
@@ -308,7 +309,7 @@ void exportToFile()
                         {
                           String cubeInAnimation = cubeInAnimationCounter + "";
                           String ledInCube       = ledInCubeCounter       + "";
-                          String colorOfLed      = theAnimation.anArrayOfCubes.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + "";
+                          String colorOfLed      = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + "";
                           
                           arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation +"\t"+ ledInCube +"\t"+ colorOfLed);
 
@@ -368,7 +369,7 @@ void importFromFile()
                    */
                    
                    //Recreate the animation object
-                   theAnimation = new AnimationObject();
+                   theAnimation = new AnimationOfSnapshots();
 
                    // Create aray of strings
                    // Add the file to the array
@@ -401,7 +402,7 @@ void importFromFile()
                         }
                         
                         //Get the cube object we are working with and add all the leds to it
-                        theAnimation.anArrayOfCubes.get(cubeInAnimationInTextFile).getLedObjectForParent(ledNumberInTextFile).setLedColor(ledColorInTextFile);
+                        theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationInTextFile).getLedObjectForParent(ledNumberInTextFile).setLedColor(ledColorInTextFile);
               
 
                    }//end for fileToLedCounter

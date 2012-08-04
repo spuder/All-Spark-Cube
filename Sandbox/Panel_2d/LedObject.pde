@@ -15,14 +15,15 @@ class LedObject
   LedObject(int ledNumberInCube, int ledColor, float ledBrightness, int ledSize)
   {
 
-    this.ledNumberInCube = ledNumberInCube;
-    this.ledColor = ledColor;
-
-    // for testing set a perminate value and dont worry about it
-    this.ledBrightness = 255; 
-
-    // for testing set to 10 and dont worry about it
-    this.ledSize = 10;
+      this.ledNumberInCube = ledNumberInCube;
+      this.ledColor = ledColor;
+  
+      // for testing set a perminate value and dont worry about it
+      this.ledBrightness = 255; 
+  
+      // for testing set to 10 and dont worry about it
+      this.ledSize = 10;
+      
   } //end constuctor
 
 
@@ -60,6 +61,7 @@ class LedObject
     
           // if the mouse is over an led, draw the active color line around it
           stroke(activeColor);
+          
         }//end if mousePosition = led
     
     
@@ -111,20 +113,20 @@ class LedObject
   }//end getLedColor
 
 
-    // Led Brightness
+  // Led Brightness
   //================================
   public void setLedBrightness(float ledBrightness)
   {
     this.ledBrightness = ledBrightness;
   }                                         //end setLedBrightness
 
-    public float getLedBrightness()
+  public float getLedBrightness()
   {
     return this.ledBrightness;
   }//end getLedBrightness
 
 
-    // Led Size
+  // Led Size
   //==================================
   public void setLedSize(int ledSize)
   {
@@ -137,7 +139,7 @@ class LedObject
   }//end getLedSize
 
 
-    // Led Location
+  // Led Location
   //==================================
   public void setLedXPixelLocation(int ledXPixelLocation)
   {
@@ -159,5 +161,7 @@ class LedObject
   {
     return this.ledYPixelLocation;
   }
+  
+  
 } // end class LedObjects
 

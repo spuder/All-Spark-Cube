@@ -18,25 +18,25 @@ class RowObject
       
           int firstLedInRow = relativeLedLocationToAbsolute(this.rowCoordinateY, this.rowCoordinateZ);  
 
-	        // Create the led objects, add the lds to the array list, add the array list to the object
-		for ( int ledNumberInRowCounter = 0; ledNumberInRowCounter < xNumberOfLedsPerRow; ledNumberInRowCounter++)
-	        {
-                // Create led object ( (0-16), #969696=grey, 0 = brightness, ledsize=10)
-                LedObject aLedObject = new LedObject( (firstLedInRow + ledNumberInRowCounter), #969696, 0, ledSize);
-
-                //Add the object to the class array.
-                this.anArrayOfRowLeds[ledNumberInRowCounter] = aLedObject;
-                 
-                // Convert this led to an absolute location
-                int ledAbsoluteValue = relativeLedLocationToAbsolute( this.rowCoordinateY, this.rowCoordinateZ ) + ledNumberInRowCounter;  
-	   
-                // Add the led object to the master array aswell 	   
-                //aMasterArrayOfAllLeds[ ledAbsoluteValue ] = aLedObject; 
-                aMasterArrayOfAllLedsInAllCubes.add(aLedObject);
+	 // Create the led objects, add the lds to the array list, add the array list to the object
+         for ( int ledNumberInRowCounter = 0; ledNumberInRowCounter < xNumberOfLedsPerRow; ledNumberInRowCounter++)
+	   {
+                  // Create led object ( (0-16), #969696=grey, 0 = brightness, ledsize=10)
+                  LedObject aLedObject = new LedObject( (firstLedInRow + ledNumberInRowCounter), #969696, 0, ledSize);
+  
+                  //Add the object to the class array.
+                  this.anArrayOfRowLeds[ledNumberInRowCounter] = aLedObject;
                    
-                //Decomission the object to mark it for the java garbage collector
-                aLedObject = null;
-          }//end for loop create objects
+                  // Convert this led to an absolute location
+                  int ledAbsoluteValue = relativeLedLocationToAbsolute( this.rowCoordinateY, this.rowCoordinateZ ) + ledNumberInRowCounter;  
+  	   
+                  // Add the led object to the master array aswell 	   
+                  //aMasterArrayOfAllLeds[ ledAbsoluteValue ] = aLedObject; 
+                  aMasterArrayOfAllLedsInAllCubes.add(aLedObject);
+                     
+                  //Decomission the object to mark it for the java garbage collector
+                  aLedObject = null;
+            }//end for loop create objects
 
       
 
@@ -49,7 +49,7 @@ class RowObject
           /*The ledInRowCounter is converted from the row[0,0] to a location in the array eg. 48, 64, 256...
            ledInRowCounter is 16 digits larger 63, 95, 255 */
           for ( int ledInRowCounter = 0; ledInRowCounter < xNumberOfLedsPerRow; ledInRowCounter++ )
-          {
+            {
       
                 //  debug("Drawing led " + ledInRowCounter + " out of " + lastLedInRow);
                 /*
@@ -73,7 +73,7 @@ class RowObject
 
 
                       //If panel is less than half of all panels draw on upper row, otherwise draw on bottom row
-                      if( this.rowCoordinateZ < ( zNumberOfPanelsPerCube / 2 )  )
+                      if ( this.rowCoordinateZ < ( zNumberOfPanelsPerCube / 2 )  )
                       {	
                         
 
@@ -115,7 +115,7 @@ class RowObject
                       }		
 
    
-          }//end for loop
+              }//end for loop
           
     }// end displayOneRow
 
@@ -145,20 +145,22 @@ class RowObject
 
     int absoluteLocationToPositionInRow(int absoluteLocation)
     {
-      // Passing in the absolute location such as 4095 returns the position in the 
-      // row 0 - 16.  4095 returns 15, 20 returns 4
-    int ledTotalRowNumber = (absoluteLocation / xNumberOfLedsPerRow); // 48 would return 3rd row TODO:Consider renaming locationInY
-    int ledPanelNumber = (absoluteLocation / xNumberOfLedsPerRow / yNumberOfRowsPerPanel); //4095 would return panel 15, 300 returns panel 1 TODO:Consider renaming to locationINZ 
-    int ledVerticalRowNumber = (ledTotalRowNumber - (yNumberOfRowsPerPanel * ledPanelNumber)); //we need to know how high from the ground, not how many rows there are total
-    int firstLedInRow = ((1 + ledVerticalRowNumber + ledPanelNumber * zNumberOfPanelsPerCube ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow);
-   // debug("Led number " + absoluteLocation + " is in position " + (absoluteLocation - firstLedInRow) + " in a row");
+        // Passing in the absolute location such as 4095 returns the position in the 
+        // row 0 - 16.  4095 returns 15, 20 returns 4
+        int ledTotalRowNumber = (absoluteLocation / xNumberOfLedsPerRow); // 48 would return 3rd row TODO:Consider renaming locationInY
+        int ledPanelNumber = (absoluteLocation / xNumberOfLedsPerRow / yNumberOfRowsPerPanel); //4095 would return panel 15, 300 returns panel 1 TODO:Consider renaming to locationINZ 
+        int ledVerticalRowNumber = (ledTotalRowNumber - (yNumberOfRowsPerPanel * ledPanelNumber)); //we need to know how high from the ground, not how many rows there are total
+        int firstLedInRow = ((1 + ledVerticalRowNumber + ledPanelNumber * zNumberOfPanelsPerCube ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow);
+    // debug("Led number " + absoluteLocation + " is in position " + (absoluteLocation - firstLedInRow) + " in a row");
     return (absoluteLocation - firstLedInRow);
 
     }
 
-    // Pass the led object to the parent
-    // This allows the Cube to ask the Panel to ask the Row 
-    // for an exact led object
+
+    /* Pass the led object to the parent
+       This allows the Cube to ask the Panel to ask the Row 
+       for an exact led object
+     */
     LedObject getLedObjectForParent(int ledToFind)
     {
       // Take ledToFind as the absolute location in cube and

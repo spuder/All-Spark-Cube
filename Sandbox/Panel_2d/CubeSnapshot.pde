@@ -38,7 +38,7 @@ class CubeSnapshot
         
 
                  
-  } //end Panel Constuctor
+  } //end CubeSnapshot Constuctor
 
 
 
@@ -77,23 +77,23 @@ class CubeSnapshot
 
   public void setLedColor(int ledToSetColor, int colorToSetLed ) 
   {
-    anArrayOfLedsInThisCube[ledToSetColor].setLedColor(colorToSetLed);
+      anArrayOfLedsInThisCube[ledToSetColor].setLedColor(colorToSetLed);
   }
 
   public int getPanelThatContainsLed(int ledToFind)
   {
       int ledTotalRowNumber     = (ledToFind / xNumberOfLedsPerRow);      
       int ledPanelNumber        = (ledToFind / xNumberOfLedsPerRow / yNumberOfRowsPerPanel); //4095 would return panel 15, 300 returns panel 1 TODO:Consider renaming to locationINZ 
-    //  debug("Led number " + ledToFind + " is in panel "+ ledPanelNumber + "\n");
+      //  debug("Led number " + ledToFind + " is in panel "+ ledPanelNumber + "\n");
       return ledPanelNumber;
   }
 
   LedObject getLedObjectForParent(int ledToFind)
   {
-    return anArrayOfPanels[getPanelThatContainsLed(ledToFind)].getLedObjectForParent(ledToFind);
-    //return anArrayOfRows[getRelativeRowThatContainsLed(ledToFind)].getLedObjectForParent(ledToFind);
+      return anArrayOfPanels[getPanelThatContainsLed(ledToFind)].getLedObjectForParent(ledToFind);
+      //return anArrayOfRows[getRelativeRowThatContainsLed(ledToFind)].getLedObjectForParent(ledToFind);
   }
 
   
-} // end class RowObject
+} // end class CubeSnapshot
 
