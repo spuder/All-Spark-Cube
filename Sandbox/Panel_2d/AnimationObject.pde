@@ -4,7 +4,7 @@ class AnimationObject
 {
   // Create a new arrayList of Cubes
   // There will only be 1 array total per project
-   List<CubeObject> anArrayOfCubes = new ArrayList<CubeObject> ();
+   List<CubeSnapshot> anArrayOfCubes = new ArrayList<CubeSnapshot> ();
    
  
 
@@ -12,10 +12,10 @@ class AnimationObject
   AnimationObject()
   {
         //Every Animation creates a new Cube
-        //this.anArrayOfCubes = new ArrayList<CubeObject> ();
+        //this.anArrayOfCubes = new ArrayList<CubeSnapshot> ();
         
         //Create a new cube and add it to the array
-        CubeObject aCube = new CubeObject();
+        CubeSnapshot aCube = new CubeSnapshot();
         anArrayOfCubes.add(aCube);
               
   } //end Animation Constuctor
@@ -39,13 +39,13 @@ class AnimationObject
   public void addNewCubeToAnimation()
   {
             //Create a new cube and add it to the array
-        CubeObject aCube = new CubeObject();
+        CubeSnapshot aCube = new CubeSnapshot();
         anArrayOfCubes.add(aCube);
   }
   
-  public CubeObject getCubeFromAnimation(int CubeNumberInArrayListOfCubes)
+  public CubeSnapshot getCubeFromAnimation(int CubeNumberInArrayListOfCubes)
   {
-      CubeObject aCube = anArrayOfCubes.get(CubeNumberInArrayListOfCubes);
+      CubeSnapshot aCube = anArrayOfCubes.get(CubeNumberInArrayListOfCubes);
       return aCube;
   }
 

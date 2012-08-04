@@ -1,4 +1,4 @@
-class CubeObject
+class CubeSnapshot
 {
   // Create a new array of Panels 
   PanelObject[] anArrayOfPanels;
@@ -9,7 +9,7 @@ class CubeObject
 
 
   //Panel Constuctor. Actually makes the object. 
-  CubeObject()
+  CubeSnapshot()
   {
     
         //Every cube creates a list of all its leds 

@@ -10,7 +10,7 @@
 
 /* Create a cube object which encapsulates
    panels rows and leds */
-//CubeObject theCube;
+//CubeSnapshot theCube;
 AnimationObject theAnimation;
 
 List<LedObject> aMasterArrayOfAllLedsInAllCubes;
@@ -43,7 +43,7 @@ void setup()
   background(160);                      //Draw a grey background once. This will be over written later. 
 
   aMasterArrayOfAllLedsInAllCubes = new ArrayList<LedObject>();
-  //theCube = new CubeObject();
+  //theCube = new CubeSnapshot();
   //Create a collection of cubes (aka animation)
   //TODO: This should only be made when we know wheter we are importing an existing or creating a new
   theAnimation = new AnimationObject();
@@ -98,7 +98,7 @@ void keyPressed()
   if (key == 'd' || key == 'D')
   {
 
-    CubeObject aTestObject = new CubeObject();
+    CubeSnapshot aTestObject = new CubeSnapshot();
     //aTestObject.getPanelThatContainsLed(4095);
     int testLedToFind = 350;
 

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="529.0" prefWidth="806.0" xmlns:fx="http://javafx.com/fxml">
+  <children>
+    <Accordion />
+    <TabPane prefHeight="251.0" prefWidth="403.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="278.0" AnchorPane.leftAnchor="403.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <tabs>
+        <Tab text="Cube Editor">
+          <content>
+            <SplitPane focusTraversable="true" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                  <children>
+                    <SplitPane focusTraversable="true" prefHeight="243.0" prefWidth="804.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
+                      <items>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                          </content>
+                        </ScrollPane>
+                      </items>
+                    </SplitPane>
+                  </children>
+                </AnchorPane>
+              </items>
+            </SplitPane>
+          </content>
+        </Tab>
+        <Tab text="Scene Selection">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="258.0" prefWidth="312.0">
+              <children>
+                <ScrollPane prefHeight="493.0" prefWidth="806.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="Hardware">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+    <TitledPane animated="false" layoutY="251.0" prefHeight="278.0" prefWidth="805.0" text="untitled">
+      <content>
+        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+          <children>
+            <Button layoutX="83.0" layoutY="4.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="156.0" layoutY="4.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="247.0" layoutY="4.0" mnemonicParsing="false" text="Button" />
+            <Button layoutX="329.0" layoutY="4.0" mnemonicParsing="false" text="Button" />
+            <ColorPicker layoutX="414.0" layoutY="2.0" />
+            <TextField layoutX="669.0" layoutY="5.0" prefWidth="118.0" text="Frame x of X" />
+            <SplitPane focusTraversable="true" layoutX="358.0" layoutY="103.0" prefHeight="160.0" prefWidth="200.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+              </items>
+            </SplitPane>
+          </children>
+        </AnchorPane>
+      </content>
+    </TitledPane>
+    <Pane layoutX="2.0" prefHeight="251.0" prefWidth="401.0" />
+  </children>
+</AnchorPane>
