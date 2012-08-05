@@ -1,5 +1,6 @@
 import processing.serial.*;
 
+  //Declare the Controller for the API but dont initiate it
   PhysicalCubeController aPhysicalController;
   AnimationOfSnapshots   theAnimationOfSnapshots;
   Serial                 theSerialPort;
@@ -17,12 +18,15 @@ import processing.serial.*;
   
   int activeAnimation = 0;
   
+
   
  // List<LedObject> aMasterArrayOfAllLedsInAllCubes;
 
 void setup()
 {
-  //aPhysicalController         = new PhysicalCubeController();
+  /* Create a new controller and devine which of its api's to use */
+  //TODO: Prompt user for which to use
+  aPhysicalController         = new PhysicalCubeController(new AdaptiveCube() );
 
   theAnimationOfSnapshots     = new AnimationOfSnapshots();
   
@@ -49,11 +53,13 @@ void keyPressed()
   {
     println("Sending new animation to cube");
     
-    CubeSnapshot currentCube = theAnimationOfSnapshots.getCubeFromAnimation(0);
-    CubeSnapshot cubeToDraw = theAnimationOfSnapshots.getCubeFromAnimation(1);
+    CubeSnapshot currentlyDisplayedSnapshot = theAnimationOfSnapshots.getCubeFromAnimation(0);
+    println("Got cube " + theAnimationOfSnapshots.getCubeFromAnimation(0) + " from array");
+    CubeSnapshot snapshotToDisplay          = theAnimationOfSnapshots.getCubeFromAnimation(1);
     
-   //aPhysicalController.writeSnapshotToSerial(currentCube, cubeToDraw);
+    aPhysicalController.writeSnapshotToSerial( currentlyDisplayedSnapshot,  snapshotToDisplay );
   }
+
 }
 
 

@@ -42,6 +42,7 @@ public class AdaptiveCube implements AllSparkAPI
   
   void writeSnapshotToSerial(CubeSnapshot currentlyDisplayedSnapshot, CubeSnapshot snapshotToDisplay )
   {
+      println("Adaptive Class serial method called, About to write snapshot to serial");
       //Get the current CubeSnapshot
       //Get the snapshot to change to
       //Create a transmisison object = diff of current snapshot and 

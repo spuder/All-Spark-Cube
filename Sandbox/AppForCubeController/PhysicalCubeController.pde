@@ -33,10 +33,11 @@ public class PhysicalCubeController
      
   }// end PhysicalCubeController Constructor
   
-//  public void writeSnapshotToSerial(CubeSnapshot currentCubeSnapshot, CubeSnapshot nextCubeSnapshot)
-//  {
-//     
-//  }
+ public void writeSnapshotToSerial(CubeSnapshot currentCubeSnapshot, CubeSnapshot nextCubeSnapshot)
+ {
+    println("Physical Cube Class write Method called");
+    aAllSparkAPI.writeSnapshotToSerial(currentCubeSnapshot, nextCubeSnapshot);
+ }
   
   public String[] getAvailableSerialPorts()
   {
