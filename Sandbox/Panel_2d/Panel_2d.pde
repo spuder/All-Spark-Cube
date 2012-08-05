@@ -40,6 +40,9 @@ public              int       activeColor = #0000FF;
 public        final int       ledSize = 10; // TODO:Change this to be a ratio of the barsize and then apply it to the led object
 public              int       activeAnimation = 0;
 
+
+
+
 void setup()
 {
    //Disabled OPENGL because it was running more slowly //size( screen.width, screen.height/2 , OPENGL);
