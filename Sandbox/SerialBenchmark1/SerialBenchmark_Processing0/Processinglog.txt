@@ -1,3 +1,5 @@
-20:8:6 Wrote to serial 48 which is 48
-20:8:7 Wrote to serial 48 which is 48
-20:8:9 Wrote to serial 48 which is 48
+20:36:49 Wrote to serial 48 which is 48
+20:37:18 Wrote to serial 48 which is 48
+20:37:19 Wrote to serial 48 which is 48
+20:37:19 Wrote to serial 48 which is 48
+20:37:54 Wrote to serial 48 which is 48

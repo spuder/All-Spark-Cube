@@ -33,10 +33,10 @@ public class PhysicalCubeController
      
   }// end PhysicalCubeController Constructor
   
- public void writeSnapshotToSerial(CubeSnapshot currentCubeSnapshot, CubeSnapshot nextCubeSnapshot)
+ public void writeSnapshotToSerial(CubeSnapshot currentlyDisplayedSnapshot, CubeSnapshot snapshotToDisplay )
  {
     println("Physical Cube Class write Method called");
-    aAllSparkAPI.writeSnapshotToSerial(currentCubeSnapshot, nextCubeSnapshot);
+    aAllSparkAPI.writeSnapshotToSerial(currentlyDisplayedSnapshot, snapshotToDisplay);
  }
   
   public String[] getAvailableSerialPorts()
@@ -70,7 +70,7 @@ public class PhysicalCubeController
  public int getSerialBaudRate()
  {
      //println("About to reutrn baudrate " + thePhysicalCube.getSerialBaudRate() );
-     return 2;
+     return aAllSparkAPI.getSerialBaudRate();
  }
   
 

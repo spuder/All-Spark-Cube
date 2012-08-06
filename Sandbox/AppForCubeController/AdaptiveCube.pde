@@ -32,6 +32,8 @@ public class AdaptiveCube implements AllSparkAPI
   */
   int serialBaudRate = 15200;
   List<Integer> adaptiveMessageStruture = new ArrayList<Integer>();
+
+  List<Byte> messageToSend = new ArrayList<Byte>();
   
     
   AdaptiveCube()
@@ -42,23 +44,56 @@ public class AdaptiveCube implements AllSparkAPI
   
   void writeSnapshotToSerial(CubeSnapshot currentlyDisplayedSnapshot, CubeSnapshot snapshotToDisplay )
   {
+
+
       println("Adaptive Class serial method called, About to write snapshot to serial");
-      //Get the current CubeSnapshot
-      //Get the snapshot to change to
+      //Get the current CubeSnapshot √
+      //Get the snapshot to change to √
       //Create a transmisison object = diff of current snapshot and 
-        //next snapshot(this is what makes the adaptive cube unique)
+        //next snapshot( this is what makes the adaptive cube unique )
       //Generate first 255 characters of message
       //Send those 255 characters to serial port
+
+      //Clear the Array for the new data
+      messageToSend.clear();
       
     
   }// end writeCurrentSnapshotToSerial
+
+  //method to only add the data that has changed to an array
+  void diffTwoSnapshots(CubeSnapshot currentlyDisplayedSnapshot, CubeSnapshot snapshotToDisplay )
+  {
+    int numberOfLedsToChange = 0;
+
+    //Clear the message
+    messageToSend.clear();
+
+    //Add the header information to the message
+    //11 means setVoxel (set led)
+    //messageToSend.add(11);
+    //This is how many bytes the adaptive cube will look for, for now
+    //it is zero, we wont know until we start counting
+    //messageToSend.add(numberOfLedsToChange);
+
+    //Look at every led 1 by 1, 
+
+    //If the led is different, convert it's data from absolute to relative
+
+    //Add the x y z and coordinate to the message
+
+    //Update the messageToSend Length
+
+
+  }
+
   
   
-//  public int getSerialBaudRate()
-//  {
-//      return this.serialBaudRate;
-//  }
+ public int getSerialBaudRate()
+ {
+     return this.serialBaudRate;
+ }
   
   
+
   
 }// end AdaptiveCube

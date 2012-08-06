@@ -34,7 +34,7 @@ class CubeSnapshot
         
         //Call the java garbage collector to delete the temporary objects. 
         //TODO: Research if this acutally helps speed up program
-        System.gc();
+        //System.gc();
         
 
                  

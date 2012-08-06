@@ -24,9 +24,11 @@ import processing.serial.*;
 
 void setup()
 {
-  /* Create a new controller and devine which of its api's to use */
-  //TODO: Prompt user for which to use
-  aPhysicalController         = new PhysicalCubeController(new AdaptiveCube() );
+  /* Create a new controller and define which of its api's to use */
+  //TODO: Prompt user for which to use You must use Java reflection or a bunch of if/else statments ***
+  String cubeToUse = "HypnoCube";//dead code
+
+  aPhysicalController         = new PhysicalCubeController( new AdaptiveCube() );
 
   theAnimationOfSnapshots     = new AnimationOfSnapshots();
   
@@ -48,19 +50,25 @@ void mouseReleased()
 }
 
 void keyPressed()
-{
-  if ( key == 'd' )
   {
-    println("Sending new animation to cube");
-    
-    CubeSnapshot currentlyDisplayedSnapshot = theAnimationOfSnapshots.getCubeFromAnimation(0);
-    println("Got cube " + theAnimationOfSnapshots.getCubeFromAnimation(0) + " from array");
-    CubeSnapshot snapshotToDisplay          = theAnimationOfSnapshots.getCubeFromAnimation(1);
-    
-    aPhysicalController.writeSnapshotToSerial( currentlyDisplayedSnapshot,  snapshotToDisplay );
-  }
 
-}
+    if ( key == 'd' )
+       {
+          println("Sending new animation to cube");
+          
+          CubeSnapshot currentlyDisplayedSnapshot = theAnimationOfSnapshots.getCubeFromAnimation(0);
+          println("Got cube " + theAnimationOfSnapshots.getCubeFromAnimation(0) + " from array");
+          CubeSnapshot snapshotToDisplay          = theAnimationOfSnapshots.getCubeFromAnimation(1);
+          
+          aPhysicalController.writeSnapshotToSerial( currentlyDisplayedSnapshot,  snapshotToDisplay );
+       }
+
+    if ( key == 's')
+       {
+          println("Serial Baud rate is " + aPhysicalController.getSerialBaudRate() );
+       }
+
+  }
 
 
 

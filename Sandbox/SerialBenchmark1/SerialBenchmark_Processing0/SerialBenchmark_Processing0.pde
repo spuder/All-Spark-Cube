@@ -28,7 +28,6 @@ void setup()
 {
   size(200,200);
   background(125);
-  //Create Serial Object (230400 Baud)
   
   // List all the available serial ports:
    println( Serial.list() );
@@ -37,10 +36,6 @@ void setup()
   println(arrayOfDataToSendToArduino.length);
 
   aSerialPort = new Serial(this, Serial.list()[0],115200);
-  
-  
-
-
 }
 
 void draw()
