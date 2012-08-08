@@ -105,6 +105,7 @@ void mouseDragged()
 
 void keyPressed()
 {
+  
   if (key == 'd' || key == 'D')
   {
 
@@ -213,6 +214,9 @@ void keyPressed()
    }// end LEFT
     
 
+   if (keyCode == ESC )
+   { key=0;
+   }
   
 }//end keyPressed
 

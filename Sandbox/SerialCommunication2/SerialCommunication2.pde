@@ -15,7 +15,7 @@ int led1Brightness;
 
 //[led0,led0brightness,led1,led1Brightness]
 //This will be sent to the arduino.
-byte[] arrayOfDataToSendToArduino = new byte[4];
+int[] arrayOfDataToSendToArduino = new int[4];
 
 PrintWriter outputFile;
 
@@ -35,7 +35,7 @@ void setup()
 
   //println(arrayOfDataToSendToArduino.length);
 
-  aSerialPort = new Serial(this, Serial.list()[2],115200);
+  aSerialPort = new Serial(this, Serial.list()[0],115200);
   
   //println("");
  // println("Sending data to " + Serial.list()[2] );
@@ -57,10 +57,10 @@ void mousePressed()
   
   led0Brightness = led0Brightness + 25;
   
-  arrayOfDataToSendToArduino[0] = byte(led0);
-  arrayOfDataToSendToArduino[1] = byte(led0Brightness);
-  arrayOfDataToSendToArduino[2] = byte(led1);
-  arrayOfDataToSendToArduino[3] = byte(led1Brightness);
+  arrayOfDataToSendToArduino[0] = led0;
+  arrayOfDataToSendToArduino[1] = led0Brightness;
+  arrayOfDataToSendToArduino[2] = led1;
+  arrayOfDataToSendToArduino[3] = led1Brightness;
   
 //println("test");
 //int temporaryInt = arrayOfDataToSendToArduino[0];
@@ -75,20 +75,21 @@ sendData();
 
 void sendData()
 {
+  //aSerialPort.write( arrayOfDataToSendToArduino );
 
-  
-  for ( int numberOfBytesToSend = 0 ; numberOfBytesToSend < arrayOfDataToSendToArduino.length; numberOfBytesToSend++)
+  for ( int byteToSend = 0 ; byteToSend < arrayOfDataToSendToArduino.length; byteToSend++)
   {
-    //println("numberOfBytesToSend is " + numberOfBytesToSend );
+    //println("byteToSend is " + byteToSend );
     
-     //aSerialPort.write( arrayOfDataToSendToArduino[numberOfBytesToSend] );
-     aSerialPort.write( arrayOfDataToSendToArduino[numberOfBytesToSend] );
-     outputFile.println(hour()+":"+minute()+":"+second()+" Wrote to serial " + arrayOfDataToSendToArduino[numberOfBytesToSend] );
+     //aSerialPort.write( arrayOfDataToSendToArduino[byteToSend] );
+     aSerialPort.write( arrayOfDataToSendToArduino[ byteToSend ] - 208  );
+     
+     println("Write to serial " + arrayOfDataToSendToArduino[byteToSend] );
+     outputFile.println(hour()+":"+minute()+":"+second()+" Wrote to serial " + arrayOfDataToSendToArduino[byteToSend] );
      
  
   }
-//stream.flush();
-  //aSerialPort.clear();
+
   
  outputFile.flush();
 }

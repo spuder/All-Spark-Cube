@@ -1,0 +1,8 @@
+22:48:14 Wrote to serial 0
+22:48:14 Wrote to serial 25
+22:48:14 Wrote to serial 1
+22:48:14 Wrote to serial 0
+22:48:44 Wrote to serial 0
+22:48:44 Wrote to serial 25
+22:48:44 Wrote to serial 1
+22:48:44 Wrote to serial 0

@@ -20,7 +20,7 @@ public class Kite_Executable_program {
     // create new JFrame
     JFrame jf = new JFrame("Kite Swing Application");
  
-    // this allows program to exit
+    // this allows program to exit  
     jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  
     // You add things to the contentPane in a JFrame
