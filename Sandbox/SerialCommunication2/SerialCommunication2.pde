@@ -1,28 +1,17 @@
 import processing.serial.*;
 
-//Program by Jeremy Blum
-//www.jeremyblum.com
-//Send data from a POT over serial to the computer
-
-//Define Pins
-int potPin = 0;
-//int ledBrightness = 0;
-
 int led0;
 int led0Brightness;
 int led1;
 int led1Brightness;
 
-//[led0,led0brightness,led1,led1Brightness]
 //This will be sent to the arduino.
 int[] arrayOfDataToSendToArduino = new int[4];
 
 PrintWriter outputFile;
 
-
+//Create a serial port object
 Serial aSerialPort;
-
-//Serial Library now requires Serial Object
 
 void setup()
 {
@@ -31,14 +20,10 @@ void setup()
   
   // List all the available serial ports:
    println( Serial.list() );
-  outputFile = createWriter("Processinglog.txt");
-
-  //println(arrayOfDataToSendToArduino.length);
+  //outputFile = createWriter("Processinglog.txt");
 
   aSerialPort = new Serial(this, Serial.list()[0],115200);
-  
-  //println("");
- // println("Sending data to " + Serial.list()[2] );
+
 }
 
 void draw()
@@ -62,14 +47,8 @@ void mousePressed()
   arrayOfDataToSendToArduino[2] = led1;
   arrayOfDataToSendToArduino[3] = led1Brightness;
   
-//println("test");
-//int temporaryInt = arrayOfDataToSendToArduino[0];
-//aSerialPort.write( temporaryInt );
 sendData();
-  
 
-
- 
 }
 
 
@@ -81,15 +60,14 @@ void sendData()
   {
     //println("byteToSend is " + byteToSend );
     
-     //aSerialPort.write( arrayOfDataToSendToArduino[byteToSend] );
+     //Send array to serial port, must subtract 208 to compensate for the difference
+     //between processing data types and arduino data types, this off by 208 does not
+     //occure when sending data between two arduinos, only processing to arduino
+     //there is likey a simple fix, but short on time to research 
      aSerialPort.write( arrayOfDataToSendToArduino[ byteToSend ] - 208  );
      
-     println("Write to serial " + arrayOfDataToSendToArduino[byteToSend] );
-     outputFile.println(hour()+":"+minute()+":"+second()+" Wrote to serial " + arrayOfDataToSendToArduino[byteToSend] );
-     
- 
+     //println("Write to serial " + arrayOfDataToSendToArduino[byteToSend] );
+     //outputFile.println(hour()+":"+minute()+":"+second()+" Wrote to serial " + arrayOfDataToSendToArduino[byteToSend] );
   }
-
-  
- outputFile.flush();
+ //outputFile.flush();
 }

@@ -6,6 +6,9 @@
 int currentTime;
 int timeSinceLastWrite;
 
+int serialTimeOut = 1000;
+unsigned long serialStartTime;
+
 int arrayOfDataRecieved[4];
 void setup()
 {
@@ -15,22 +18,31 @@ void setup()
   Serial.begin(115200);
   Serial.write("Master2 Ready");
   
-  currentTime = millis();
-  timeSinceLastWrite = 0;
-  Serial.println( currentTime );
+  
 }
 
 void loop()
 {
+  serialStartTime = millis();
+  while (Serial.available() < 4 && ( (millis() - serialStartTime) < serialTimeOut) ) 
+  {// Wait untill there are 9 Bytes waiting
+  } 
   
-  while (Serial.available() < 4) {} // Wait 'till there are 9 Bytes waiting
-  for(int n=0; n<4; n++)
+  if(Serial.available() < 9)
   {
-   arrayOfDataRecieved[n] = Serial.read(); // Then: Get them. 
-   
-    Wire.beginTransmission(OTHER_ADDRESS);
-    Wire.write( arrayOfDataRecieved[n] - '0' );
-    Wire.endTransmission();
+    Serial.println("All the data didn't make it in time, or got corrupt");
+    Serial.flush();
+  }
+  else
+  {
+      for(int n=0; n<4; n++)
+      {
+       arrayOfDataRecieved[n] = Serial.read(); // Then: Get them. 
+       
+        Wire.beginTransmission(OTHER_ADDRESS);
+        Wire.write( arrayOfDataRecieved[n] - '0' );
+        Wire.endTransmission();
+      }
   }
    
    
