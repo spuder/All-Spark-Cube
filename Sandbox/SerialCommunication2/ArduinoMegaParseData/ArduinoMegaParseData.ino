@@ -18,20 +18,24 @@ void setup()
   Serial.begin(115200);
   Serial.write("Master2 Ready");
   
-  
+  serialStartTime = millis();
 }
 
 void loop()
 {
-  serialStartTime = millis();
+  
   while (Serial.available() < 4 && ( (millis() - serialStartTime) < serialTimeOut) ) 
   {// Wait untill there are 9 Bytes waiting
   } 
   
-  if(Serial.available() < 9)
+  if(Serial.available() < 4)
   {
-    Serial.println("All the data didn't make it in time, or got corrupt");
+    //Serial.println("All the data didn't make it in time, or got corrupt");
+      Wire.beginTransmission(OTHER_ADDRESS);
+      Wire.write( 0 ); // tell the other arduino the data didn't make it
+      Wire.endTransmission();
     Serial.flush();
+    serialStartTime = millis();
   }
   else
   {
@@ -43,19 +47,21 @@ void loop()
         Wire.write( arrayOfDataRecieved[n] - '0' );
         Wire.endTransmission();
       }
+      serialStartTime = millis();
+      Serial.flush();
   }
    
    
-   currentTime = millis();
-   
-   if ( currentTime - timeSinceLastWrite > 1000 )
-   {
-     timeSinceLastWrite = currentTime;
-     Serial.println("its been a second");
-     // Wire.beginTransmission(OTHER_ADDRESS);
-     // Wire.write("h");
-     // Wire.endTransmission();
-   }
+//   currentTime = millis();
+//   
+//   if ( currentTime - timeSinceLastWrite > 1000 )
+//   {
+//     timeSinceLastWrite = currentTime;
+//     //Serial.println("its been a second");
+//     // Wire.beginTransmission(OTHER_ADDRESS);
+//     // Wire.write("h");
+//     // Wire.endTransmission();
+//   }
   
   
 }

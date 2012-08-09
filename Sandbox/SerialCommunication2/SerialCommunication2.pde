@@ -54,9 +54,13 @@ sendData();
 
 void sendData()
 {
-  //aSerialPort.write( arrayOfDataToSendToArduino );
+  //get cube 1
+  //get cube 2
+  //create array of diff between 1 and 2
+  //If array is longer than 255 split it for some reason
+  //
 
-  for ( int byteToSend = 0 ; byteToSend < arrayOfDataToSendToArduino.length; byteToSend++)
+  for ( int byteToSend = 0 ; byteToSend < arrayOfDataToSendToArduino.length-1; byteToSend++)
   {
     //println("byteToSend is " + byteToSend );
     
