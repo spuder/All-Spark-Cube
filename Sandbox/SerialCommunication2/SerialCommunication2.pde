@@ -60,6 +60,8 @@ void sendData()
   //If array is longer than 255 split it for some reason
   //
 
+  ArrayList<Integer> aListOfLedsChanged = new ArrayList<Integer>();
+
   for ( int byteToSend = 0 ; byteToSend < arrayOfDataToSendToArduino.length-1; byteToSend++)
   {
     //println("byteToSend is " + byteToSend );
@@ -68,6 +70,9 @@ void sendData()
      //between processing data types and arduino data types, this off by 208 does not
      //occure when sending data between two arduinos, only processing to arduino
      //there is likey a simple fix, but short on time to research 
+    //the reason is that it is adding on a nibble with value 1101 to the front of the byte
+    // so 0 -> 208  =     0000 0000 -> 1101 0000
+    // so 1 -> 209  =     0000 0001 -> 1101 0001
      aSerialPort.write( arrayOfDataToSendToArduino[ byteToSend ] - 208  );
      
      //println("Write to serial " + arrayOfDataToSendToArduino[byteToSend] );
