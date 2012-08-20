@@ -451,7 +451,7 @@ ArrayList<Integer> diffCubeSnapshots(CubeSnapshot currentSnapshotToDiff , CubeSn
     //Get the current cube color and the next led color
     int currentCubeLedValue = currentSnapshotToDiff.getLedObjectForParent( countOfAllLedsInCube ).getLedColor();
     int nextCubeLedValue    = nextSnapshotToDiff.getLedObjectForParent( countOfAllLedsInCube ).getLedColor();
-       
+      
       //If the new cube led is different then the new one, then save it to the array
       if (nextCubeLedValue != currentCubeLedValue ) 
       {
@@ -471,11 +471,6 @@ ArrayList<Integer> diffCubeSnapshots(CubeSnapshot currentSnapshotToDiff , CubeSn
 
 }// end diffCubeSnapshots
 
-void sendToSerial( ArrayList<Integer> aListOfLedsChanged)
-{
-  
 
-
-}
 
 

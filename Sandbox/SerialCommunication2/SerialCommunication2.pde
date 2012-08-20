@@ -6,7 +6,7 @@ int led1;
 int led1Brightness;
 
 //This will be sent to the arduino.
-int[] arrayOfDataToSendToArduino = new int[4];
+byte[] arrayOfDataToSendToArduino = new byte[4];
 
 PrintWriter outputFile;
 
@@ -42,10 +42,10 @@ void mousePressed()
   
   led0Brightness = led0Brightness + 25;
   
-  arrayOfDataToSendToArduino[0] = led0;
-  arrayOfDataToSendToArduino[1] = led0Brightness;
-  arrayOfDataToSendToArduino[2] = led1;
-  arrayOfDataToSendToArduino[3] = led1Brightness;
+  arrayOfDataToSendToArduino[0] = byte(led0);
+  arrayOfDataToSendToArduino[1] = byte(led0Brightness);
+  arrayOfDataToSendToArduino[2] = byte(led1);
+  arrayOfDataToSendToArduino[3] = byte(led1Brightness);
   
 sendData();
 
@@ -54,15 +54,12 @@ sendData();
 
 void sendData()
 {
-  //get cube 1
-  //get cube 2
-  //create array of diff between 1 and 2
-  //If array is longer than 255 split it for some reason
-  //
+ 
 
   ArrayList<Integer> aListOfLedsChanged = new ArrayList<Integer>();
 
-  for ( int byteToSend = 0 ; byteToSend < arrayOfDataToSendToArduino.length-1; byteToSend++)
+  
+  for ( int byteToSend = 0 ; byteToSend < arrayOfDataToSendToArduino.length; byteToSend++ )
   {
     //println("byteToSend is " + byteToSend );
     

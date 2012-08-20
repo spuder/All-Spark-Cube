@@ -1,0 +1,13 @@
+if mouseX = 7   and mouseY = 232  then  led 0      / 0-0-0
+if mouseX = 21  and mouseY = 233  then  led 1      / 0-0-1
+
+8   37  = led240   / 15-0-0
+
+if mouseY = 232+-5 then rowY = 0
+if mouseY = 218+-5 then rowY = 1
+if mouseY = 38+-5  then rowY = 15
+
+if mouseX = 7      then rowX = 0
+if mouseX = 21     then rowX = 1
+if mouseX = 202    then rowX = 15
+if mouseX = 216    then rowX = 0
