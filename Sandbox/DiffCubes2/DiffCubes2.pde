@@ -1,6 +1,6 @@
 //Disabled OPENGL because it was running more slowly 
 //import processing.opengl.*;
-
+import processing.serial.*;
 //***************************************************************//
 //  Name    : All Sparks Cube - 2d Panel                         //
 //  Author  : Spencer Owen, Thomas Bennet                        //
@@ -27,8 +27,8 @@ List<LedObject> aMasterArrayOfAllLedsInAllCubes;
 public              boolean   debugMode = true;
 
 public static final int       xNumberOfLedsPerRow         = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
-public        final int       yNumberOfRowsPerPanel       = 16;
-public        final int       zNumberOfPanelsPerCube      = 16;
+public static final int       yNumberOfRowsPerPanel       = 16;
+public static final int       zNumberOfPanelsPerCube      = 16;
 public        final int       totalNumberOfLeds = xNumberOfLedsPerRow * yNumberOfRowsPerPanel * zNumberOfPanelsPerCube;
 
 //private       final float   millisecondsBetweenDrawings = 1; //Set how often to draw all the objects on the screen. Once every couple dozen millisenconds is usally enough
@@ -42,7 +42,7 @@ public        final int       ledSize = 10; // TODO:Change this to be a ratio of
 public              int       activeAnimation = 0;
 
 
-
+Serial aSerialPort;
 
 void setup()
 {
@@ -68,6 +68,8 @@ void setup()
   //Create a collection of cubeSnapshots (aka animation)
   //TODO: This should only be made when we know wheter we are importing an existing or creating a new
   theAnimation = new AnimationOfSnapshots();
+
+   aSerialPort = new Serial(this, Serial.list()[0], 115200);
 
 }//end setup
 
@@ -106,34 +108,32 @@ void mouseDragged()
 
 void keyPressed()
 {
+
+      //if ( keyCode == CONTROL ) 
+  if ( key == '~')
+      {
+        debug("~ Pressed");
+        exportToFile();
+      }
   
+
   if (key == 'd' || key == 'D')
   {
 
 
-    CubeSnapshot aTestObject = theAnimation.getCubeFromAnimation(0);
+    CubeSnapshot currentSnapshotToDiff = theAnimation.getCubeFromAnimation(0);
     //aTestObject.getPanelThatContainsLed(4095);
     
-    CubeSnapshot aNewFakeCube = theAnimation.getCubeFromAnimation(1);
-    TreeMap<Integer, Integer> aListOfLedsChanged = diffCubeSnapshots(aNewFakeCube, aTestObject);
-    sendDiffToSerial( aListOfLedsChanged );
+    CubeSnapshot nextSnapshotToDiff = theAnimation.getCubeFromAnimation(1);
 
+    ArrayList<List<Integer>> aListOfLedsChanged = aListOfLedsChanged(currentSnapshotToDiff, nextSnapshotToDiff);
+    //TreeMap<Integer, Integer> aListOfLedsChanged = aListOfLedsChanged(aNewFakeCube, aTestObject);
+    flattenArrayList( aListOfLedsChanged ) ;
 
-    debug("Led " + aListOfLedsChanged.get(0) + "'s color is " + aListOfLedsChanged.get(0) +"\n");
 
   }
 
-  if ( keyCode == CONTROL ) 
-  {
-    debug("CTRL Pressed");
-    exportToFile();
-//      if ( key == 's' || key == 'S' )
-//      {
-//        debug("S pressed");
-//        //Pressing CTRL + S saves file
-//        exportToFile();
-//      }
-  }
+
   if (key == 'i' || key == 'I' )
   {
     importFromFile();
@@ -436,9 +436,10 @@ void importFromFile()
 
 
 //Take 2 cube objects, if they have an led that is different, add its absolute index and color to the list
-TreeMap<Integer, Integer> diffCubeSnapshots(CubeSnapshot currentSnapshotToDiff , CubeSnapshot nextSnapshotToDiff)
+ArrayList<List<Integer>> aListOfLedsChanged( CubeSnapshot currentSnapshotToDiff , CubeSnapshot nextSnapshotToDiff )
 {
-  TreeMap<Integer, Integer> aListOfLedsChanged = new TreeMap<Integer, Integer>();
+  
+  ArrayList<List<Integer>> aListOfLedsChanged = new ArrayList<List<Integer>>();
   debug("About to diff cubes");
   //Get color value from led 000 in cube 1 and cube 1
   //If color is different, save cube 2 color to arrayList
@@ -448,122 +449,160 @@ TreeMap<Integer, Integer> diffCubeSnapshots(CubeSnapshot currentSnapshotToDiff ,
   //Loop through all of the new leds, if they are not equal to the current led, save the new one
   for (int countOfAllLedsInCube = 0; countOfAllLedsInCube < totalNumberOfLeds; countOfAllLedsInCube++)
   {
-    //Get the current cube color and the next led color
-    int currentCubeLedValue = currentSnapshotToDiff.getLedObjectForParent( countOfAllLedsInCube ).getLedColor();
-    int nextCubeLedValue    = nextSnapshotToDiff.getLedObjectForParent( countOfAllLedsInCube ).getLedColor();
+      //Get the current cube color and the next led color
+      int currentCubeLedValue = currentSnapshotToDiff.getLedObjectForParent( countOfAllLedsInCube ).getLedColor();
+      int nextCubeLedValue    = nextSnapshotToDiff.getLedObjectForParent( countOfAllLedsInCube ).getLedColor();
 
-    //We think we already know the led number because of the for loop, but just to be sure actually go get
-    //the led and verify its name is what we think it is. Obsessive and paranoid? Yes. 
-    int nextLedNumber       = nextSnapshotToDiff.getLedObjectForParent( countOfAllLedsInCube ).getLedNumberInCube();
-      
-      //If the new cube led is different then the new one, then save it to the array
-      if (nextCubeLedValue != currentCubeLedValue ) 
-      {
-        aListOfLedsChanged.put(nextLedNumber, nextCubeLedValue);
-      }
+      //We think we already know the led number because of the for loop, but just to be sure actually go get
+      //the led and verify its name is what we think it is. Obsessive and paranoid? Yes. 
+      int nextLedNumber       = nextSnapshotToDiff.getLedObjectForParent( countOfAllLedsInCube ).getLedNumberInCube();
+          
+
+          //If the new cube led is different then the new one, then save it to the array
+          if (nextCubeLedValue != currentCubeLedValue ) 
+          {
+            //Add new row to 2d array list
+            aListOfLedsChanged.add( new ArrayList<Integer>() );
+
+            //Get the arraylist we just added, it should be the last one
+            //TODO:This is risky code, should check to see if null / empty
+            int currentPositionInOuterArrayList = aListOfLedsChanged.size() - 1 ;
+
+            //debug( "currentPositionInOuterArrayList = " + currentPositionInOuterArrayList );
+
+              //Add the led number to the inner arraylist
+              aListOfLedsChanged.get(currentPositionInOuterArrayList).add(nextLedNumber);
+
+              //Add the color to the inner arrayList
+              println("added color to arraylist " + nextCubeLedValue );
+            aListOfLedsChanged.get(currentPositionInOuterArrayList).add(nextCubeLedValue);
+            
+          }
+
   }
-  if (aListOfLedsChanged.size() > (totalNumberOfLeds / 2 ) )
-  {
-    //TODO: If we are changing more tha 50% of the cube, it is faster to clear it and write new values
-    println("We have changed more than half the leds, better to just rewrite");
-  }
+  // if (aListOfLedsChanged.size() > (totalNumberOfLeds / 2 ) )
+  // {
+  //   //TODO: If we are changing more tha 50% of the cube, it is faster to clear it and write new values
+  //   println("We have changed more than half the leds, better to just rewrite");
+  // }
 
   debug("Diff has updated " + aListOfLedsChanged.size() + " leds");
 
   return aListOfLedsChanged;
 
 
-}// end diffCubeSnapshots
+}// end aListOfLedsChanged
 
 //Take a TreeMap of all the leds to update, Split into bytes, and send to arduino. 
 //*****TODO: This code needs to be moved to the AllSpark API, not all cubes take the data in the
 //same format. This code is put here to meet a deadline. 
-void sendDiffToSerial(TreeMap<Integer, Integer> diffCubeSnapshots)
+void flattenArrayList(ArrayList<List<Integer>> aListOfLedsChanged)
 {
   //Take array list, get the length
   //if the length is longer than the cube supports then
   //split it into multiple arrays of bytes
   //This is a little tricky http://stackoverflow.com/questions/5618978/convert-arrayliststring-to-byte
-
-
-  if ( diffCubeSnapshots.size() <1 )
-  {
-    debug("Error: List of leds different between cubes is 0");
-  }
-  else if( diffCubeSnapshots.size() > totalNumberOfLeds)
-  {
-    debug("Error: Attempting to send " + diffCubeSnapshots.size() + " leds over serial, but cube is only "+ totalNumberOfLeds + " leds big");
-  }
-  else if( diffCubeSnapshots.size() > 127 )
-  {
-    //Split the treemap into multiple byte arrays
-
-  } 
-  else if( (diffCubeSnapshots.size() * 4) <= 127 )
-  {
-    debug("Creating byte array of size " + diffCubeSnapshots.size() );
-    byte[] byteArrayToSendViaSerial = new byte[ diffCubeSnapshots.size() ]; 
-    //Number of Leds to send will all fit in one buffer, how convenient. 
-    //Each led has 4 values, X-Y-Z-Color
-    //Convert to array of bytes, and send over serial.
-
-
-    //http://stackoverflow.com/questions/1318980/how-to-iterate-over-a-treemap
+   //http://stackoverflow.com/questions/1318980/how-to-iterate-over-a-treemap
     //http://www.java2s.com/Code/JavaAPI/java.util/TreeMapentrySet.htm
     //http://code.google.com/p/processing/issues/detail?id=880
     //Known issues with processing and hashmap entrysets, must use iterator instead
 
-    //Set<Map.Entry<Integer, Integer>> set = diffCubeSnapshots.entrySet();
+
+  if ( aListOfLedsChanged.size() < 1 )
+  {
+    debug("Error: List of leds different between cubes is 0");
+  }
+  else if( aListOfLedsChanged.size() > totalNumberOfLeds)
+  {
+    debug("Error: Attempting to send " + aListOfLedsChanged.size() + " leds over serial, but cube is only "+ totalNumberOfLeds + " leds big");
+  }
+  else if( aListOfLedsChanged.size() > 127 )
+  {
+    //Split the arraylist into multiple byte arrays
+
+  } 
+  else if( (aListOfLedsChanged.size() * 5) <= 127 )
+  {
+    debug("Creating byte array of size " + aListOfLedsChanged.size() );
+    byte[] byteArrayToSendViaSerial = new byte[ aListOfLedsChanged.size() * 5 + 2 ]; 
+    //Number of Leds to send will all fit in one buffer, how convenient. 
+    //Each led has 4 values, X-Y-Z-Color
+    //Convert to array of bytes, and return byte array so we can send over serial.
 
     //For set Led the first 2 bytes will always be 11 and the message length
-    byteArrayToSendViaSerial[0] = byte( 11 );
-    byteArrayToSendViaSerial[1] = byte( diffCubeSnapshots.size() * 4 );
+    //Counter to keep track of where I am in byte array
+    int byteArrayLocationCounter = 0;
+    byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte( 11 );
+    byteArrayLocationCounter++;
 
-    Iterator i = diffCubeSnapshots.entrySet().iterator(); 
-    int indexInMap = 1;
-    while ( i.hasNext() ) 
+    byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte( aListOfLedsChanged.size() * 5 );
+    byteArrayLocationCounter++;
+
+
+    //Flatten data from arrylist
+    for ( int outerArrayCounter = 0; outerArrayCounter < aListOfLedsChanged.size(); outerArrayCounter++ )
     {
-      
-      Map.Entry me = (Map.Entry)i.next();
-      
-      //move to index 3 in array
-      indexInMap ++;
-      //Get the led then convert it to its x value
-      //This is bad code, should be in its own reusalbe class, must cut corner for delivery date, 
-      //This is only acceptable because it is sandbox code. 
-      int currentLed = me.getKey();
-    int ledTotalRowNumber = (currentLed / xNumberOfLedsPerRow); // 48 would return 3rd row TODO:Consider renaming locationInY
-    int ledPanelNumber    = (me.getKey() / xNumberOfLedsPerRow / yNumberOfRowsPerPanel); //4095 would return panel 15, 300 returns panel 1 TODO:Consider renaming to locationINZ 
-    int ledVerticalRowNumber = (ledTotalRowNumber - (yNumberOfRowsPerPanel * ledPanelNumber)); //we need to know how high from the ground, not how many rows there are total
-    int firstLedInRow     = ((1 + ledVerticalRowNumber + ledPanelNumber * zNumberOfPanelsPerCube ) * yNumberOfRowsPerPanel - xNumberOfLedsPerRow);
-    
 
-      byteArrayToSendViaSerial[ indexInMap ] = me.getKey() - firstLedInRow ; 
+        //println("in outter for loop, counter is " + outerArrayCounter);
 
-      indexInMap ++;
-      //Get the led then convert it to its y value
-      byteArrayToSendViaSerial[ indexInMap ] = me.getKey() ;
-
-      indexInMap ++;
-       //Get the led then convert it to its z value
-      byteArrayToSendViaSerial[ indexInMap ] = me.getKey() ;
+        int absoluteLedNumber = aListOfLedsChanged.get(outerArrayCounter).get(0);
+       // println("led changed " + outerArrayCounter + " led number is " +  aListOfLedsChanged.get( outerArrayCounter).get(0) );
+        //Get the led number convert to relative and save to byte array
 
 
-      print(me.getKey() + " is ");
-      println(me.getValue());
+    // X value
+        byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte(LedAbsoluteToConverterClass.getLedNumberInRow(absoluteLedNumber) );
+        //  println("Led " + absoluteLedNumber + " is X: " + LedAbsoluteToConverterClass.getLedNumberInRow(absoluteLedNumber));
+          println( byte( LedAbsoluteToConverterClass.getLedNumberInRow(absoluteLedNumber ))  + " should match " + byteArrayToSendViaSerial[ byteArrayLocationCounter ] );
+        byteArrayLocationCounter++;
+
+    // Y value
+        byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte(LedAbsoluteToConverterClass.getLedRowNumberInPanel(absoluteLedNumber) );
+        //  println("Led " + absoluteLedNumber + " is Y: " + LedAbsoluteToConverterClass.getLedRowNumberInPanel(absoluteLedNumber));
+          println( byte( LedAbsoluteToConverterClass.getLedRowNumberInPanel(absoluteLedNumber ))  + " should match " + byteArrayToSendViaSerial[ byteArrayLocationCounter ] );
+        byteArrayLocationCounter++;
+
+    // Z value
+        byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte(LedAbsoluteToConverterClass.getPanelThatContainsLed(absoluteLedNumber) );
+        //  println("Led " + absoluteLedNumber + " is Y: " + LedAbsoluteToConverterClass.getPanelThatContainsLed(absoluteLedNumber));
+          println( byte( LedAbsoluteToConverterClass.getPanelThatContainsLed(absoluteLedNumber ))  + " should match " + byteArrayToSendViaSerial[ byteArrayLocationCounter ] );
+        byteArrayLocationCounter++;
+
+    // Color 
+        int ledColorInArrayList = aListOfLedsChanged.get(outerArrayCounter).get(1);
+        println("ledColorInArrayList = " + ledColorInArrayList);
+
+        int ledConverted = ColorConverterClass.intColorLookupTable( ledColorInArrayList );
+        println("ledConverted = " + ledConverted);
+        byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte(ledConverted);
+        byteArrayLocationCounter++;
+
+    // Message byte not yet needed
+        byteArrayToSendViaSerial [ byteArrayLocationCounter ] = 0;
+        byteArrayLocationCounter++;
+       
+    }// end for loop
 
 
-      indexInMap ++;
+    println("");
+    print(" Array list is [ ");
+    for ( int byteArrayTroubleshootCounter = 0; byteArrayTroubleshootCounter < byteArrayToSendViaSerial.length; byteArrayTroubleshootCounter++ )
+    {
+        print( byteArrayToSendViaSerial[ byteArrayTroubleshootCounter ] + "," );
     }
+    println(" ]");
 
-    // for (Map.Entry<Integer, Integer> me : diffCubeSnapshots.entrySet() ) {
-    // Integer key  = me.getKey();
-    // Integer value = me.getValue();
 
-    // }
+  sendToSerial( byteArrayToSendViaSerial );
 
   }//end if elseif elseif
 
-}//end sendDiffToSerial
+  
+}//end flattenArrayList
+
+void sendToSerial( byte[] byteArrayToSendViaSerial )
+{
+    aSerialPort.write( byteArrayToSendViaSerial );
+}
 
 
