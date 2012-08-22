@@ -44,7 +44,7 @@ void loop() {
       Serial.write(dataInputIntoConsole);
       Wire.beginTransmission(OTHER_ADDRESS);
       Wire.write(dataInputIntoConsole);
-      Wire.endTransmission();
+      Wire.endTransmission(); 
   }
   
 //  if (digitalRead(BUTTON) != last_state){

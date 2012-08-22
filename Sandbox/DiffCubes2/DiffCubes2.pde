@@ -69,6 +69,7 @@ void setup()
   //TODO: This should only be made when we know wheter we are importing an existing or creating a new
   theAnimation = new AnimationOfSnapshots();
 
+  println(Serial.list() );
    aSerialPort = new Serial(this, Serial.list()[0], 115200);
 
 }//end setup
@@ -532,7 +533,12 @@ void flattenArrayList(ArrayList<List<Integer>> aListOfLedsChanged)
     //For set Led the first 2 bytes will always be 11 and the message length
     //Counter to keep track of where I am in byte array
     int byteArrayLocationCounter = 0;
-    byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte( 11 );
+    //unsigned char anUnsignedByte = (138);
+    int messageType = 11 + 128; //11 is the message type, add 128 for kevins sync bit. 
+    byte messageTypeConverted = (byte) messageType;
+    byteArrayToSendViaSerial[ byteArrayLocationCounter ] = messageTypeConverted; //subtract 256 because we need unsigned
+    //byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte( 11 + 128);
+    //byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte(anUnsignedByte);
     byteArrayLocationCounter++;
 
     byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte( aListOfLedsChanged.size() * 5 );
@@ -592,9 +598,9 @@ void flattenArrayList(ArrayList<List<Integer>> aListOfLedsChanged)
     }
     println(" ]");
 
-
+   
   sendToSerial( byteArrayToSendViaSerial );
-
+  println("Should have Sent to serial port");
   }//end if elseif elseif
 
   
@@ -603,6 +609,7 @@ void flattenArrayList(ArrayList<List<Integer>> aListOfLedsChanged)
 void sendToSerial( byte[] byteArrayToSendViaSerial )
 {
     aSerialPort.write( byteArrayToSendViaSerial );
+    println("Sent to serial port");
 }
 
 
