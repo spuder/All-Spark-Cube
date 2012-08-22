@@ -1,3 +1,0 @@
-
-Panel_2d
-Panel_2d.jar,core.jar

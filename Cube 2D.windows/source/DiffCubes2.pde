@@ -1,122 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
-    <!-- charset must remain utf-8 to be handled properly by Processing -->
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-
-    <title>DiffCubes : Built with Processing</title>
-
-    <style type="text/css">
-      /* <![CDATA[ */
-	
-	body {
-  	  margin: 60px 0px 0px 55px;
-	  font-family: verdana, geneva, arial, helvetica, sans-serif; 
-	  font-size: 11px; 
-	  background-color: #ddddcc; 
-	  text-decoration: none; 
-	  font-weight: normal; 
-	  line-height: normal; 
-	}
-		 
-	a          { color: #3399cc; }
-	a:link     { color: #3399cc; text-decoration: underline; }
-	a:visited  { color: #3399cc; text-decoration: underline; }
-	a:active   { color: #3399cc; text-decoration: underline; }
-	a:hover    { color: #3399cc; text-decoration: underline; }
-
-      /* ]]> */
-    </style>    
-  </head>
-
-  <body>
-    <div id="content">
-      <div id="DiffCubes_container">
-
-	<!-- This version plays nicer with older browsers, 
-	     but requires JavaScript to be enabled. 
-	     http://java.sun.com/javase/6/docs/technotes/guides/jweb/deployment_advice.html
-	     http://download.oracle.com/javase/tutorial/deployment/deploymentInDepth/ -->
-	<script type="text/javascript"
-		src="http://www.java.com/js/deployJava.js"></script>
-	<script type="text/javascript">
-	  /* <![CDATA[ */
-
-	  var attributes = { 
-            code: 'DiffCubes.class',
-            archive: 'DiffCubes.jar',
-            width: 100, 
-            height: 100,
-          };
-          var parameters = { 
-            image: 'loading.gif',
-            centerimage: 'true',
-          };
-          var version = '1.5';
-          deployJava.runApplet(attributes, parameters, version);
-
-          /* ]]> */
-        </script>
-        
-	<noscript> <div>
-	  <!--[if !IE]> -->
-	  <object classid="java:DiffCubes.class" 
-            	  type="application/x-java-applet"
-            	  archive="DiffCubes.jar"
-            	  width="100" height="100"
-            	  standby="Loading Processing software..." >
-            
-	    <param name="archive" value="DiffCubes.jar" />
-	    
-	    <param name="mayscript" value="true" />
-	    <param name="scriptable" value="true" />
-	    
-	    <param name="image" value="loading.gif" />
-	    <param name="boxmessage" value="Loading Processing software..." />
-	    <param name="boxbgcolor" value="#FFFFFF" />
-	  <!--<![endif]-->
-
-	    <!-- For more instructions on deployment, 
-		 or to update the CAB file listed here, see:
-		 http://java.sun.com/javase/6/webnotes/family-clsid.html
-		 http://java.sun.com/javase/6/webnotes/install/jre/autodownload.html -->
-	    <object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
-		    codebase="http://java.sun.com/update/1.6.0/jinstall-6u20-windows-i586.cab"
-		    width="100" height="100"
-		    standby="Loading Processing software..."  >
-	      
-	      <param name="code" value="DiffCubes" />
-	      <param name="archive" value="DiffCubes.jar" />
-	      
-	      <param name="mayscript" value="true" />
-	      <param name="scriptable" value="true" />
-	      
-	      <param name="image" value="loading.gif" />
-	      <param name="boxmessage" value="Loading Processing software..." />
-	      <param name="boxbgcolor" value="#FFFFFF" />
-	      
-	      <p>
-		<strong>
-		  This browser does not have a Java Plug-in.
-		  <br />
-		  <a href="http://www.java.com/getjava" title="Download Java Plug-in">
-		    Get the latest Java Plug-in here.
-		  </a>
-		</strong>
-	      </p>
-	      
-	    </object>
-	    
-	  <!--[if !IE]> -->
-	  </object>
-	  <!--<![endif]-->
-
-	</div> </noscript>
-
-      </div>
-      
-      <p>
-	//
+//Disabled OPENGL because it was running more slowly 
+//import processing.opengl.*;
+import processing.serial.*;
+//***************************************************************//
 //  Name    : All Sparks Cube - 2d Panel                         //
 //  Author  : Spencer Owen, Thomas Bennet                        //
 //            All Rights Reserved                                //
@@ -142,8 +27,8 @@ List<LedObject> aMasterArrayOfAllLedsInAllCubes;
 public              boolean   debugMode = true;
 
 public static final int       xNumberOfLedsPerRow         = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
-public        final int       yNumberOfRowsPerPanel       = 16;
-public        final int       zNumberOfPanelsPerCube      = 16;
+public static final int       yNumberOfRowsPerPanel       = 16;
+public static final int       zNumberOfPanelsPerCube      = 16;
 public        final int       totalNumberOfLeds = xNumberOfLedsPerRow * yNumberOfRowsPerPanel * zNumberOfPanelsPerCube;
 
 //private       final float   millisecondsBetweenDrawings = 1; //Set how often to draw all the objects on the screen. Once every couple dozen millisenconds is usally enough
@@ -157,7 +42,7 @@ public        final int       ledSize = 10; // TODO:Change this to be a ratio of
 public              int       activeAnimation = 0;
 
 
-
+Serial aSerialPort;
 
 void setup()
 {
@@ -183,6 +68,8 @@ void setup()
   //Create a collection of cubeSnapshots (aka animation)
   //TODO: This should only be made when we know wheter we are importing an existing or creating a new
   theAnimation = new AnimationOfSnapshots();
+
+   aSerialPort = new Serial(this, Serial.list()[0], 115200);
 
 }//end setup
 
@@ -221,35 +108,32 @@ void mouseDragged()
 
 void keyPressed()
 {
+
+      //if ( keyCode == CONTROL ) 
+  if ( key == '~')
+      {
+        debug("~ Pressed");
+        exportToFile();
+      }
   
+
   if (key == 'd' || key == 'D')
   {
 
 
-    CubeSnapshot aTestObject = theAnimation.getCubeFromAnimation(0);
+    CubeSnapshot currentSnapshotToDiff = theAnimation.getCubeFromAnimation(0);
     //aTestObject.getPanelThatContainsLed(4095);
     
-    CubeSnapshot aNewFakeCube = theAnimation.getCubeFromAnimation(1);
-    ArrayList<Integer> aListOfLedsChanged = diffCubeSnapshots(aNewFakeCube, aTestObject);
+    CubeSnapshot nextSnapshotToDiff = theAnimation.getCubeFromAnimation(1);
+
+    ArrayList<List<Integer>> aListOfLedsChanged = aListOfLedsChanged(currentSnapshotToDiff, nextSnapshotToDiff);
+    //TreeMap<Integer, Integer> aListOfLedsChanged = aListOfLedsChanged(aNewFakeCube, aTestObject);
+    flattenArrayList( aListOfLedsChanged ) ;
 
 
-    
-
-
-    debug("Led " + aListOfLedsChanged.get(0) + "'s color is " + aListOfLedsChanged.get(0) +"\n");
   }
 
-  if ( keyCode == CONTROL ) 
-  {
-    debug("CTRL Pressed");
-    exportToFile();
-//      if ( key == 's' || key == 'S' )
-//      {
-//        debug("S pressed");
-//        //Pressing CTRL + S saves file
-//        exportToFile();
-//      }
-  }
+
   if (key == 'i' || key == 'I' )
   {
     importFromFile();
@@ -295,6 +179,7 @@ void keyPressed()
         debug("activeAnimation is " + activeAnimation);
 
         //See if we are navigating to a new cube sequence or an existing one
+        //If we are looking at the last cube in the sequence, create a new cube 
         if (activeAnimation < theAnimation.getHighestCubeNumberInAnimation() )
         {
             debug("activeAnimation is " + activeAnimation + " NumberOfCubesInAnimation is " + theAnimation.getHighestCubeNumberInAnimation() );
@@ -430,7 +315,7 @@ void exportToFile()
                     get the led number
                     get the color
                     save to string
-/
+                */
                     // Look at all the leds in every cube
                     for( int cubeInAnimationCounter = 0; cubeInAnimationCounter <= theAnimation.getHighestCubeNumberInAnimation(); cubeInAnimationCounter++)
                     {
@@ -495,17 +380,229 @@ void importFromFile()
                    for every change in the first word of line
                        Create a new cube object
                        apply the second and 3rd lines to the cube object list of leds
+                   */
                    
+                   //Recreate the animation object
+                   theAnimation = new AnimationOfSnapshots();
 
-      </p>
-      
-      <p>
-	Source code: <a href="DiffCubes.pde">DiffCubes</a> <a href="AnimationOfSnapshots.pde">AnimationOfSnapshots</a> <a href="CubeSnapshot.pde">CubeSnapshot</a> <a href="LedObject.pde">LedObject</a> <a href="PanelObject.pde">PanelObject</a> <a href="RowObject.pde">RowObject</a> 
-      </p>
-      
-      <p>
-	Built with <a href="http://processing.org" title="Processing.org">Processing</a>
-      </p>
-    </div>
-  </body>
-</html>
+                   // Create aray of strings
+                   // Add the file to the array
+                   String[] arrayOfLedsToImport = loadStrings(locationOfFileToImport);
+                   
+                   //Look at every character in the file
+                   debug("About to import " + arrayOfLedsToImport.length + " lines from " + locationOfFileToImport +"\n");
+
+                   for( int fileToLedCounter = 0; fileToLedCounter < arrayOfLedsToImport.length ; fileToLedCounter++ )
+                   {
+                        // Every time we encounter a space save the 
+                        // preceding text to a single string
+         	    	String[] wordsSplitFromLines  = split(arrayOfLedsToImport[ fileToLedCounter ],"\t");  // Split strings using " " as a delimeter
+                        
+                        //Get the cube in animation sequence number
+                        int cubeInAnimationInTextFile = int(wordsSplitFromLines[0]);
+                        
+                        //Get the led number as a string 0 to 4096 and convert to int
+                        int ledNumberInTextFile       = int(wordsSplitFromLines[1]);
+                        
+                        //Get the led color saved as a string -650000 & convert to int
+                        int ledColorInTextFile        = int(wordsSplitFromLines[2]);
+                        
+                        //See if first word is bigger than the number of objects we have
+                        //debug(" the cubeInAnimationInTextFile is " + cubeInAnimationInTextFile + "theAnimation.getNumberOfCubesInAnimation() is " + theAnimation.getHighestCubeNumberInAnimation() + "\n");
+                        if ( cubeInAnimationInTextFile > theAnimation.getHighestCubeNumberInAnimation() )
+                        {
+                            debug("Creating a new cube in animation");
+                            theAnimation.addNewCubeToAnimation();
+                        }
+                        
+                        //Get the cube object we are working with and add all the leds to it
+                        theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationInTextFile).getLedObjectForParent(ledNumberInTextFile).setLedColor(ledColorInTextFile);
+              
+
+                   }//end for fileToLedCounter
+                   
+                 println("Imported " + arrayOfLedsToImport.length+ " lines from " + locationOfFileToImport);
+                   //Change the name of the title bar to reflect the number of frames in sequence
+                 updateWindowTitle();
+
+               }//end else
+               
+               
+            }//end run()
+           }//end Runnable()
+     ).start();//end thread
+    
+}//end importFromFile()
+
+
+//Take 2 cube objects, if they have an led that is different, add its absolute index and color to the list
+ArrayList<List<Integer>> aListOfLedsChanged( CubeSnapshot currentSnapshotToDiff , CubeSnapshot nextSnapshotToDiff )
+{
+  
+  ArrayList<List<Integer>> aListOfLedsChanged = new ArrayList<List<Integer>>();
+  debug("About to diff cubes");
+  //Get color value from led 000 in cube 1 and cube 1
+  //If color is different, save cube 2 color to arrayList
+  println("Led0 in current is " + currentSnapshotToDiff.getLedObjectForParent(0).getLedColor() );
+  println("Led0 in next is "    + nextSnapshotToDiff.getLedObjectForParent(0).getLedColor() );
+
+  //Loop through all of the new leds, if they are not equal to the current led, save the new one
+  for (int countOfAllLedsInCube = 0; countOfAllLedsInCube < totalNumberOfLeds; countOfAllLedsInCube++)
+  {
+      //Get the current cube color and the next led color
+      int currentCubeLedValue = currentSnapshotToDiff.getLedObjectForParent( countOfAllLedsInCube ).getLedColor();
+      int nextCubeLedValue    = nextSnapshotToDiff.getLedObjectForParent( countOfAllLedsInCube ).getLedColor();
+
+      //We think we already know the led number because of the for loop, but just to be sure actually go get
+      //the led and verify its name is what we think it is. Obsessive and paranoid? Yes. 
+      int nextLedNumber       = nextSnapshotToDiff.getLedObjectForParent( countOfAllLedsInCube ).getLedNumberInCube();
+          
+
+          //If the new cube led is different then the new one, then save it to the array
+          if (nextCubeLedValue != currentCubeLedValue ) 
+          {
+            //Add new row to 2d array list
+            aListOfLedsChanged.add( new ArrayList<Integer>() );
+
+            //Get the arraylist we just added, it should be the last one
+            //TODO:This is risky code, should check to see if null / empty
+            int currentPositionInOuterArrayList = aListOfLedsChanged.size() - 1 ;
+
+            //debug( "currentPositionInOuterArrayList = " + currentPositionInOuterArrayList );
+
+              //Add the led number to the inner arraylist
+              aListOfLedsChanged.get(currentPositionInOuterArrayList).add(nextLedNumber);
+
+              //Add the color to the inner arrayList
+              println("added color to arraylist " + nextCubeLedValue );
+            aListOfLedsChanged.get(currentPositionInOuterArrayList).add(nextCubeLedValue);
+            
+          }
+
+  }
+  // if (aListOfLedsChanged.size() > (totalNumberOfLeds / 2 ) )
+  // {
+  //   //TODO: If we are changing more tha 50% of the cube, it is faster to clear it and write new values
+  //   println("We have changed more than half the leds, better to just rewrite");
+  // }
+
+  debug("Diff has updated " + aListOfLedsChanged.size() + " leds");
+
+  return aListOfLedsChanged;
+
+
+}// end aListOfLedsChanged
+
+//Take a TreeMap of all the leds to update, Split into bytes, and send to arduino. 
+//*****TODO: This code needs to be moved to the AllSpark API, not all cubes take the data in the
+//same format. This code is put here to meet a deadline. 
+void flattenArrayList(ArrayList<List<Integer>> aListOfLedsChanged)
+{
+  //Take array list, get the length
+  //if the length is longer than the cube supports then
+  //split it into multiple arrays of bytes
+  //This is a little tricky http://stackoverflow.com/questions/5618978/convert-arrayliststring-to-byte
+   //http://stackoverflow.com/questions/1318980/how-to-iterate-over-a-treemap
+    //http://www.java2s.com/Code/JavaAPI/java.util/TreeMapentrySet.htm
+    //http://code.google.com/p/processing/issues/detail?id=880
+    //Known issues with processing and hashmap entrysets, must use iterator instead
+
+
+  if ( aListOfLedsChanged.size() < 1 )
+  {
+    debug("Error: List of leds different between cubes is 0");
+  }
+  else if( aListOfLedsChanged.size() > totalNumberOfLeds)
+  {
+    debug("Error: Attempting to send " + aListOfLedsChanged.size() + " leds over serial, but cube is only "+ totalNumberOfLeds + " leds big");
+  }
+  else if( aListOfLedsChanged.size() > 127 )
+  {
+    //Split the arraylist into multiple byte arrays
+
+  } 
+  else if( (aListOfLedsChanged.size() * 5) <= 127 )
+  {
+    debug("Creating byte array of size " + aListOfLedsChanged.size() );
+    byte[] byteArrayToSendViaSerial = new byte[ aListOfLedsChanged.size() * 5 + 2 ]; 
+    //Number of Leds to send will all fit in one buffer, how convenient. 
+    //Each led has 4 values, X-Y-Z-Color
+    //Convert to array of bytes, and return byte array so we can send over serial.
+
+    //For set Led the first 2 bytes will always be 11 and the message length
+    //Counter to keep track of where I am in byte array
+    int byteArrayLocationCounter = 0;
+    byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte( 11 );
+    byteArrayLocationCounter++;
+
+    byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte( aListOfLedsChanged.size() * 5 );
+    byteArrayLocationCounter++;
+
+
+    //Flatten data from arrylist
+    for ( int outerArrayCounter = 0; outerArrayCounter < aListOfLedsChanged.size(); outerArrayCounter++ )
+    {
+
+        //println("in outter for loop, counter is " + outerArrayCounter);
+
+        int absoluteLedNumber = aListOfLedsChanged.get(outerArrayCounter).get(0);
+       // println("led changed " + outerArrayCounter + " led number is " +  aListOfLedsChanged.get( outerArrayCounter).get(0) );
+        //Get the led number convert to relative and save to byte array
+
+
+    // X value
+        byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte(LedAbsoluteToConverterClass.getLedNumberInRow(absoluteLedNumber) );
+        //  println("Led " + absoluteLedNumber + " is X: " + LedAbsoluteToConverterClass.getLedNumberInRow(absoluteLedNumber));
+          println( byte( LedAbsoluteToConverterClass.getLedNumberInRow(absoluteLedNumber ))  + " should match " + byteArrayToSendViaSerial[ byteArrayLocationCounter ] );
+        byteArrayLocationCounter++;
+
+    // Y value
+        byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte(LedAbsoluteToConverterClass.getLedRowNumberInPanel(absoluteLedNumber) );
+        //  println("Led " + absoluteLedNumber + " is Y: " + LedAbsoluteToConverterClass.getLedRowNumberInPanel(absoluteLedNumber));
+          println( byte( LedAbsoluteToConverterClass.getLedRowNumberInPanel(absoluteLedNumber ))  + " should match " + byteArrayToSendViaSerial[ byteArrayLocationCounter ] );
+        byteArrayLocationCounter++;
+
+    // Z value
+        byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte(LedAbsoluteToConverterClass.getPanelThatContainsLed(absoluteLedNumber) );
+        //  println("Led " + absoluteLedNumber + " is Y: " + LedAbsoluteToConverterClass.getPanelThatContainsLed(absoluteLedNumber));
+          println( byte( LedAbsoluteToConverterClass.getPanelThatContainsLed(absoluteLedNumber ))  + " should match " + byteArrayToSendViaSerial[ byteArrayLocationCounter ] );
+        byteArrayLocationCounter++;
+
+    // Color 
+        int ledColorInArrayList = aListOfLedsChanged.get(outerArrayCounter).get(1);
+        println("ledColorInArrayList = " + ledColorInArrayList);
+
+        int ledConverted = ColorConverterClass.intColorLookupTable( ledColorInArrayList );
+        println("ledConverted = " + ledConverted);
+        byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte(ledConverted);
+        byteArrayLocationCounter++;
+
+    // Message byte not yet needed
+        byteArrayToSendViaSerial [ byteArrayLocationCounter ] = 0;
+        byteArrayLocationCounter++;
+       
+    }// end for loop
+
+
+    println("");
+    print(" Array list is [ ");
+    for ( int byteArrayTroubleshootCounter = 0; byteArrayTroubleshootCounter < byteArrayToSendViaSerial.length; byteArrayTroubleshootCounter++ )
+    {
+        print( byteArrayToSendViaSerial[ byteArrayTroubleshootCounter ] + "," );
+    }
+    println(" ]");
+
+
+  sendToSerial( byteArrayToSendViaSerial );
+
+  }//end if elseif elseif
+
+  
+}//end flattenArrayList
+
+void sendToSerial( byte[] byteArrayToSendViaSerial )
+{
+    aSerialPort.write( byteArrayToSendViaSerial );
+}
+
+
