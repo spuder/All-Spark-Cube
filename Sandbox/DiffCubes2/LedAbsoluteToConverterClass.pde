@@ -1,4 +1,4 @@
-public static final class LedAbsoluteToConverterClass
+public static class LedAbsoluteToConverterClass
 {
 
 	static int getLedNumberInRow(int absoluteLedNumber)
@@ -24,11 +24,11 @@ public static final class LedAbsoluteToConverterClass
 
 	static int getPanelThatContainsLed ( int absoluteLedNumber )
 	{
-		int ledTotalRowNumber     = (absoluteLedNumber / DiffCubes2.xNumberOfLedsPerRow);      
-      	int ledPanelNumber        = (absoluteLedNumber / DiffCubes2.xNumberOfLedsPerRow / DiffCubes2.yNumberOfRowsPerPanel); //4095 would return panel 15, 300 returns panel 1 TODO:Consider renaming to locationINZ 
-        println("getPanelThatContainsLed was given " + absoluteLedNumber + " and is returning " + ledPanelNumber);
+	      int ledTotalRowNumber     = (absoluteLedNumber / DiffCubes2.xNumberOfLedsPerRow);      
+      	      int ledPanelNumber        = (absoluteLedNumber / DiffCubes2.xNumberOfLedsPerRow / DiffCubes2.yNumberOfRowsPerPanel); //4095 would return panel 15, 300 returns panel 1 TODO:Consider renaming to locationINZ 
+              println("getPanelThatContainsLed was given " + absoluteLedNumber + " and is returning " + ledPanelNumber);
 
-      return ledPanelNumber;
+              return ledPanelNumber;
 	}
 
 
