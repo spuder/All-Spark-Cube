@@ -15,11 +15,11 @@ import processing.serial.*;
 	ArrayList<List<Integer>> aListOfAllSnapshots = new ArrayList<List<Integer>>();
 
         boolean debugMode = false;
-	Serial aSerialPort;
+		Serial aSerialPort;
   
-        static int xNumberOfLedsPerRow = 16;
-        static int yNumberOfRowsPerPanel = 16;
-        static int zNumberOfPanelsPerCube = 16; 
+        static int xNumberOfLedsPerRow 		= 16;
+        static int yNumberOfRowsPerPanel 	= 16;
+        static int zNumberOfPanelsPerCube 	= 16; 
 	
 	
 	
@@ -83,7 +83,6 @@ import processing.serial.*;
 	
 	void importFromFile()
 	{
-	 
 	      // Create a new thread to allow screen to continue to refresh  
 	      // while we open the file
 	     new Thread(
@@ -168,15 +167,10 @@ import processing.serial.*;
 //	                 println("Debug snapshot 1, led    2 has color of " + aListOfAllSnapshots.get(1).get(2) );
 //	                 println("Debug snapshot 0, led 4095 has color of " + aListOfAllSnapshots.get(0).get(4095) );
 //	                 println("Debug snapshot 1, led 4095 has color of " + aListOfAllSnapshots.get(1	).get(4095) );
-
-
-	               }//end else
-	               
-	               
+	               }//end else          
 	            }//end run()
 	           }//end Runnable()
-	     ).start();//end thread
-	    
+	     ).start();//end thread  
 	}//end importFromFile()
 
 	void flattenArrayList(ArrayList<List<Integer>> aListOfLedsChanged)
@@ -194,6 +188,8 @@ import processing.serial.*;
 	  else if( aListOfLedsChanged.size() > 127 )
 	  {
 	    //Split the arraylist into multiple byte arrays
+
+	    
 
 	  } 
 	  else if( (aListOfLedsChanged.size() * 5) <= 127 )
