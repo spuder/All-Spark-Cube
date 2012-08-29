@@ -41,7 +41,7 @@ import processing.serial.*;
                      debug("previous frame is " + previousFrameInAnimation + "Setting to " + frameInAnimation);
                      	  previousFrameInAnimation = frameInAnimation;
 			  frameInAnimation++;
-			  diffCubes(frameInAnimation, previousFrameInAnimation);
+			  splitArray( 32, flattenArrayList( diffCubes(frameInAnimation, previousFrameInAnimation)));
 		  }
 		  if(mouseButton == RIGHT) 
 		  {
@@ -50,7 +50,7 @@ import processing.serial.*;
 			  {
 				  previousFrameInAnimation = frameInAnimation;
 				  frameInAnimation--;
-				  diffCubes(frameInAnimation,previousFrameInAnimation);
+				  splitArray( 32, flattenArrayList( diffCubes(frameInAnimation,previousFrameInAnimation)));
 			  }
 			  else { debug("Already at frame 0 no previous frames");}
 			  
@@ -173,108 +173,194 @@ import processing.serial.*;
 	     ).start();//end thread  
 }//end importFromFile()
 
-void flattenArrayList(ArrayList<List<Integer>> aListOfLedsChanged)
+ArrayList<Integer> flattenArrayList(ArrayList<List<Integer>> aListOfLedsChanged)
 {
+	ArrayList<Integer> aFlattenedArrayList = new ArrayList<Integer>();
+	//Loop through outter array list 
+	for( int locationInOutterArrayList = 0; locationInOutterArrayList < aListOfLedsChanged.size(); locationInOutterArrayList++ )
+	{
+		//Loop through inner array list
+		for ( int locationInInnerArray =0; locationInInnerArray < aListOfLedsChanged.get(locationInOutterArrayList).size(); locationInInnerArray++)
+		{
+			//Add each item in multidimentional array to new array
+			aFlattenedArrayList.add( aListOfLedsChanged.get(locationInOutterArrayList).get(locationInInnerArray) );
+		}
+	}
 
-	  if ( aListOfLedsChanged.size() < 1 )
-	  {
-	    debug("Error: List of leds different between cubes is 0");
-	  }
-	  else if( aListOfLedsChanged.size() > 4096)
-	  {
-		  //TODO: BAD, BAD, BAD Programmer, no mountain dew for you, Had to hard code these values to meet deadline. 
-	    debug("Error: Attempting to send " + aListOfLedsChanged.size() + " leds over serial, but cube is only "+ 4096 + " leds big");
-	  }
-	  else if( aListOfLedsChanged.size() > 127 )
-	  {
-	    //Split the arraylist into multiple byte arrays
+	println("MD Array [0][0] should be equal New array[0], Does 4 = " + aListOfLedsChanged.get(0).get(0) + " = " +aFlattenedArrayList.get(0) + " ?");
+	println("MD Array [0][1] should be equal New array[1], Does 1 = " + aListOfLedsChanged.get(0).get(1) + " = " +aFlattenedArrayList.get(1) + " ?");
+	println("MD Array [1][0] should be equal New array[2], Does 6 = " + aListOfLedsChanged.get(1).get(0) + " = " +aFlattenedArrayList.get(2) + " ?");
+	
+	return aFlattenedArrayList;
 
-	    
-
-	  } 
-	  else if( (aListOfLedsChanged.size() * 5) <= 127 )
-	  {
-	    debug("Creating byte array of size " + aListOfLedsChanged.size() );
-	    byte[] byteArrayToSendViaSerial = new byte[ aListOfLedsChanged.size() * 5 + 2 ]; 
-	    //Number of Leds to send will all fit in one buffer, how convenient. 
-	    //Each led has 4 values, X-Y-Z-Color
-	    //Convert to array of bytes, and return byte array so we can send over serial.
-
-	    //For set Led the first 2 bytes will always be 11 and the message length
-	    //Counter to keep track of where I am in byte array
-	    int byteArrayLocationCounter = 0;
-	    //unsigned char anUnsignedByte = (138);
-	    int messageType = 11 + 128; //11 is the message type, add 128 for kevins sync bit. 
-	    byte messageTypeConverted = (byte) messageType;
-	    byteArrayToSendViaSerial[ byteArrayLocationCounter ] = messageTypeConverted; //subtract 256 because we need unsigned
-	    //byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte( 11 + 128);
-	    //byteArrayToSendViaSerial[ byteArrayLocationCounter ] = byte(anUnsignedByte);
-	    byteArrayLocationCounter++;
-
-	    byteArrayToSendViaSerial[ byteArrayLocationCounter ] = (byte) (aListOfLedsChanged.size() * 5) ;
-	    byteArrayLocationCounter++;
+}//end flattenArrayList()
 
 
-	    //Flatten data from arrylist
-	    for ( int outerArrayCounter = 0; outerArrayCounter < aListOfLedsChanged.size(); outerArrayCounter++ )
-	    {
+void splitArray( int sizeToSplitTo, ArrayList<Integer> aFlattenedArrayList )
+{
+println("Called splitArray method");
+	
+		println("about to create a new array that we will reuseover and over of 32 bytes");
+	byte[] aSplitArray = new byte[32];
 
-	        //println("in outter for loop, counter is " + outerArrayCounter);
+	//create a speical array for the parts that wont fit in 32 byte array, this will change every time
+	//Example 52 - (30 * (52 / int(30) )
+	int numberOfFullByteArrays  = aFlattenedArrayList.size() / sizeToSplitTo; 
+		println("numberOfFullByteArrays is " + numberOfFullByteArrays);
 
-	        int absoluteLedNumber = aListOfLedsChanged.get(outerArrayCounter).get(0);
-	       // println("led changed " + outerArrayCounter + " led number is " +  aListOfLedsChanged.get( outerArrayCounter).get(0) );
-	        //Get the led number convert to relative and save to byte array
+	int bytesInShortArray 		= aFlattenedArrayList.size() - ( (sizeToSplitTo -2 ) * numberOfFullByteArrays );
+		println("bytesInShortArray is " + bytesInShortArray);
+	
+	//If the Array length is not divisible by 30, you will have one short array
+	//Add 2 for the message headers
+	byte[] theShortArray = new byte[ bytesInShortArray + 2];
+		println("Created theShortArray of length " + theShortArray.length );
 
-
-	    // X value
-	        byteArrayToSendViaSerial[ byteArrayLocationCounter ] = (byte) (LedAbsoluteToConverterClass.getLedNumberInRow(absoluteLedNumber) );
-	        //  println("Led " + absoluteLedNumber + " is X: " + LedAbsoluteToConverterClass.getLedNumberInRow(absoluteLedNumber));
-	          debug( (byte) ( LedAbsoluteToConverterClass.getLedNumberInRow(absoluteLedNumber ))  + " should match " + byteArrayToSendViaSerial[ byteArrayLocationCounter ] );
-	        byteArrayLocationCounter++;
-
-	    // Y value
-	        byteArrayToSendViaSerial[ byteArrayLocationCounter ] = (byte) (LedAbsoluteToConverterClass.getLedRowNumberInPanel(absoluteLedNumber) );
-	        //  println("Led " + absoluteLedNumber + " is Y: " + LedAbsoluteToConverterClass.getLedRowNumberInPanel(absoluteLedNumber));
-	          debug( (byte) ( LedAbsoluteToConverterClass.getLedRowNumberInPanel(absoluteLedNumber ))  + " should match " + byteArrayToSendViaSerial[ byteArrayLocationCounter ] );
-	        byteArrayLocationCounter++;
-
-	    // Z value
-	        byteArrayToSendViaSerial[ byteArrayLocationCounter ] = (byte) (LedAbsoluteToConverterClass.getPanelThatContainsLed(absoluteLedNumber) );
-	        //  println("Led " + absoluteLedNumber + " is Y: " + LedAbsoluteToConverterClass.getPanelThatContainsLed(absoluteLedNumber));
-	          debug( (byte) ( LedAbsoluteToConverterClass.getPanelThatContainsLed(absoluteLedNumber ))  + " should match " + byteArrayToSendViaSerial[ byteArrayLocationCounter ] );
-	        byteArrayLocationCounter++;
-
-	    // Color 
-	        int ledColorInArrayList = aListOfLedsChanged.get(outerArrayCounter).get(1);
-	        println("ledColorInArrayList = " + ledColorInArrayList);
-
-	        int ledConverted = ColorConverterClass.intColorLookupTable( ledColorInArrayList );
-	        println("ledConverted = " + ledConverted);
-	        byteArrayToSendViaSerial[ byteArrayLocationCounter ] = (byte)(ledConverted);
-	        byteArrayLocationCounter++;
-
-	    // Message byte not yet needed
-	        byteArrayToSendViaSerial [ byteArrayLocationCounter ] = 0;
-	        byteArrayLocationCounter++;
-	       
-	    }// end for loop
+	//Counter for inside arrays
+	int locationIn32byteArray = 2;
+	int locationInShortArray = 2;
 
 
-	    println("");
-	    print(" Array list is [ ");
-	    for ( int byteArrayTroubleshootCounter = 0; byteArrayTroubleshootCounter < byteArrayToSendViaSerial.length; byteArrayTroubleshootCounter++ )
-	    {
-	        print( byteArrayToSendViaSerial[ byteArrayTroubleshootCounter ] + "," );
-	    }
-	    println(" ]");
+	//Take flattened arrayList and itterate through it
+	for(int counterInFlattenedArrayList = 0; counterInFlattenedArrayList < aFlattenedArrayList.size(); counterInFlattenedArrayList++)
+	{
 
-	   
-	  sendToSerial( byteArrayToSendViaSerial );
-	  println("Should have Sent to serial port");
-	  }//end if elseif elseif
+		/*Decision Tree
+				Normal Array [32]------------------- Small Array[<32]
+				/			\							/			\
+		At End 	----------- not at end 				At End ------------- Not at End 
+		add byte 			send to serial 			add byte 			 send to serial
+		Increment counter 	reset coutner 			Increment coutner 	 reset counter
+							purge array 								purge array
+		*/
+		//Leave first 2 bytes blank for message headers
+		//Look ahead and see if there are 32 bytes left in the arraylist
+		//If there are not 32 bytes left then add data to special array
+		//If there are 32 bytes left then add data to new array
+			//If we have reached the end of the special array or the end of normal array, send to 
+			//..serial and dump array
 
-	  
-}//end flattenArrayList
+	//If we are on the small array
+		//if( counterInFlattenedArrayList > aFlattenedArrayList.size()  - bytesInShortArray )
+		if( counterInFlattenedArrayList >= numberOfFullByteArrays * (sizeToSplitTo - 2) )				
+		{
+			// Derive a counter 
+			// 52 - 31 - 22 = -1
+			// Since we are counting from the end of the array, the number will be negative
+			// Invert it to a positive and you will have the correct counter every time
+			//int locationInShortArray = Math.abs( aFlattenedArrayList.size() - counterInFlattenedArrayList - bytesInShortArray ) ;
+				//println("locationInShortArray is " + locationInShortArray);
+
+		//If Not at end of short array
+							//println("why wont locationInShortArray exceede aFlattenedArrayList.size() ? " +(locationInShortArray + bytesInShortArray)+ " " +  aFlattenedArrayList.size()	);	
+
+				// if( locationInShortArray < theShortArray.length )
+				// {
+					println("counterInFlattenedArrayList = " + counterInFlattenedArrayList);
+					//Add the led in the flattened array to the shorteded array
+					int intToByte = aFlattenedArrayList.get( counterInFlattenedArrayList );
+					theShortArray[ locationInShortArray ] = (byte)intToByte;
+							println("Added intToByte " + intToByte + " to index " +locationInShortArray + " of the short array");
+					//Increment counter
+					locationInShortArray++;
+							println("");
+							println("locationInShortArray = " + locationInShortArray);
+
+				// }
+		//If at end of short array
+				//else if (locationInShortArray >= aFlattenedArrayList.size() || locationInShortArray >= counterInFlattenedArrayList) 
+				//else if (locationInShortArray == theShortArray.length ) 
+				if (locationInShortArray == theShortArray.length ) 
+				{
+					println("At end of short array");
+					//Prepend array
+					theShortArray[0] = (byte)138;
+					int theShortArrayLength = theShortArray.length;
+					theShortArray[1] = (byte)theShortArrayLength;
+
+					//Send to serial
+					aSerialPort.write( theShortArray );
+						println("***********Sent short to serial port***********");
+						println( theShortArray );	
+					//Reset counter
+						locationInShortArray = 2;
+					//Purge Array
+						Arrays.fill(theShortArray, byte(0) ); // not nessesary
+				}
+				// else
+				// {
+				// 	println("Error: This code should be unreachable, locatinInArray is in limbo");
+				// }
+		
+
+		}
+	//If we are on the normal 32 byte array
+		else
+		{
+			
+		//If Not at end of normal array
+			//println("");
+			//println("sizeToSplitTo = " + (sizeToSplitTo - 2)) ;
+			// if ( locationIn32byteArray < sizeToSplitTo   ) 
+			// { 
+
+				//Add byte to array
+				int byteToAddToNormalArray 		= aFlattenedArrayList.get( counterInFlattenedArrayList ) ;
+				aSplitArray[ locationIn32byteArray ] 	= (byte)byteToAddToNormalArray;
+
+				println("Added "+ aFlattenedArrayList.get( counterInFlattenedArrayList  )+ "  to aSplitArray["+locationIn32byteArray+"]" );
+
+				//Increment counter
+				locationIn32byteArray++;
+				println(" locationIn32byteArray is now "+ locationIn32byteArray);
+
+			// }
+		//If at end of normal array
+			// else if (locationIn32byteArray == sizeToSplitTo  )
+			if (locationIn32byteArray == sizeToSplitTo  )
+			{
+					//Add message type to [0]
+					aSplitArray[0] = (byte)138;
+
+					//Add length to [1], should always be 32
+					int splitArrayLength = aSplitArray.length;
+					aSplitArray[1] = (byte) splitArrayLength ;
+
+					//Send to serial port
+					aSerialPort.write(aSplitArray);
+						println("***********Sent to serial port***********");
+						println(aSplitArray);
+
+					//reset counter, skip first 2 indicies in array for headers
+					locationIn32byteArray = 2; 
+
+					//purge array
+					Arrays.fill( aSplitArray, (byte)0 );
+
+					
+					/*
+					This is a bandaid because we are using the for loop counter as the 
+					index to put the led into the new array. 
+					Once every 30th itterations, we don't add anything to the arrays because
+					we are writting to the serial port, because of this, we have to compensate for the 
+					next message, or else it will loose the first byte
+					I am seeing that byte 31 never gets added, because the 31st loop, no arrays are modified.
+					*/
+
+			}
+			//else{println("locationIn32byteArray is in limbo, should be unreachable");}
+			 
+ 
+		}//end check normal / small
+
+	} //end for loop
+	
+}//end split Array
+
+
+
+
+
 
 void sendToSerial( byte[] byteArrayToSendViaSerial )
 {

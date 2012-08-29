@@ -407,7 +407,7 @@ println("Called splitArray method");
 
 	} //end for loop
 	
-}
+}//end split Array
 
 
 void sendToSerial( byte[] anArrayToSendToSerial )
