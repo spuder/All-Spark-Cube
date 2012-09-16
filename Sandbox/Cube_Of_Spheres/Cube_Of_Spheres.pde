@@ -36,12 +36,12 @@ Map<Integer, Integer> ledList = new HashMap<Integer, Integer>(cubeSize*cubeSize*
 
 
 void setup() { 
-<<<<<<< HEAD
+
 	size(screen.width, screen.height, OPENGL); 
-=======
+
   //TODO: test that size does work with variables after export to applet, docs say it doesnt
-	size(int(screen.width*goldenRatio),int(screen.height*goldenRatio), OPENGL); //Do not use variables as the parameters to size() command, because it will cause problems when exporting your sketch.
->>>>>>> development-dualpane
+	//size(int(screen.width*goldenRatio),int(screen.height*goldenRatio), OPENGL); //Do not use variables as the parameters to size() command, because it will cause problems when exporting your sketch.
+
 	frameRate(framesPerSecond);
         frame.setResizable(true);
 	sphereDetail(ledDetail);
@@ -70,12 +70,12 @@ lights();
    rotBuffY= -1*mouseX*rotVit; // the speed that the mouse rotates the screen
  } 
 
-<<<<<<< HEAD
+
   // center cube on the window 
  translate(width/2, height/2,zoom); 
-=======
- translate(width/2,height/2,zoom); // center cube on the screen, dont use screen.width. but rather just width
->>>>>>> development-dualpane
+
+ //translate(width/2,height/2,zoom); // center cube on the screen, dont use screen.width. but rather just width
+
  rotateX(rotBuffX); 
  rotateY(rotBuffY); 
  pushMatrix(); 
@@ -189,14 +189,10 @@ void keyPressed() {
 	}
 	
 	if (keyCode == CONTROL){ // user pushed CTL key on keyboard
-<<<<<<< HEAD
+
 		exportToFile();
 	}
-=======
-		saveToText(); // call the saveToText method
 
-    }
->>>>>>> development-dualpane
 } 
 
 void keyReleased()   { 
@@ -220,7 +216,7 @@ boolean checkDist(float x1,float y1,float z1) { // check distance between mouse 
    }
 }
 
-<<<<<<< HEAD
+
 void clearHashMap () {  // Function to set all hashmap values to off
 	for (int loop=0; h<cubeSize*cubeSize*cubeSize; h++) { 
 		ledList.put(h,#000000);  // Sets all hashmap values to off
@@ -302,22 +298,4 @@ void exportToFile() {  // Function to export hashmap into file
     ).start();//end thread
     
 }//end exportToFile()
-=======
-void saveToText() {
-  // Loop through hashmap & export
-    Iterator loopdaloop = ledList.entrySet().iterator();
-    String[] outputStringArray = new String[cubeSize*cubeSize*cubeSize+1];
-    int arrayLoop = 0;
-    while (loopdaloop.hasNext()){
-      Map.Entry entry = (Map.Entry) loopdaloop.next();
-      String key = (String)entry.getKey();
-      Boolean value = (Boolean)entry.getValue();
-      outputStringArray[arrayLoop]=key;
-      arrayLoop++;
-    }
-    saveStrings("output.txt",outputStringArray);
-        if (debug){ println("File has been saved to output.txt");}
-  
 
-}// end saveToText  
->>>>>>> development-dualpane
