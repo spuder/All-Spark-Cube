@@ -16,19 +16,7 @@ If you wanted to set led# 000 and 15,15,15 to red the message would look like th
 public class HypnoCube implements AllSparkAPI
 {
   /*
-  Protocol List
-  1 KeepAlive
-  2 SetValue
-  3 GetValue
-  4 ValueReport
-  5 setMode
-  6 ModeReport
-  7 ClearCube
-  8 AllOn
-  9 PlaneOn
-  10 PlaneOff
-  11 SetVoxel
-  plus more
+
   */
   int serialBaudRate = 9600;
   List<Integer> HypnoMessageStruture = new ArrayList<Integer>();
@@ -38,7 +26,7 @@ public class HypnoCube implements AllSparkAPI
   {
       this.serialBaudRate = serialBaudRate;
     
-  }// end AdaptiveCube constructor
+  }// end HypnoCube constructor
   
   void writeSnapshotToSerial(CubeSnapshot currentlyDisplayedSnapshot, CubeSnapshot snapshotToDisplay )
   {

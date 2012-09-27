@@ -12,23 +12,40 @@ import processing.serial.*;
 
   int totalNumberOfLeds =  xNumberOfLedsPerRow * yNumberOfRowsPerPanel* zNumberOfPanelsPerCube ;
   
-  boolean ledHasBeenClicked = false;
-  int activeColor = 255;
+ /*
+  **************
+  This is poorly coupled code, this should be in the view controller (Model View Pattern)
+  */ 
+ boolean ledHasBeenClicked = false;
+ int activeColor = 255;
   int ledSize = 10;
   
-  int activeAnimation = 0;
+  /*
+  ****************
+  */
   
+  int activeAnimation = 0;
+
 
   
  // List<LedObject> aMasterArrayOfAllLedsInAllCubes;
 
 void setup()
 {
+  
+
+  
   /* Create a new controller and define which of its api's to use */
   //TODO: Prompt user for which to use You must use Java reflection or a bunch of if/else statments ***
   String cubeToUse = "HypnoCube";//dead code
 
-  aPhysicalController         = new PhysicalCubeController( new AdaptiveCube() );
+/*
+Deppending on which line is commented out, you will write serial to the different cubes
+This is the power of the api 
+
+*/
+  //aPhysicalController         = new PhysicalCubeController( new AdaptiveCube() );
+  aPhysicalController         = new PhysicalCubeController( new HypnoCube() );
 
   theAnimationOfSnapshots     = new AnimationOfSnapshots();
   

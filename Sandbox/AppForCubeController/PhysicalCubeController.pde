@@ -17,10 +17,11 @@ public class PhysicalCubeController
   PhysicalCubeController(AllSparkAPI aAllSparkAPI)
   {   
     this.aAllSparkAPI = aAllSparkAPI;
-       //TODO: Change this to a hashmap that calls the proper constuctor 
-      // depending on what type of cube the user selected.  
+       /*TODO: Change this to a hashmap that calls the proper constuctor 
+       // depending on what type of cube the user selected.  
        // listOfCubeTypes.add("AdaptiveCube");
        // listOfCubeTypes.add("HypnoCube");
+       */
    
       /*
       1. Prompt user what type of cube they want, adaptive or hypno
@@ -33,18 +34,18 @@ public class PhysicalCubeController
      
   }// end PhysicalCubeController Constructor
   
- public void writeSnapshotToSerial(CubeSnapshot currentlyDisplayedSnapshot, CubeSnapshot snapshotToDisplay )
- {
-    println("Physical Cube Class write Method called");
-    aAllSparkAPI.writeSnapshotToSerial(currentlyDisplayedSnapshot, snapshotToDisplay);
- }
+   public void writeSnapshotToSerial(CubeSnapshot currentlyDisplayedSnapshot, CubeSnapshot snapshotToDisplay )
+   {
+      println("Physical Cube Class write Method called");
+      aAllSparkAPI.writeSnapshotToSerial(currentlyDisplayedSnapshot, snapshotToDisplay);
+   }
   
   public String[] getAvailableSerialPorts()
   {
       //TODO: when ported to java, implement swing JOptionBox
       println( Serial.list() ) ;
       return Serial.list();
-    
+  
   }// end getAvailalbeSerialPorts
 
   // public void setSerialPortNumber()
