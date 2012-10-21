@@ -7,10 +7,10 @@ The end goal of the software is to have a easy user interface to control individ
 
 The Software has evolved into two seperate programs. 
 
-1. The annimation creator (like powerpoint) lets a person draw logos and designs right in and save them to a csv or text file. It is being managed on thomases github page here https://github.com/tbenz9/All-Spark-Cube-Animation-Creator. 
+1. The annimation creator (like powerpoint) lets a person draw logos and designs right in the GUI and save them to a csv or text file. It is being managed on tbenz9's github page here https://github.com/tbenz9/All-Spark-Cube-Animation-Creator. 
 It is written with html5, php, mysql and javascript
 
-2. The annimation player: This is the software that establishes a serial connection to the cube. It plays timings and loops to create effects in the cube. It was origionally written in "processing" but is being currently rewritten in Java. 
+2. The annimation player: This is the software that establishes a serial connection to the cube. It lights up the leds specified in the text file created by the other software.  It was origionally written in "processing" but is being currently rewritten in Java. 
 
 Other sandboxed programs are being incorperated into these two programs. Features include
 3d Simulator
