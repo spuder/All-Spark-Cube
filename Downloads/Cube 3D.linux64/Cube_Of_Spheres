@@ -1,4 +1,0 @@
-#!/bin/sh
-
-APPDIR=$(dirname "$0")
-java  -Djava.library.path="$APPDIR" -cp "$APPDIR/lib/Cube_Of_Spheres.jar:$APPDIR/lib/core.jar:$APPDIR/lib/gluegen-rt.jar:$APPDIR/lib/jogl.jar:$APPDIR/lib/opengl.jar" Cube_Of_Spheres
