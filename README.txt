@@ -1,20 +1,26 @@
 All files in this directory are sample code. Each folder is an individual project
 
 
+The All Spark Cube software is designed to control led cubes. The actual project that spawned this code can be found at allsparkcube.com
+
+The end goal of the software is to have a easy user interface to control individual LED's and be able to save patterns to a text file
+
+The Software has evolved into two seperate programs. 
+
+1. The annimation creator (like powerpoint) lets a person draw logos and designs right in and save them to a csv or text file. It is being managed on thomases github page here https://github.com/tbenz9/All-Spark-Cube-Animation-Creator. 
+It is written with html5, php, mysql and javascript
+
+2. The annimation player: This is the software that establishes a serial connection to the cube. It plays timings and loops to create effects in the cube. It was origionally written in "processing" but is being currently rewritten in Java. 
+
+Other sandboxed programs are being incorperated into these two programs. Features include
+3d Simulator
+API for xbox controllers, kinect
+Server ports to listen over tomcat
+
+
+
 Rules of Coding:
 
-- Never write code to the main project until you have tested it in a sandbox and know how it works
-
-- Remember the order of coding Think - Design - Test - Create
-
-- Comment every single line. !!
-
-- Program the same way God made the earth, See Genesis, Things created spiritually before physically
-
-
-
-If you design in the uml before coding, you don't have to throw it all away and start over
-The correct way taught by the best teachers such as Lee Barney is 
 
 
 Think  : Write down everything the program should do and also what it wont do in this release. 

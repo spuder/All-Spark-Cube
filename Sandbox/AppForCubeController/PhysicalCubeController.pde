@@ -2,11 +2,9 @@ public class PhysicalCubeController
 {
   //Add new libraries here
    // List<String> listOfCubeTypes = new ArrayList<String>();
-
-   
+  
   //TODO: Make dynamic depending on what type of cube user selected
   //AdaptiveCube thePhysicalCube;
-  
   
   String aSerialPortNumber;
   int    theBaudRate;
