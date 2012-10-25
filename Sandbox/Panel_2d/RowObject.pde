@@ -170,7 +170,16 @@ class RowObject
       // take the led in the row and return the object from anArrayOfRowLeds
       return anArrayOfRowLeds[absoluteLocationToPositionInRow(ledToFind)];
     }
+	
+	int getRowCoordinateY ()
+	{
+	return this.rowCoordinateY;
+	}
 
+	int getRowCoordinatez ()
+	{
+	return this.rowCoordinateY;
+	}
     
 } // end class RowObject
 
