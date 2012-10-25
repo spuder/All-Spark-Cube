@@ -11,7 +11,6 @@ class LedObject
   int   ledYPixelLocation;
 
 
-
   LedObject(int ledNumberInCube, int ledColor, float ledBrightness, int ledSize)
   {
 

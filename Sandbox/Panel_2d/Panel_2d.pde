@@ -39,12 +39,41 @@ public static       boolean   ledHasBeenDragged    = false;
 public              int       activeColor = #0000FF;                                                
 public        final int       ledSize = 10; // TODO:Change this to be a ratio of the barsize and then apply it to the led object
 public              int       activeAnimation = 0;
+Map<Integer, Integer> colorLookupTableByKey = new HashMap<Integer, Integer>(10);  // hashmap for colors of LEDs
+Map<Integer, Integer> colorLookupTableByValue = new HashMap<Integer, Integer>(10);  // hashmap for colors of LEDs
+
 
 
 
 
 void setup()
 {
+	// manually add Spencer's colors to Kevins values
+	
+	colorLookupTableByValue.put(0,-6908266); 		//Off
+	colorLookupTableByValue.put(1,-65536); 		//Red
+	colorLookupTableByValue.put(2,-16711936); 		//Green
+	colorLookupTableByValue.put(3,-16776961); 		//Blue
+	colorLookupTableByValue.put(4,-1); 			//White
+	colorLookupTableByValue.put(5,-256); 			//Yellow
+	colorLookupTableByValue.put(6,-65281); 			//Magenta
+	//colorLookupTableByValue.put(7,); 			//Cyan
+	colorLookupTableByValue.put(8,-33536); 			//Orange
+	//colorLookupTableByValue.put(9,); 			//Purple
+	
+	colorLookupTableByKey.put(-6908266,0); 		//Off
+	colorLookupTableByKey.put(-65536,1); 		//Red
+	colorLookupTableByKey.put(-16711936,2); 		//Green
+	colorLookupTableByKey.put(-16776961,3); 		//Blue
+	colorLookupTableByKey.put(-1,4); 			//White
+	colorLookupTableByKey.put(-256,5); 			//Yellow
+	colorLookupTableByKey.put(-65281,6); 			//Magenta
+	//colorLookupTableByKey.put(7); 			//Cyan
+	colorLookupTableByKey.put(-33536,8); 			//Orange
+	//colorLookupTabByKey.put(,9); 			//Purple
+	
+		
+		
    //Disabled OPENGL because it was running more slowly //size( screen.width, screen.height/2 , OPENGL);
   size( screen.width, screen.height/2 );
    
@@ -316,9 +345,19 @@ void exportToFile()
                         {
                           String cubeInAnimation = cubeInAnimationCounter + "";
                           String ledInCube       = ledInCubeCounter       + "";
-                          String colorOfLed      = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + "";
-                          
-                          arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation +"\t"+ ledInCube +"\t"+ colorOfLed);
+						  String ledLocationX = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedNumberInRow()+"";
+						  String ledLocationY = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelThatContainsLed(ledInCubeCounter)+"";
+						  //String ledLocationY = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedYPixelLocation()+""; getPanelCoordinate();
+
+						  String ledLocationZ = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelThatContainsLed(ledInCubeCounter)+"";
+                         // String colorOfLed      = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + "";
+						 println(colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + " = LED color after conversion"));
+
+						  int colorOfLed      = colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor());
+                          println(colorOfLed + " = LED color after conversion");
+						  
+						  //Cube#,Led#,Color
+                          arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation +"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed );
 
                         }// end ledInCubeCounter
 

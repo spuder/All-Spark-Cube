@@ -68,7 +68,7 @@ class PanelObject
 
   // Pass in an absolute led location and get the
   // row that contains that led object
-  public int getRelativeRowThatContainsLed(int ledToFind)
+  public RowObject getRelativeRowThatContainsLed(int ledToFind)
   {
 
       int ledTotalRowNumber     = (ledToFind / xNumberOfLedsPerRow);
@@ -78,7 +78,7 @@ class PanelObject
       int ledVerticalRowNumber  = (ledTotalRowNumber - (yNumberOfRowsPerPanel * ledPanelNumber)); //we need to know how high from the ground, not how many rows there are total
       //debug("which is the " +ledVerticalRowNumber+ " row from the bottom" + "\n");
 
-      return ledVerticalRowNumber;
+      return anArrayOfRows[ledVerticalRowNumber];
   }
 
   LedObject getLedObjectForParent(int ledToFind)
