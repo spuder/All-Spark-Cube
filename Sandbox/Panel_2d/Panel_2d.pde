@@ -345,11 +345,10 @@ void exportToFile()
                         {
                           String cubeInAnimation = cubeInAnimationCounter + "";
                           String ledInCube       = ledInCubeCounter       + "";
-						  String ledLocationX = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedNumberInRow()+"";
-						  //String ledLocationY = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelThatContainsLed(ledInCubeCounter)+"";
-						  String ledLocationY = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelObjectThatContainsLed(ledInCubeCounter).getRelativeRowObjectThatContainsLed(ledInCubeCounter).getRowCoordinateY()+"";
-
-						  String ledLocationZ = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelThatContainsLed(ledInCubeCounter)+"";
+						  // We added 1 so that the values are between 1-16 instead of 0-15 like revision 1.0 of Kevin's protocol.
+						  String ledLocationX = (1+(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedNumberInRow())+"");
+						  String ledLocationY = (1+(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelObjectThatContainsLed(ledInCubeCounter).getRelativeRowObjectThatContainsLed(ledInCubeCounter).getRowCoordinateY())+"");
+						  String ledLocationZ = (1+(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelThatContainsLed(ledInCubeCounter))+"");
                          // String colorOfLed      = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + "";
 						 println(colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + " = LED color after conversion"));
 
@@ -357,7 +356,7 @@ void exportToFile()
                           println(colorOfLed + " = LED color after conversion");
 						  
 						  //Cube#,Led#,Color
-                          arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation +"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed );
+                          arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
 
                         }// end ledInCubeCounter
 
