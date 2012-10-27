@@ -149,7 +149,9 @@ void keyPressed()
   if ( keyCode == CONTROL ) 
   {
     debug("CTRL Pressed");
-    exportToFile();
+    //Export to file, there are 2 functions depending on what format you want
+   // exportToFile1_0();
+    exportToFile2_0();
 //      if ( key == 's' || key == 'S' )
 //      {
 //        debug("S pressed");
@@ -159,7 +161,9 @@ void keyPressed()
   }
   if (key == 'i' || key == 'I' )
   {
-    importFromFile();
+     //Import from file, there are 2 functions depending on what format you want
+    //importFromFile1_0();
+    importFromFile2_0();
   }
   
   if ( key == 'r' || key == 'R' ) // pressing r on keyboard sets color mode to red. all subsequent leds clicked will turn red. 
@@ -303,7 +307,74 @@ void drawAnimation()
    theAnimation.displayOneAnimation(activeAnimation); 
 }
 
-void exportToFile()
+void exportToFile1_0()
+{
+    debug("Exporting to file");
+    // Create a new thread to allow screen to continue to refresh  
+    // while we open the file
+    new Thread(
+      //Create a new runnable class inside the thread
+      new Runnable() 
+          {
+          // Call the runnable with the actual code to execute
+          public void run()
+          {    
+          //~~~~~~~~~~~~~~~~~~~~~~~ Thread Creation ~~~~~~~~~~~~~~~~~~~~~~~~
+
+              //Prompt user where to save file
+              String locationOfFileToExport = selectOutput();
+              
+              //Verify the user did not click cancel
+              if ( locationOfFileToExport == null )
+              { println("No File Selected"); }
+              else
+              {
+                debug("Exporting to " + locationOfFileToExport);
+                // Create aray of strings with 4096 spaces in it
+                String[] arrayOfCubesToExport = new String[ (theAnimation.getHighestCubeNumberInAnimation() + 1) * totalNumberOfLeds];
+                debug(theAnimation.getHighestCubeNumberInAnimation() +" Text file will have "+(theAnimation.getHighestCubeNumberInAnimation() + 1) * totalNumberOfLeds +  " lines in it");
+                
+                /*
+                For every cube in the cubearray in animation
+                  for every led in cube array
+                    get the cube number
+                    get the led number
+                    get the color
+                    save to string
+                */
+                    // Look at all the leds in every cube
+                    for( int cubeInAnimationCounter = 0; cubeInAnimationCounter <= theAnimation.getHighestCubeNumberInAnimation(); cubeInAnimationCounter++)
+                    {
+                        for( int ledInCubeCounter = 0; ledInCubeCounter <= totalNumberOfLeds - 1; ledInCubeCounter++ )
+                        {
+                          String cubeInAnimation = cubeInAnimationCounter + "";
+                          String ledInCube       = ledInCubeCounter       + "";
+                          String colorOfLed      = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + "";
+                          
+                          arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation +"\t"+ ledInCube +"\t"+ colorOfLed);
+
+                        }// end ledInCubeCounter
+
+                    }// end cubeInAnimationCounter 
+              /* There was additional Logic here, but should not be needed anymore, deleted 7/4/2012 0:12am*/
+              
+                //Save to file locationOfFileToExport example  "C:\someFile" 
+                saveStrings( locationOfFileToExport, arrayOfCubesToExport);
+                debug("Done Exporting to " + locationOfFileToExport);
+                
+              }//end if locationOfFileToExport = null
+      
+
+          //~~~~~~~~~~~~~~~~~~~~~~~ Thread Completion ~~~~~~~~~~~~~~~~~~~~~~~
+      
+          }// end run()
+          }//end Runnable
+          ).start();
+              
+
+}//end exportToFile
+
+void exportToFile2_0()
 {
     debug("Exporting to file");
     // Create a new thread to allow screen to continue to refresh  
@@ -379,7 +450,7 @@ void exportToFile()
 
 }//end exportToFile
 
-void importFromFile()
+void importFromFile1_0()
 {
  
       // Create a new thread to allow screen to continue to refresh  
@@ -462,7 +533,92 @@ void importFromFile()
             }//end run()
            }//end Runnable()
      ).start();//end thread
-    
+   
+
+void importFromFile2_0()
+{
+ 
+      // Create a new thread to allow screen to continue to refresh  
+      // while we open the file
+     new Thread(
+       //Create a new runnable class inside the thread
+       new Runnable() 
+           {
+           // Call the runnable with the actual code to execute
+           public void run()
+           {      
+               // locationOfFileToImport example c:\someText.txt
+               String locationOfFileToImport = selectInput();
+              
+               //Verify the user did not click cancel
+               if ( locationOfFileToImport == null )
+               { println("No file selected"); }
+               else
+               {
+                 
+                  //Deconstruct the object to the best ability of java
+                  theAnimation = null;
+
+                   /*
+                   Create array of strings for every line in file✓
+                   create array of strings for every word in line✓
+                   Analyse the first word in line (the cube number in sequence)
+                   Create a new Animation Object 
+                   for every change in the first word of line
+                       Create a new cube object
+                       apply the second and 3rd lines to the cube object list of leds
+                   */
+                   
+                   //Recreate the animation object
+                   theAnimation = new AnimationOfSnapshots();
+
+                   // Create aray of strings
+                   // Add the file to the array
+                   String[] arrayOfLedsToImport = loadStrings(locationOfFileToImport);
+                   
+                   //Look at every character in the file
+                   debug("About to import " + arrayOfLedsToImport.length + " lines from " + locationOfFileToImport +"\n");
+
+                   for( int fileToLedCounter = 0; fileToLedCounter < arrayOfLedsToImport.length ; fileToLedCounter++ )
+                   {
+                        // Every time we encounter a space save the 
+                        // preceding text to a single string
+                String[] wordsSplitFromLines  = split(arrayOfLedsToImport[ fileToLedCounter ],"\t");  // Split strings using " " as a delimeter
+                        
+                        //Get the cube in animation sequence number
+                        int cubeInAnimationInTextFile = int(wordsSplitFromLines[0]);
+                        
+                        //Get the led number as a string 0 to 4096 and convert to int
+                        int ledNumberInTextFile       = int(wordsSplitFromLines[1]);
+                        
+                        //Get the led color saved as a string -650000 & convert to int
+                        int ledColorInTextFile        = int(wordsSplitFromLines[2]);
+                        
+                        //See if first word is bigger than the number of objects we have
+                        //debug(" the cubeInAnimationInTextFile is " + cubeInAnimationInTextFile + "theAnimation.getNumberOfCubesInAnimation() is " + theAnimation.getHighestCubeNumberInAnimation() + "\n");
+                        if ( cubeInAnimationInTextFile > theAnimation.getHighestCubeNumberInAnimation() )
+                        {
+                            debug("Creating a new cube in animation");
+                            theAnimation.addNewCubeToAnimation();
+                        }
+                        
+                        //Get the cube object we are working with and add all the leds to it
+                        theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationInTextFile).getLedObjectForParent(ledNumberInTextFile).setLedColor(ledColorInTextFile);
+              
+
+                   }//end for fileToLedCounter
+                   
+                 println("Imported " + arrayOfLedsToImport.length+ " lines from " + locationOfFileToImport);
+                   //Change the name of the title bar to reflect the number of frames in sequence
+                 updateWindowTitle();
+
+               }//end else
+               
+               
+            }//end run()
+           }//end Runnable()
+     ).start();//end thread
+   
 }//end importFromFile()
 
 
