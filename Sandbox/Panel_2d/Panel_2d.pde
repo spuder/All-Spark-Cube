@@ -618,9 +618,11 @@ cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLo
 
 
                         /*
-                        Convert x, y, z to absolute led number
+                        Convert x, y, z to absolute led number, pass in 1 as the base to call the correct method inside the method
+                        Then subtract 1 from the result to convert that back to base 0. You cant call the method with base 0 in this case
+                        because it would give you incorrect results. 
                         */
-                        int ledNumberInTextFile = 
+                        int ledNumberInTextFile =  ( relativeToAbsolute2(fileImportXLocation, fileImportYLocation, fileImportZLocation, 1 ) ) -1 ;
                         /*
                         Convert kevins color, to my color
                         */
@@ -655,10 +657,55 @@ cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLo
 }//end importFromFile()
 
 
-//Takes a number like 15,15,15 and returns 4096
-int relativeToAbsoluteConverter(int xPosition, int yPosition, int zPosition)
-{
+//Takes a number like 15,15,15 and returns 4096 base= base 0 or base 1
+       int relativeToAbsolute2( int xPositionRelative, int yPositionRelative, int zPositionRelative, int base0or1  ) throws Exception
+  {
+    
+    int answer = 0;
+    
+    //This method can handle led cubes that start at 1,1,1 and start at 0,0,0. They each have different formulas
+      if (base0or1 == 0)
+    {
+        
+        try
+        {
+          /*
+           * Formula to Calculate the led number if you are using 0,0,0 as the origin
+           */
+          answer = xPositionRelative + (yPositionRelative * 16 ) + (zPositionRelative * 256);
+          
+          if ( xPositionRelative < 0 )
+            throw new NumberFormatException("Leds must be postive numbers. Received:" + xPositionRelative + ","+ yPositionRelative +"," + zPositionRelative +" base:" + base0or1 );
+     
+        }
+        catch (NumberFormatException anException)
+        {
+          System.out.println(anException.getMessage() );
+        }
+        catch (Exception anException)
+        {
+          System.out.println(anException.getMessage() );
+        }
+        }
+      //User passed in 1, they are using a cube with 1,1,1 as the origin. 
+      else if (base0or1 ==1)
+      {
 
+    /*
+        This formula counts backwards from the largest cube. This is the way to avoid issues when the user passes in a 1 or a 0 as one of the positions
 
+    */
+    answer = totalNumberOfLeds -( ((zNumberOfPanelsPerCube -zPositionRelative) * 256) + ((yNumberOfRowsPerPanel -yPositionRelative) * 16) + ((xNumberOfLedsPerRow-xPositionRelative) * 1) );
+    
+      }
+      else 
+      {
+      //If we didn't get a 1 and we didn't get a 0, then throw an exception. 
+          throw new NumberFormatException("Base must be 0 or 1. Received: " + base0or1 );
+      }//End if elseif else checking for user origin base (1,1,1 or 0,0,0)
+      
+    
 
-}//end relativeToAbsoluteConverter
+    return answer;
+  }//end relativeToAbsolute
+
