@@ -28,12 +28,9 @@ Think  : Write down everything the program should do and also what it wont do in
 Design  : Design everything in the UML in this order Use Case > Use Case Documents > Activity Diagrams > Class Diagrams > Sequence Diagrams
 		Once the Sequence Diagram is done, the code is effectivly written, It only takes a monkey to enter the keystrokes. 
 
-Test  : Create a happy path, what should happen, then think of everything mallicious that a user could do. pass in negative values, leave 
-		things blank, Attempt buffer over runs. Create complete JUnit tests and User Tests. 
+Test  : Create a happy path, what should happen, then think of everything mallicious that a user could do. Pass in negative values, attempt buffer over runs by entering integers greater that 65,000  Create complete JUnit tests and User Tests. 
 
-Create  : Actually entering the keystrokes to translate the sequence Diagram to the program. This is the fastest step and must, MUST, MUST!!!!
-		Be done last !!! This is how to write bullet proof code. 
-
+Create  : Actually entering the keystrokes to translate the sequence Diagram to the program. This step is done last !!! This is how to write bullet proof code. 
 
 
 
