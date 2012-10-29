@@ -42,6 +42,10 @@ public              int       activeAnimation = 0;
 Map<Integer, Integer> colorLookupTableByKey = new HashMap<Integer, Integer>(10);  // hashmap for colors of LEDs
 Map<Integer, Integer> colorLookupTableByValue = new HashMap<Integer, Integer>(10);  // hashmap for colors of LEDs
 
+//Variable to change what the 'base' is. 
+//This program uses base 0 for the panels, but kevins new protocol uses base 1. 
+//This lets me set it in 1 place then add or subtract by the variable to compensate for the differnce
+int lowestNumber = 1;
 
 
 
@@ -307,6 +311,7 @@ void drawAnimation()
    theAnimation.displayOneAnimation(activeAnimation); 
 }
 
+//Depricated, here for refrence only, see exporToFile2_0
 void exportToFile1_0()
 {
     debug("Exporting to file");
@@ -416,10 +421,10 @@ void exportToFile2_0()
                         {
                           String cubeInAnimation = cubeInAnimationCounter + "";
                           String ledInCube       = ledInCubeCounter       + "";
-						  // We added 1 so that the values are between 1-16 instead of 0-15 like revision 1.0 of Kevin's protocol.
-						  String ledLocationX = (1+(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedNumberInRow())+"");
-						  String ledLocationY = (1+(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelObjectThatContainsLed(ledInCubeCounter).getRelativeRowObjectThatContainsLed(ledInCubeCounter).getRowCoordinateY())+"");
-						  String ledLocationZ = (1+(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelThatContainsLed(ledInCubeCounter))+"");
+						  // lowestNumber = We added 1 so that the values are between 1-16 instead of 0-15 like revision 1.0 of Kevin's protocol.
+						  String ledLocationX = (lowestNumber+(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedNumberInRow())+"");
+						  String ledLocationY = (lowestNumber+(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelObjectThatContainsLed(ledInCubeCounter).getRelativeRowObjectThatContainsLed(ledInCubeCounter).getRowCoordinateY())+"");
+						  String ledLocationZ = (lowestNumber+(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelThatContainsLed(ledInCubeCounter))+"");
                          // String colorOfLed      = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + "";
 						 println(colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + " = LED color after conversion"));
 
@@ -579,20 +584,48 @@ void importFromFile2_0()
                    //Look at every character in the file
                    debug("About to import " + arrayOfLedsToImport.length + " lines from " + locationOfFileToImport +"\n");
 
+
+/*
+cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 
+
+*/
+
                    for( int fileToLedCounter = 0; fileToLedCounter < arrayOfLedsToImport.length ; fileToLedCounter++ )
                    {
-                        // Every time we encounter a space save the 
+                        // Every time we encounter a tab save the 
                         // preceding text to a single string
                 String[] wordsSplitFromLines  = split(arrayOfLedsToImport[ fileToLedCounter ],"\t");  // Split strings using " " as a delimeter
                         
+                        /*
                         //Get the cube in animation sequence number
                         int cubeInAnimationInTextFile = int(wordsSplitFromLines[0]);
                         
                         //Get the led number as a string 0 to 4096 and convert to int
-                        int ledNumberInTextFile       = int(wordsSplitFromLines[1]);
+                        ledNumberInTextFile       = int(wordsSplitFromLines[1]);
                         
                         //Get the led color saved as a string -650000 & convert to int
                         int ledColorInTextFile        = int(wordsSplitFromLines[2]);
+                        */
+                        int cubeInAnimationInTextFile = int(wordsSplitFromLines[0]);
+                        int messageType              = int(wordsSplitFromLines[1]); //Not used, only specified for future updates
+                        int fieldThree                =int(wordsSplitFromLines[2]); //Not used
+                        int fileImportZLocation       =int(wordsSplitFromLines[3]); //The z axis of the led, 4th column in file
+                        int fileImportXLocation       =int(wordsSplitFromLines[4]); //The x axis of the led, 5th column in file
+                        int fileImportYLocation       =int(wordsSplitFromLines[5]); //The y axis of the led, 6th column in file
+                        int ledColorInTextFilePreFormat        =int(wordsSplitFromLines[6]); //The color of the led (kevins lookup table code)
+                        int optionalColumn            =int(wordsSplitFromLines[7]); //Not used
+                        int animationTime             =int(wordsSplitFromLines[8]); //Not used
+
+
+                        /*
+                        Convert x, y, z to absolute led number
+                        */
+                        int ledNumberInTextFile = 
+                        /*
+                        Convert kevins color, to my color
+                        */
+                        int ledColorInTextFile = colorLookupTableByKey.get(ledColorInTextFilePreFormat);
+
                         
                         //See if first word is bigger than the number of objects we have
                         //debug(" the cubeInAnimationInTextFile is " + cubeInAnimationInTextFile + "theAnimation.getNumberOfCubesInAnimation() is " + theAnimation.getHighestCubeNumberInAnimation() + "\n");
@@ -622,3 +655,10 @@ void importFromFile2_0()
 }//end importFromFile()
 
 
+//Takes a number like 15,15,15 and returns 4096
+int relativeToAbsoluteConverter(int xPosition, int yPosition, int zPosition)
+{
+
+
+
+}//end relativeToAbsoluteConverter
