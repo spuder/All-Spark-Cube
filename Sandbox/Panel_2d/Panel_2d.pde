@@ -431,10 +431,10 @@ void exportToFile2_0()
 						  String ledLocationY = (lowestNumber+(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelObjectThatContainsLed(ledInCubeCounter).getRelativeRowObjectThatContainsLed(ledInCubeCounter).getRowCoordinateY())+"");
 						  String ledLocationZ = (lowestNumber+(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelThatContainsLed(ledInCubeCounter))+"");
                          // String colorOfLed      = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + "";
-						 println(colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + " = LED color after conversion"));
+						 debug(colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + " = LED color after conversion"));
 
 						  int colorOfLed      = colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor());
-                          println(colorOfLed + " = LED color after conversion");
+                          debug(colorOfLed + " = LED color after conversion");
 						  
 						  //Cube#,Led#,Color
                           /*
@@ -442,14 +442,14 @@ void exportToFile2_0()
                             makes files smaller
                           */
 
-                          if ( exportEmptyLeds == false  )
+                          if ( exportEmptyLeds != false  )
                           {
-                            println("exportEmptyleds is false");
+                            debug("exportEmptyleds is true");
                             arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
                           }
                           else
                           {
-                            println("export led is true");
+                            debug("exportEmptyleds is false");
                               if (cubeInAnimationCounter < 1 && colorOfLed != 0 )
                               {
                                 arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
@@ -458,7 +458,7 @@ void exportToFile2_0()
                               else
                               {
                                   int previousColor = colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter - 1).getLedObjectForParent(ledInCubeCounter).getLedColor());
-                                println ("colorOfLed =  " + colorOfLed + "previousColor = " + previousColor );
+                                debug("colorOfLed =  " + colorOfLed + "previousColor = " + previousColor );
                                  if ( colorOfLed != previousColor)
                                  {
                                     arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
@@ -467,12 +467,12 @@ void exportToFile2_0()
                                  else
                                  {
                                   //Skip write 
-                                  println("Skipped because exportEmptyLeds is " + exportEmptyLeds + " and cubeInAnimationCounter is " + cubeInAnimationCounter);
+                                  debug("Skipped because exportEmptyLeds is " + exportEmptyLeds + " and cubeInAnimationCounter is " + cubeInAnimationCounter);
 
                                  }
 
                               }
-                            println( "About to export led normally");
+                            debug( "About to export led normally");
                             arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
 
                           }
@@ -586,7 +586,7 @@ void importFromFile1_0()
 
                    }//end for fileToLedCounter
                    
-                 println("Imported " + arrayOfLedsToImport.length+ " lines from " + locationOfFileToImport);
+                 debug("Imported " + arrayOfLedsToImport.length+ " lines from " + locationOfFileToImport);
                    //Change the name of the title bar to reflect the number of frames in sequence
                  updateWindowTitle();
 
@@ -702,7 +702,7 @@ cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLo
 
                    }//end for fileToLedCounter
                    
-                 println("Imported " + arrayOfLedsToImport.length+ " lines from " + locationOfFileToImport);
+                 debug("Imported " + arrayOfLedsToImport.length+ " lines from " + locationOfFileToImport);
                    //Change the name of the title bar to reflect the number of frames in sequence
                  updateWindowTitle();
 
@@ -737,7 +737,7 @@ cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLo
           if ( xPositionRelative < 0 )
           {
             //Processing appears to have issues with Exceptions
-            println("Leds must be postive numbers. Received:" + xPositionRelative + ","+ yPositionRelative +"," + zPositionRelative +" base:" + base0or1 );
+            debug("Leds must be postive numbers. Received:" + xPositionRelative + ","+ yPositionRelative +"," + zPositionRelative +" base:" + base0or1 );
 
             //throw new NumberFormatException("Leds must be postive numbers. Received:" + xPositionRelative + ","+ yPositionRelative +"," + zPositionRelative +" base:" + base0or1 );
 
@@ -767,7 +767,7 @@ cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLo
       else 
       {
       //If we didn't get a 1 and we didn't get a 0, then throw an exception. 
-       println("Base must be 0 or 1. Received: " + base0or1 );
+       debug("Base must be 0 or 1. Received: " + base0or1 );
 
        //Processing doesn't like exceptions
          // throw new NumberFormatException("Base must be 0 or 1. Received: " + base0or1 );
