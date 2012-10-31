@@ -47,6 +47,11 @@ Map<Integer, Integer> colorLookupTableByValue = new HashMap<Integer, Integer>(10
 //This lets me set it in 1 place then add or subtract by the variable to compensate for the differnce
 int lowestNumber = 1;
 
+//Variable to only save the differences between the cubes
+// If true only the differences are saved. If false, all data is saved. 
+
+boolean exportEmptyLeds = false;
+
 
 
 
@@ -432,7 +437,23 @@ void exportToFile2_0()
                           println(colorOfLed + " = LED color after conversion");
 						  
 						  //Cube#,Led#,Color
-                          arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+                          /*
+                            Check if we want to only write out the differnces between cubes
+                            makes files smaller
+                          */
+
+                          if ( exportEmptyLeds == true && cubeInAnimationCounter > 0 )
+                          {
+                            int previousColor = colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter - 1).getLedObjectForParent(ledInCubeCounter).getLedColor());
+                            if ( colorOfLed == previousColor)
+                            {
+                                println("Animation " + cubeInAnimationCounter + ", led "+ ledInCubeCounter + " has color " + colorOfLed + " which is the same as the previous " + previousColor + " skipping save to file");
+                            }
+                            else 
+                            {
+                              arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+                            } 
+                          }
 
                         }// end ledInCubeCounter
 
