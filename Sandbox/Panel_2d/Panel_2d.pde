@@ -465,7 +465,7 @@ void exportToFile2_0()
                                  else
                                  {
                                   //Skip write 
-                                  println("exportEmptyLeds is " + exportEmptyLeds + " and cubeInAnimationCounter is " cubeInAnimationCounter);
+                                  println("exportEmptyLeds is " + exportEmptyLeds + " and cubeInAnimationCounter is " + cubeInAnimationCounter);
 
                                  }
 
