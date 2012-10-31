@@ -444,10 +444,12 @@ void exportToFile2_0()
 
                           if ( exportEmptyLeds == false  )
                           {
+                            println("exportEmptyleds is false");
                             arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
                           }
                           else
                           {
+                            println("export led is true");
                               if (cubeInAnimationCounter < 1 && colorOfLed != 0 )
                               {
                                 arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
@@ -456,7 +458,7 @@ void exportToFile2_0()
                               else
                               {
                                   int previousColor = colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter - 1).getLedObjectForParent(ledInCubeCounter).getLedColor());
-
+                                println ("colorOfLed =  " + colorOfLed + "previousColor = " + previousColor );
                                  if ( colorOfLed != previousColor)
                                  {
                                     arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
@@ -465,7 +467,7 @@ void exportToFile2_0()
                                  else
                                  {
                                   //Skip write 
-                                  println("exportEmptyLeds is " + exportEmptyLeds + " and cubeInAnimationCounter is " + cubeInAnimationCounter);
+                                  println("Skipped because exportEmptyLeds is " + exportEmptyLeds + " and cubeInAnimationCounter is " + cubeInAnimationCounter);
 
                                  }
 
