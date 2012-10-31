@@ -578,7 +578,7 @@ void importFromFile2()
                    //Recreate the animation object
                    theAnimation = new AnimationOfSnapshots();
 
-                   // Create aray of strings
+                   // Create array of strings
                    // Add the file to the array
                    String[] arrayOfLedsToImport = loadStrings(locationOfFileToImport);
                    
@@ -627,7 +627,7 @@ cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLo
                         /*
                         Convert kevins color, to my color
                         */
-                        int ledColorInTextFile = colorLookupTableByKey.get(ledColorInTextFilePreFormat);
+						int ledColorInTextFile = colorLookupTableByValue.get(ledColorInTextFilePreFormat);
 
                         
                         //See if first word is bigger than the number of objects we have
@@ -669,8 +669,8 @@ cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLo
       if (base0or1 == 0)
     {
         
-        try
-        {
+        //try
+        //{
           /*
            * Formula to Calculate the led number if you are using 0,0,0 as the origin
            */
@@ -685,7 +685,7 @@ cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLo
 
           }
      
-        }
+        //}
         // catch (NumberFormatException anException)
         // {
         //  println(anException.getMessage() );
