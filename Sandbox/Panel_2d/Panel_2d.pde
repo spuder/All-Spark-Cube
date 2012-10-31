@@ -167,7 +167,7 @@ void keyPressed()
   {
      //Import from file, there are 2 functions depending on what format you want
     //importFromFile1_0();
-    importFromFile2_0();
+    importFromFile2();
   }
   
   if ( key == 'r' || key == 'R' ) // pressing r on keyboard sets color mode to red. all subsequent leds clicked will turn red. 
@@ -539,8 +539,9 @@ void importFromFile1_0()
            }//end Runnable()
      ).start();//end thread
    
-
-void importFromFile2_0()
+}
+   
+void importFromFile2()
 {
  
       // Create a new thread to allow screen to continue to refresh  
@@ -655,6 +656,7 @@ cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLo
      ).start();//end thread
    
 }//end importFromFile()
+
 
 
 //Takes a number like 15,15,15 and returns 4096 base= base 0 or base 1
