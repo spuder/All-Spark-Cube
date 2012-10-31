@@ -444,6 +444,7 @@ void exportToFile2_0()
 
                           if ( exportEmptyLeds == true && cubeInAnimationCounter > 0 )
                           {
+                            println("exportEmptyLeds is " + exportEmptyLeds + " and cubeInAnimationCounter is " cubeInAnimationCounter)
                             int previousColor = colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter - 1).getLedObjectForParent(ledInCubeCounter).getLedColor());
                             if ( colorOfLed == previousColor)
                             {
@@ -451,9 +452,17 @@ void exportToFile2_0()
                             }
                             else 
                             {
+                              println( "About to export diff");
                               arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
                             } 
                           }
+                          else
+                          {
+                            println( "About to export led normally");
+                            arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+
+                          }
+
 
                         }// end ledInCubeCounter
 
