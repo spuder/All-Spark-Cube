@@ -455,6 +455,8 @@ void exportToFile2_0()
                               }
                               else
                               {
+                                  int previousColor = colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter - 1).getLedObjectForParent(ledInCubeCounter).getLedColor());
+
                                  if ( colorOfLed != previousColor)
                                  {
                                     arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
