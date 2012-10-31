@@ -444,7 +444,7 @@ void exportToFile2_0()
 
                           if ( exportEmptyLeds == true && cubeInAnimationCounter > 0 )
                           {
-                            println("exportEmptyLeds is " + exportEmptyLeds + " and cubeInAnimationCounter is " cubeInAnimationCounter)
+                            println("exportEmptyLeds is " + exportEmptyLeds + " and cubeInAnimationCounter is " cubeInAnimationCounter);
                             int previousColor = colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter - 1).getLedObjectForParent(ledInCubeCounter).getLedColor());
                             if ( colorOfLed == previousColor)
                             {
