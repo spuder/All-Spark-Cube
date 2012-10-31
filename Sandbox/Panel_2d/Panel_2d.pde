@@ -442,10 +442,40 @@ void exportToFile2_0()
                             makes files smaller
                           */
 
-                          if ( exportEmptyLeds == true && cubeInAnimationCounter > 0 )
+                          if ( exportEmptyLeds == false  )
                           {
+                            arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+                          }
+                          else
+                          {
+                              if (cubeInAnimationCounter < 1 && colorOfLed != 0 )
+                              {
+                                arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+
+                              }
+                              else
+                              {
+                                 if ( colorOfLed != previousColor)
+                                 {
+                                    arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+
+                                 }
+                                 else
+                                 {
+                                  //Skip write 
+                                  println("exportEmptyLeds is " + exportEmptyLeds + " and cubeInAnimationCounter is " cubeInAnimationCounter);
+
+                                 }
+
+                              }
+                            println( "About to export led normally");
+                            arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+
+                          }
+
+                          /*
                             println("exportEmptyLeds is " + exportEmptyLeds + " and cubeInAnimationCounter is " cubeInAnimationCounter);
-                            int previousColor = colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter - 1).getLedObjectForParent(ledInCubeCounter).getLedColor());
+                            int previousColor = colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter - 1).getLedObjectForParent(ledInCubeCounter).getLedColor() );
                             if ( colorOfLed == previousColor)
                             {
                                 println("Animation " + cubeInAnimationCounter + ", led "+ ledInCubeCounter + " has color " + colorOfLed + " which is the same as the previous " + previousColor + " skipping save to file");
@@ -455,13 +485,7 @@ void exportToFile2_0()
                               println( "About to export diff");
                               arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
                             } 
-                          }
-                          else
-                          {
-                            println( "About to export led normally");
-                            arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
-
-                          }
+                          */
 
 
                         }// end ledInCubeCounter
