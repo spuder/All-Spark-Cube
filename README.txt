@@ -1,5 +1,7 @@
 All files in this directory are sample code. Each folder is an individual project
 
+You must have Visual Paradigm Community edition to open the UML Diagrams
+
 
 The All Spark Cube software is designed to control led cubes. The actual project that spawned this code can be found at allsparkcube.com
 

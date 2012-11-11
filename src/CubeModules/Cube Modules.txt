@@ -1,0 +1,3 @@
+Cube Modules
+
+This is where you place the interpreters for the protocals. Every brand of cube has its own way to communicate over serial. This is where they are defined. 

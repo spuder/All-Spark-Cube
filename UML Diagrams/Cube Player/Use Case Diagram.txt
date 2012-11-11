@@ -1,0 +1,69 @@
+Use Case Diagram
+2 November 2012
+
+
+Software Version 	: 2.0
+Created by 			: Spencer Owen
+Scope				: Cube Player
+
+
+
+
+This document is to give a preliminary overview of possible software features. Not all will be implemented. The scope is limited to the Cube Player. Other programs include: Cube Creator, Server Listener
+
+--------------------
+** User can **:
+
+Select AllSpark .xlts files to play
+Select Hypnocube .xml files to play
+Select Generic JSON files to play
+	Start Playing of animation
+	Pause Playing of animation
+	Resume Playing of animation
+	Advance 1 animation
+	Regres 1 animation
+
+Preview live simulation of cube
+
+Select Cube Type from list of installed jar files
+Select Cube Protocol from list - Rejected, the Cube protocol is tightly coupled with the Cube Type. 
+Select Cube Serial Port from list
+
+
+View Current number in animation
+View Raw Protocol of data being sent over serial
+View Error Logs
+View miniature previews of all Animations
+Change view between Standard and Full Screen
+
+Specify Advance Forward KeyStroke(s)
+Specify Advance Backward KeyStroke(s)
+
+Toggle Looping of file
+
+
+--------------------
+** Users Can not **: 
+
+Specify Serial Baudrate
+Specify Serial Byte order
+Specify Size of Cube
+Specify Number of Colors
+Control mulitple cubes simultaniously
+
+
+
+--------------------
+** Other Considerations **:
+User can change the serial port in the middle of animaiton
+User can change the cube type in the middle of an animaion
+
+--------------------
+** Possibilities to Consider **:
+
+Integration with Power Point. Does PPT have an API?
+Keep server program separate or combine?
+Integrate XBOX controllers with Player or Server?
+Should user be able to create generic cube?
+Able to connect to android Apps for tilt control in games?
+Snake games in php client or java ? 
