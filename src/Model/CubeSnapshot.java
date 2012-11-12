@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 
 /**
@@ -24,10 +24,10 @@ public class CubeSnapshot
        // this.anArrayOfLedsInThisCube = new LedObject[AllSparkAPI.getTotalNumberOfLeds()];   
         
         //Every panel creates an array of 16 rows
-        this.anArrayOfPanels = new PanelObject[ Controller.AllSparkAPI.getZNumberOfPanelsPerCube() ];
+        this.anArrayOfPanels = new PanelObject[ controller.AllSparkAPI.getZNumberOfPanelsPerCube() ];
         
         //Create up to 16 row objects and add those objects to the array
-        for (int panelInCubeCounter = 0; panelInCubeCounter < Controller.AllSparkAPI.getZNumberOfPanelsPerCube; panelInCubeCounter++)
+        for (int panelInCubeCounter = 0; panelInCubeCounter < controller.AllSparkAPI.getZNumberOfPanelsPerCube; panelInCubeCounter++)
         {
             //Create up to 16 Panels Objects
             PanelObject aPanelObject = new PanelObject( panelInCubeCounter );

@@ -1,4 +1,4 @@
-package CubeModules;
+package cubeModules;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ If you wanted to set led# 000 and 15,15,15 to red the message would look like th
 [11, 8, 0,0,0,red,15,15,15,red]
 **red may be changed to a table value as well
 */
-public class AdaptiveCube implements Controller.AllSparkAPI
+public class AdaptiveCube implements controller.AllSparkAPI
 {
   /*
   Protocol List
@@ -53,7 +53,7 @@ public class AdaptiveCube implements Controller.AllSparkAPI
     
   }// end AdaptiveCube constructor
   
-  public void writeToSerial(Model.CubeSnapshot currentlyDisplayedSnapshot, Model.CubeSnapshot snapshotToDisplay )
+  public void writeToSerial(model.CubeSnapshot currentlyDisplayedSnapshot, model.CubeSnapshot snapshotToDisplay )
   {
 
 
@@ -72,7 +72,7 @@ public class AdaptiveCube implements Controller.AllSparkAPI
   }// end writeCurrentSnapshotToSerial
 
   //method to only add the data that has changed to an array
-  void diffTwoSnapshots( Model.CubeSnapshot currentlyDisplayedSnapshot, Model.CubeSnapshot snapshotToDisplay )
+  void diffTwoSnapshots( model.CubeSnapshot currentlyDisplayedSnapshot, model.CubeSnapshot snapshotToDisplay )
   {
     int numberOfLedsToChange = 0;
 

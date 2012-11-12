@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 
 /**
@@ -17,7 +17,7 @@ public interface AllSparkAPI
      */
     //int sampleMethod(int y);
     
-    void writeToSerial( Model.CubeSnapshot currentlyDisplayedSnapshot, Model.CubeSnapshot snapshotToDisplay );
+    void writeToSerial( model.CubeSnapshot currentlyDisplayedSnapshot, model.CubeSnapshot snapshotToDisplay );
     int getSerialBaudRate();
     int getXNumberOfLedsPerRow();
     int getYNumberOfLedsPerPanel();

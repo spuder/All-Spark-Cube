@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import static org.junit.Assert.*;
 
@@ -278,25 +278,5 @@ public class LedObjectTest {
 		
 	}
 	
-	@Test
-	public void test() {
-	/*
-	 * As a programmer, you should only include in this test the parts
-	 * of the code that you are currently working on
-	 */
-//		LedObjectConstructor1();
-//		LedObjectConstructor2();
-//		LedObjectConstructor3();
-//		LedObjectConstructor4();
-//		getLedNumberInCube();
-//		getLedX();
-//		getLedY();
-//		getLedZ();
-//		setLedColor();
-//		getLedColorHex();
-//		setLedBrightness();
-		getLedBrightness();
-//		sameColor();
-		
-	}
+
 }

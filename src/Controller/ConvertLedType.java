@@ -1,25 +1,61 @@
-package Controller;
+package controller;
 
-public final class ConvertLedType {
-	
+public class ConvertLedType {
 	/**
-	 * The constructor is private because there are no situations where you can make an instance of this class
+	 * http://en.wikipedia.org/wiki/Singleton_pattern	
+	 * There are two common implementations, lazy and eager. This code represents eager 
 	 */
-	private ConvertLedType()
+	private static final ConvertLedType instance = new ConvertLedType();
+	
+	private ConvertLedType(){}
+	
+	public static ConvertLedType getInstance()
 	{
-		/**
-		 * This line of code should be unreachable
-		 */
-		throw new AssertionError();
+		return instance;
 	}
 	
 	
-	public static int AbsoluteToXPositionInRow(int aLed)
+	public static int absoluteToXPositionInRow(int aLed)
 	{
-		//Get the number of leds per row from the API
-		int XPositionInRow = 0;
+		/**
+		 * Retrieves the absolute led number of the first led in the same row then subtracts this led number
+		 * to give the location in the row. On a 16x16x16 cube with 0,0,0 as the origin, this number will always be less than 15
+		 */
+		int aLedAbsoulteNumber = aLed;
+		int XPositionInRow = controller.CubeAttributes.getxNumberOfLedsPerRow();
+		int firstLedInRow;
 		
-		return XPositionInRow;
+		return 0;
+	}
+	
+	public static int absoluteToYPositionInCube(int aLed)
+	{
+		
+		
+	}
+	
+	public static int absoluteToYPostitionInPanel(int aLed)
+	{
+		
+		
+	}
+	
+	public static int absoluteToZPositionInCube(int aLed)
+	{
+		
+		
+	}
+	
+	public static int relativeToAbsolute(int xPosition, int yPosition, int zPosition)
+	{
+	
+		
+	}
+	
+	public static int relativeToAbsolute(int[] arrayOfLeds)
+	{
+		
+		
 	}
 
 }

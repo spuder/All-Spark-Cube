@@ -1,4 +1,4 @@
-package CubeModules;
+package cubeModules;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /*
 
 */
-public class HypnoCube implements Controller.AllSparkAPI
+public class HypnoCube implements controller.AllSparkAPI
 {
 
   int serialBaudRate = 9600;
@@ -27,7 +27,7 @@ public class HypnoCube implements Controller.AllSparkAPI
     
   }// end HypnoCube constructor
   
-  public void writeToSerial(Model.CubeSnapshot currentlyDisplayedSnapshot, Model.CubeSnapshot snapshotToDisplay )
+  public void writeToSerial(model.CubeSnapshot currentlyDisplayedSnapshot, model.CubeSnapshot snapshotToDisplay )
   {
 
 
@@ -39,7 +39,7 @@ public class HypnoCube implements Controller.AllSparkAPI
   }// end writeCurrentSnapshotToSerial
 
   //method to only add the data that has changed to an array
-  void diffTwoSnapshots( Model.CubeSnapshot currentlyDisplayedSnapshot, Model.CubeSnapshot snapshotToDisplay )
+  void diffTwoSnapshots( model.CubeSnapshot currentlyDisplayedSnapshot, model.CubeSnapshot snapshotToDisplay )
   {
     int numberOfLedsToChange = 0;
 

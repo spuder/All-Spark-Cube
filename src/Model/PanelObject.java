@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 
 /**
@@ -26,7 +26,7 @@ class PanelObject
         this.panelCoordinateZ = panelCoordinateZ;
         
         //Every panel creates an array of 16 rows
-        int numberOfPanelsToCreate = Controller.AllSparkAPI.getYNumberOfLedsPerPanel();
+        int numberOfPanelsToCreate = controller.AllSparkAPI.getYNumberOfLedsPerPanel();
         this.anArrayOfRows = new RowObject[ numberOfPanelsToCreate ];
         
         //Create up to 16 row objects and add those objects to the array
