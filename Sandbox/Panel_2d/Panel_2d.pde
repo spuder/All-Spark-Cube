@@ -22,7 +22,7 @@ AnimationOfSnapshots theAnimation;
 List<LedObject> aMasterArrayOfAllLedsInAllCubes;
 
 
-public              boolean   debugMode = true;
+public              boolean   debugMode = false;
 
 
 public static final int       xNumberOfLedsPerRow         = 16; // this is used in the ledController class to know how many leds to make 16 * yNumberOfRowsPerPanel * zNumberOfPanels
@@ -420,6 +420,7 @@ void exportToFile2_0()
                     save to string
                 */
                     // Look at all the leds in every cube
+                    int rowInOutputFile = 0; 
                     for( int cubeInAnimationCounter = 0; cubeInAnimationCounter <= theAnimation.getHighestCubeNumberInAnimation(); cubeInAnimationCounter++)
                     {
                         for( int ledInCubeCounter = 0; ledInCubeCounter <= totalNumberOfLeds - 1; ledInCubeCounter++ )
@@ -431,7 +432,7 @@ void exportToFile2_0()
 						  String ledLocationY = (lowestNumber+(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelObjectThatContainsLed(ledInCubeCounter).getRelativeRowObjectThatContainsLed(ledInCubeCounter).getRowCoordinateY())+"");
 						  String ledLocationZ = (lowestNumber+(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getPanelThatContainsLed(ledInCubeCounter))+"");
                          // String colorOfLed      = theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + "";
-						 debug(colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + " = LED color after conversion"));
+						// debug(colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor() + " = LED color after conversion"));
 
 						  int colorOfLed      = colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter).getLedObjectForParent(ledInCubeCounter).getLedColor());
                           debug(colorOfLed + " = LED color after conversion");
@@ -444,59 +445,62 @@ void exportToFile2_0()
 
                           if ( exportEmptyLeds != false  )
                           {
-                            debug("exportEmptyleds is true");
-                            arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+                            //debug("exportEmptyleds is true");
+                           // arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+                           arrayOfCubesToExport[ rowInOutputFile ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+                           debug("added to row " + rowInOutputFile);
+                           rowInOutputFile ++;
+
                           }
                           else
                           {
-                            debug("exportEmptyleds is false");
-                              if (cubeInAnimationCounter < 1 && colorOfLed != 0 )
+                            //debug("exportEmptyleds is false");
+                              if ( (cubeInAnimationCounter < 1))
                               {
-                                arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
-
+                                if (colorOfLed != 0)
+                                {
+                                arrayOfCubesToExport[rowInOutputFile] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+                                rowInOutputFile ++;
+                                }
+                                else
+                                {
+                                  debug("*******");
+                                  debug("We are on panel 0 and the led is grey, skipping output");
+                                  debug("********");
+                                }
                               }
                               else
                               {
+                                debug("cubeInAnimationCounter = " + cubeInAnimationCounter);
                                   int previousColor = colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter - 1).getLedObjectForParent(ledInCubeCounter).getLedColor());
                                 debug("colorOfLed =  " + colorOfLed + "previousColor = " + previousColor );
                                  if ( colorOfLed != previousColor)
                                  {
-                                    arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+                                    arrayOfCubesToExport[rowInOutputFile] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+                                    rowInOutputFile ++;
 
                                  }
                                  else
                                  {
                                   //Skip write 
                                   debug("Skipped because exportEmptyLeds is " + exportEmptyLeds + " and cubeInAnimationCounter is " + cubeInAnimationCounter);
+                                  debug(" ");
 
                                  }
 
                               }
                             debug( "About to export led normally");
-                            arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
+                            //arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
 
                           }
 
-                          /*
-                            println("exportEmptyLeds is " + exportEmptyLeds + " and cubeInAnimationCounter is " cubeInAnimationCounter);
-                            int previousColor = colorLookupTableByKey.get(theAnimation.anArrayOfCubeSnapshots.get(cubeInAnimationCounter - 1).getLedObjectForParent(ledInCubeCounter).getLedColor() );
-                            if ( colorOfLed == previousColor)
-                            {
-                                println("Animation " + cubeInAnimationCounter + ", led "+ ledInCubeCounter + " has color " + colorOfLed + " which is the same as the previous " + previousColor + " skipping save to file");
-                            }
-                            else 
-                            {
-                              println( "About to export diff");
-                              arrayOfCubesToExport[ (cubeInAnimationCounter * totalNumberOfLeds) + ledInCubeCounter ] = ( cubeInAnimation+"\t"+11+"\t"+"\t"+ ledLocationZ +"\t"+ ledLocationX +"\t"+ ledLocationY +"\t"+ colorOfLed+"\t"+0+"\t"+0 );
-                            } 
-                          */
 
 
                         }// end ledInCubeCounter
 
                     }// end cubeInAnimationCounter 
               /* There was additional Logic here, but should not be needed anymore, deleted 7/4/2012 0:12am*/
-              
+                
                 //Save to file locationOfFileToExport example  "C:\someFile" 
                 saveStrings( locationOfFileToExport, arrayOfCubesToExport);
                 debug("Done Exporting to " + locationOfFileToExport);
