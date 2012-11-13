@@ -1,6 +1,8 @@
 package model;
 import java.util.ArrayList;
 
+import controller.ConvertLedType;
+
 /**
  * Write a description of class AnimationOfSnapshots here.
  * 
@@ -51,10 +53,18 @@ public class AnimationOfSnapshots
     
   }
   
-   public String toString()
+  public LedObject getLed(int cubeNumber, int ledNumber)
   {
-      //http://docs.oracle.com/javase/tutorial/java/IandI/objectclass.html
-      return null;
+	  //TODO: 
+	  return null;
+  }
+  
+  
+  public LedObject getLed(int cubeNumber, int ledX, int ledY, int ledZ)
+  {
+	  
+	  //Calls the method getLed using different format
+	  return getLed(cubeNumber, ConvertLedType.relativeToAbsolute(ledX, ledY, ledZ) );
   }
   
 }// end class AnimationOfSnapshots

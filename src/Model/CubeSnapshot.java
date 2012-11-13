@@ -16,7 +16,7 @@ public class CubeSnapshot
  public LedObject[] anArrayOfLedsInThisCube;
   
 
-  //Panel Constuctor. Actually makes the object. 
+  //Panel Constructor. Actually makes the object. 
   CubeSnapshot()
   {
     
@@ -26,15 +26,14 @@ public class CubeSnapshot
         //Every panel creates an array of 16 rows
         this.anArrayOfPanels = new PanelObject[ CubeAttributes.getzNumberOfPanelsPerCube() ];
         
-        //Create up to 16 row objects and add those objects to the array
-        for (int panelInCubeCounter = 0; panelInCubeCounter < CubeAttributes.getzNumberOfPanelsPerCube(); panelInCubeCounter++)
+        //Create  row objects and add those objects to the array
+        for ( int panelInCubeCounter = 0; panelInCubeCounter < CubeAttributes.getzNumberOfPanelsPerCube(); panelInCubeCounter++ )
         {
             //Create up to 16 Panels Objects
             PanelObject aPanelObject = new PanelObject( panelInCubeCounter );
             
             //Add the row object to the array starting at array index 0 to 15
             anArrayOfPanels[ panelInCubeCounter ] = aPanelObject;
-        
           
         }//end for
 
