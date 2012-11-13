@@ -14,9 +14,6 @@ public class AnimationOfSnapshots
    ArrayList<CubeSnapshot> anArrayOfCubeSnapshots = new ArrayList<CubeSnapshot> ();
    
  
-    /**
-     *   Animation Constuctor. Actually makes the object. 
-     */
     public AnimationOfSnapshots()
     {
         //Create a new cube and add it to the array
