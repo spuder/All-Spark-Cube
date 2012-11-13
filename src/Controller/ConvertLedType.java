@@ -7,14 +7,16 @@ public class ConvertLedType {
 	 * http://en.wikipedia.org/wiki/Singleton_pattern	
 	 * There are two common implementations, lazy and eager. This code represents eager 
 	 */
-	private static final ConvertLedType instance = new ConvertLedType();
+	//There should not ever be an instance of this class since it is a utility class
+	//private static final ConvertLedType instance = new ConvertLedType();
 	
-	private ConvertLedType(){}
+	private ConvertLedType(){throw new IllegalStateException("The constructor of ConvertLedType was called, should not have been possible");}
 	
-	public static ConvertLedType getInstance()
-	{
-		return instance;
-	}
+//There should not ever be an instance of this class since it is a utility class
+//	public static ConvertLedType getInstance()
+//	{
+//		return instance;
+//	}
 	
 	
 	public static int absoluteToXPositionInRow(int absoluteLedNumber)

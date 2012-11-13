@@ -4,16 +4,16 @@ import controller.ConvertLedType;
 
 public class CubeAttributes {
 
+	//In this case we do want an instance of CubeAttribute, but only 1 instance. 
 	private static final CubeAttributes instance = new CubeAttributes();
 	
 	//The default Cube Attributes is a 1x1x0 cube
 	public static int xNumberOfLedsPerRow 		= 1;
 	public static int yNumberOfRowsPerPanel 	= 1;
 	public static int zNumberOfPanelsPerCube 	= 0;
-	/**
-	 * This class has no constructor, it is instead called statically
-	 */
-	private CubeAttributes(){}
+
+//	This class has no constructor, it is instead called statically 
+	private CubeAttributes(){throw new IllegalStateException("The CubeAttributes constuctor was called, should not have been possible");}
 	
 	
 	public static CubeAttributes getInstance()
