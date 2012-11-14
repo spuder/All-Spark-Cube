@@ -36,6 +36,9 @@ class PanelObject
             //Add the row object to the array starting at array index 0 to 15
             anArrayOfRows[ rowInPanelYCounter ] = aRowObject;
 
+            //TODO: Research if I should null the object, or if I should reuse it
+            //Effective Java, Joshua Bloch
+            //aRowObject = null;
           
         }//end for
         

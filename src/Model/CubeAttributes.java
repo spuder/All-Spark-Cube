@@ -12,9 +12,8 @@ public class CubeAttributes {
 	public static int yNumberOfRowsPerPanel 	= 1;
 	public static int zNumberOfPanelsPerCube 	= 0;
 
-//	This class has no constructor, it is instead called statically 
-	private CubeAttributes(){throw new IllegalStateException("The CubeAttributes constuctor was called, should not have been possible");}
-	
+	//	This class has a private constructor so additional instances and child classes can not be created
+	private CubeAttributes(){}
 	
 	public static CubeAttributes getInstance()
 	{

@@ -32,6 +32,10 @@ class RowObject
   
                   //Add the object to the class array.
                   this.anArrayOfRowLeds[ledNumberInRowCounter] = aLedObject;
+                  
+                  //TODO: Research if I should null the object, or if I should reuse it
+                  //Effective Java, Joshua Bloch
+                  //aLedObject = null;
 
          }//end for loop create objects
          

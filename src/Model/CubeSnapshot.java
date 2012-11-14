@@ -34,6 +34,10 @@ public class CubeSnapshot
             
             //Add the row object to the array starting at array index 0 to 15
             anArrayOfPanels[ panelInCubeCounter ] = aPanelObject;
+            
+          //TODO: Research if I should null the object, or if I should reuse it
+            //Effective Java, Joshua Bloch
+            //aPanelObject = null;
           
         }//end for
 

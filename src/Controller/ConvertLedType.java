@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.Locale;
+
 import model.CubeAttributes;
 
 public class ConvertLedType {
@@ -12,11 +14,12 @@ public class ConvertLedType {
 	
 	private ConvertLedType(){throw new IllegalStateException("The constructor of ConvertLedType was called, should not have been possible");}
 	
-//There should not ever be an instance of this class since it is a utility class
-//	public static ConvertLedType getInstance()
-//	{
-//		return instance;
-//	}
+	/*There should not ever be an instance of this class since it is a utility class
+//		public static ConvertLedType getInstance()
+//		{
+//			return instance;
+//		}
+	*/
 	
 	
 	public static int absoluteToXPositionInRow(int absoluteLedNumber)
@@ -143,6 +146,25 @@ public class ConvertLedType {
 		
 		return relativeToAbsolute(arrayOfLeds[0], arrayOfLeds[1], arrayOfLeds[2]);
 		
+	}
+	
+	
+	public static String intToHex(int color)
+	{ 
+		
+		String answer = Integer.toHexString(color);
+		
+		//Only return the last 6 digits of an 8 digit Hex
+		if (answer.length() > 6)
+			answer.substring(answer.length() - 6);
+		return answer;	
+
+	}
+	
+	public static int hexToInt(String color)
+	{
+		
+		return Integer.parseInt(color, 16);
 	}
 	
 

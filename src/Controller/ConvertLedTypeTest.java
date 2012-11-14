@@ -56,7 +56,6 @@ public class ConvertLedTypeTest {
 		ConvertLedType.absoluteToXPositionInRow(-1);	
 	}
 
-	
 	@Test
 	public void testAbsoluteToYPositionInPanel()
 	{
@@ -176,29 +175,27 @@ public class ConvertLedTypeTest {
 	}
 	
 	
-	
 	@Test
-	public void testGetNumberOfLedsPerCube()
+	public void testIntToHex()
 	{
-		CubeAttributes.setxNumberOfLedsPerRow(16);
-		CubeAttributes.setyNumberOfRowsPerPanel(16);
-		CubeAttributes.setzNumberOfPanelsPerCube(16);
-//		CubeAttributes.setNumberOfLedsPerCube(4096);
-		assertEquals(4096, CubeAttributes.getNumberOfLedsPerCube());
-		
-		CubeAttributes.setxNumberOfLedsPerRow(4);
-		CubeAttributes.setyNumberOfRowsPerPanel(4);
-		CubeAttributes.setzNumberOfPanelsPerCube(4);
-		assertEquals(64, CubeAttributes.getNumberOfLedsPerCube());
-		
-		CubeAttributes.setxNumberOfLedsPerRow(5);
-		CubeAttributes.setyNumberOfRowsPerPanel(2);
-		CubeAttributes.setzNumberOfPanelsPerCube(0);
-		assertEquals(10, CubeAttributes.getNumberOfLedsPerCube());
-
-
-
+		//Note that this returns hex in lower case
+		System.out.println(ConvertLedType.intToHex(-65536));
+		assertEquals("2a", ConvertLedType.intToHex(42));	
+		assertEquals("0", ConvertLedType.intToHex(0));
 	}
+	@Test
+	public void testhexToInt()
+	{
+		System.out.println(ConvertLedType.hexToInt("0000AA"));
+
+		assertEquals(42, ConvertLedType.hexToInt("2A"));
+		assertEquals(42, ConvertLedType.hexToInt("2a"));
+		assertEquals(16777215, ConvertLedType.hexToInt("FFFFFF"));
+	}
+	
+	
+	
+
 	
 
 
