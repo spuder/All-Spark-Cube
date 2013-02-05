@@ -1,3 +1,6 @@
+Compiled Downloads available from https://sourceforge.net/projects/all-spark-cube/files/
+
+
 All files in this directory are sample code. Each folder is an individual project
 
 You must have Visual Paradigm Community edition to open the UML Diagrams
