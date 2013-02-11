@@ -2,6 +2,8 @@
 
 Full information is available at allsparkcube.com
 
+Video of the software in action available here: http://www.youtube.com/watch?v=LUDod51WOn0
+
 ##Download
 
 Compiled Downloads available from sourceforge
