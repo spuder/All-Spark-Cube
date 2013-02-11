@@ -1,6 +1,6 @@
 #Welcome to the All Spark Cube Project
 
-Full information is available at allsparkcube.com
+Full information is available at http://allsparkcube.com
 
 Video of the software in action available here: http://www.youtube.com/watch?v=LUDod51WOn0
 
