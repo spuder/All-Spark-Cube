@@ -1,6 +1,6 @@
 #Welcome to the All Spark Cube Project
 
-Full information is available at allsparkcube.com
+Full information is available at http://allsparkcube.com
 
 ##Download
 
