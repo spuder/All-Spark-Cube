@@ -1,2 +1,69 @@
-Under Contruction
-Standby for version 2.0 of the allsparkcube
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>All-spark-cube by spuder</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">All-spark-cube</h1>
+        <p class="header">4096 led cube</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/spuder/All-Spark-Cube/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/spuder/All-Spark-Cube/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/spuder/All-Spark-Cube">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/spuder">spuder</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a name="all-spark-cube" class="anchor" href="#all-spark-cube"><span class="octicon octicon-link"></span></a>All Spark Cube</h1>
+
+<p>The All Spark Cube is the largest 3d led cube made by hobbyists. Containing exactly 4096 tricolor leds, it is able to produce over 256 colors at 60 hz. </p>
+
+<h2>
+<a name="where-did-it-come-from" class="anchor" href="#where-did-it-come-from"><span class="octicon octicon-link"></span></a>Where did it come from</h2>
+
+<p>Adaptive Computing, the company that creates software that runs on super computers, commissioned several employees and volunteers to spend the summer designing and creating the cube. It is used at trade shows to visually demonstrate how their software can intelligently orchestrate node access in large linux clusters. </p>
+
+<h2>
+<a name="hardware" class="anchor" href="#hardware"><span class="octicon octicon-link"></span></a>Hardware</h2>
+
+<p>There are 2 revisions of hardware. </p>
+
+<p>V1. <a href="https://github.com/spuder/All-Spark-Cube">https://github.com/spuder/All-Spark-Cube</a><br>
+v2. <a href="https://github.com/chadharrington/all_spark_cube">https://github.com/chadharrington/all_spark_cube</a>  </p>
+
+<p>Revision 1 used 16 arduino megas (1 per panel) to drive each led. It worked well but had limitations in framerate.<br>
+Revision 2 currently uses 4 fpga accelerators to drive 4 panels each, and is able to produce over 60 fps</p>
+
+<h2>
+<a name="software" class="anchor" href="#software"><span class="octicon octicon-link"></span></a>Software</h2>
+
+<p>The cube is controlled using a client / server application written in python. It uses thrift to send color commands over standard tcp protocols to a small computer running linux. The computer then connects to the fpga over usb to control the leds. </p>
+
+<h2>
+<a name="additional-information-will-be-uploaded-soon" class="anchor" href="#additional-information-will-be-uploaded-soon"><span class="octicon octicon-link"></span></a>Additional information will be uploaded soon.</h2>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
