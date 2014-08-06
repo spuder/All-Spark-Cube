@@ -16,8 +16,8 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1 class="header">All-spark-cube</h1>
-        <p class="header">4096 led cube</p>
+        <h1 class="header">All-Spark-Cube</h1>
+        <p class="header">4096 LED cube</p>
 
         <ul>
           <li class="download"><a class="buttons" href="https://github.com/spuder/All-Spark-Cube/zipball/master">Download ZIP</a></li>
@@ -54,7 +54,9 @@ Revision 2 currently uses 4 fpga accelerators to drive 4 panels each, and is abl
 <h2>
 <a name="software" class="anchor" href="#software"><span class="octicon octicon-link"></span></a>Software</h2>
 
-<p>The cube is controlled using a client / server application written in python. It uses thrift to send color commands over standard tcp protocols to a small computer running linux. The computer then connects to the fpga over usb to control the leds. </p>
+<p>The cube is controlled using a client / server application written in python. It uses thrift to send color commands over standard tcp protocols to a small computer running linux. The computer then connects to the fpga over usb to control the LEDs. </p>
+
+<p>Using this thrift API it's possible to refresh the entire cube in a single API call, or just select certain LEDs to change.  For example, one might clear the entire cube before starting a new animation, or they may just update a few LEDs to update an already running animation.</p>
 
 <h2>
 <a name="additional-information-will-be-uploaded-soon" class="anchor" href="#additional-information-will-be-uploaded-soon"><span class="octicon octicon-link"></span></a>Additional information will be uploaded soon.</h2>
